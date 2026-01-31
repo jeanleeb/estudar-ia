@@ -1,0 +1,25 @@
+{
+  "name": "estudar-ia",
+  "version": "0.0.0",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nx serve estudar-ia-web --port 3000",
+    "build": "nx vite:build",
+    "preview": "nx vite:preview",
+    "test": "vitest run",
+    "biome": "biome check --fix --unsafe ./apps",
+    "type-check": "tsc --project tsconfig.json --skipLibCheck true",
+    "lint": "pnpm biome && pnpm type-check"
+  },
+  "private": true,
+  "devDependencies": {
+    "@biomejs/biome": "2.3.13",
+    "@nx/vite": "22.4.4",
+    "@nx/vitest": "22.4.4",
+    "@nx/web": "22.4.4",
+    "@nxlv/python": "latest",
+    "nx": "22.4.4",
+    "typescript": "5.9.3"
+  },
+  "packageManager": "pnpm@10.28.0"
+}

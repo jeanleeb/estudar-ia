@@ -1,0 +1,27 @@
+{
+  "projectName": "estuda-ai-web",
+  "mode": "file-router",
+  "typescript": true,
+  "packageManager": "pnpm",
+  "tailwind": true,
+  "addOnOptions": {
+    "prisma": {
+      "database": "postgres"
+    }
+  },
+  "git": true,
+  "version": 1,
+  "framework": "react-cra",
+  "chosenAddOns": [
+    "biome",
+    "netlify",
+    "start",
+    "shadcn",
+    "t3env",
+    "tanstack-query",
+    "compiler",
+    "ai",
+    "prisma",
+    "store"
+  ]
+}
