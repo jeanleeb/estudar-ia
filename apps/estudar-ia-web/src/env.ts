@@ -4,6 +4,8 @@ import { z } from 'zod';
 export const env = createEnv({
 	server: {
 		SERVER_URL: z.url().optional(),
+		SUPABASE_URL: z.url(),
+		SUPABASE_API_KEY: z.string().min(1),
 	},
 
 	/**
