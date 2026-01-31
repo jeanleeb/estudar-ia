@@ -73,10 +73,8 @@ function HomePage() {
 
 	return (
 		<div className="min-h-screen bg-background">
-			{/* Header */}
 			<AppHeader />
 
-			{/* Hero Section */}
 			<HeroSection
 				badge={{
 					icon: <SparklesIcon size="xs" />,
@@ -87,10 +85,8 @@ function HomePage() {
 				description={t.home.hero.description}
 			/>
 
-			{/* Selection Section */}
 			<section className="container mx-auto px-4 py-12 md:py-16">
 				<div className="mx-auto max-w-4xl">
-					{/* Exam Selection */}
 					<div className="mb-12">
 						<SectionHeader
 							icon={<TargetIcon size="md" className="text-primary" />}
@@ -112,7 +108,6 @@ function HomePage() {
 						</div>
 					</div>
 
-					{/* Subject Selection */}
 					<div className="mb-12">
 						<SectionHeader
 							icon={<BookOpenIcon size="md" className="text-secondary" />}
@@ -134,7 +129,6 @@ function HomePage() {
 						</div>
 					</div>
 
-					{/* Start Button */}
 					<div className="flex justify-center">
 						<Link disabled={!canStartPractice} to={'/simulado'}>
 							<Button

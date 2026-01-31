@@ -6,23 +6,6 @@ Sistema de componentes de tipografia reutilizáveis para manter consistência vi
 
 ### Headings (Títulos)
 
-#### Componente Genérico: `<Heading>`
-
-Componente flexível que pode renderizar qualquer nível de título.
-
-```tsx
-import { Heading } from '@/components/ui/typography';
-
-// Com variant automática baseada no 'as'
-<Heading as="h1">Título Principal</Heading>
-
-// Com variant e elemento customizados
-<Heading variant="h1" as="h2">Semanticamente h2, visualmente h1</Heading>
-
-// Com alinhamento
-<Heading variant="h2" align="center">Título Centralizado</Heading>
-```
-
 #### Componentes Específicos: `<H1>` até `<H6>`
 
 Atalhos convenientes para cada nível de título.
@@ -184,10 +167,10 @@ import { Badge } from '@/components/ui/badge';
   <Badge variant="secondary" className="mb-4">
     Novo Recurso
   </Badge>
-  <H1 className="mb-6">
+  <H1>
     Domine Seus Exames com Prática Inteligente
   </H1>
-  <Lead className="mb-8">
+  <Lead>
     Pratique milhares de questões de vestibular com dicas e soluções 
     fornecidas por IA.
   </Lead>
@@ -231,7 +214,7 @@ import { Card } from '@/components/ui/card';
   <div className="mb-4">
     {/* Ícone */}
   </div>
-  <H3 className="mb-2">Dicas com IA</H3>
+  <H3>Dicas com IA</H3>
   <Small>
     Receba dicas inteligentes quando estiver travado sem revelar 
     a solução completa
@@ -282,11 +265,7 @@ Muitos componentes incluem breakpoints responsivos por padrão:
 - `H3`: `text-lg md:text-xl`
 - `Lead`: `text-lg md:text-xl`
 
-Para adicionar mais responsividade:
-```tsx
-<H2 className="text-xl md:text-2xl lg:text-3xl">
-  Título com breakpoints customizados
-</H2>
+Não sobrescreva os estilos padrão, para evitar prejudicar a consistência.
 ```
 
 ## Composição com shadcn/ui
@@ -310,12 +289,6 @@ import { H3, Text } from '@/components/ui/typography';
 ## Acessibilidade
 
 - Use a hierarquia semântica correta de headings (H1 → H2 → H3, etc.)
-- Use `variant` + `as` quando precisar de estilo diferente mantendo semântica:
-  ```tsx
-  <Heading variant="h1" as="h2">
-    Visualmente parece H1, mas é H2 para screen readers
-  </Heading>
-  ```
 - Evite pular níveis de heading (ex: H1 → H3)
 - Use `Lead` para parágrafos introdutórios importantes
 
@@ -324,7 +297,7 @@ import { H3, Text } from '@/components/ui/typography';
 1. **Consistência**: Use os componentes ao invés de classes Tailwind diretas
 2. **Hierarquia**: Mantenha hierarquia visual e semântica clara
 3. **Composição**: Combine componentes para criar padrões reutilizáveis
-4. **Customização**: Use `className` para ajustes específicos quando necessário
+4. **Customização**: Use `className` para ajustes específicos quando necessário, mas evite sobrescrever estilos padronizados
 5. **Responsividade**: Aproveite os breakpoints padrão ou adicione os seus próprios
 
 ## Type Safety
