@@ -1,118 +1,273 @@
-import { createFileRoute } from "@tanstack/react-router";
-import {
-  Route as RouteIcon,
-  Server,
-  Shield,
-  Sparkles,
-  Waves,
-  Zap,
-} from "lucide-react";
+import { createFileRoute, Link } from '@tanstack/react-router';
+import { BookOpen, Brain, Sparkles, Target } from 'lucide-react';
+import { useState } from 'react';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { t } from '@/locales';
 
-export const Route = createFileRoute("/")({ component: App });
+export const Route = createFileRoute('/')({ component: HomePage });
 
-function App() {
-  const features = [
-    {
-      icon: <Zap className="h-12 w-12 text-cyan-400" />,
-      title: "Powerful Server Functions",
-      description:
-        "Write server-side code that seamlessly integrates with your client components. Type-safe, secure, and simple.",
-    },
-    {
-      icon: <Server className="h-12 w-12 text-cyan-400" />,
-      title: "Flexible Server Side Rendering",
-      description:
-        "Full-document SSR, streaming, and progressive enhancement out of the box. Control exactly what renders where.",
-    },
-    {
-      icon: <RouteIcon className="h-12 w-12 text-cyan-400" />,
-      title: "API Routes",
-      description:
-        "Build type-safe API endpoints alongside your application. No separate backend needed.",
-    },
-    {
-      icon: <Shield className="h-12 w-12 text-cyan-400" />,
-      title: "Strongly Typed Everything",
-      description:
-        "End-to-end type safety from server to client. Catch errors before they reach production.",
-    },
-    {
-      icon: <Waves className="h-12 w-12 text-cyan-400" />,
-      title: "Full Streaming Support",
-      description:
-        "Stream data from server to client progressively. Perfect for AI applications and real-time updates.",
-    },
-    {
-      icon: <Sparkles className="h-12 w-12 text-cyan-400" />,
-      title: "Next Generation Ready",
-      description:
-        "Built from the ground up for modern web applications. Deploy anywhere JavaScript runs.",
-    },
-  ];
+const subjects = [
+	{
+		id: 'physics',
+		name: t.home.subjects.physics,
+		icon: '⚛️',
+		color: 'bg-blue-500',
+	},
+	{
+		id: 'portuguese',
+		name: t.home.subjects.portuguese,
+		icon: '📚',
+		color: 'bg-green-500',
+	},
+	{
+		id: 'history',
+		name: t.home.subjects.history,
+		icon: '🏛️',
+		color: 'bg-amber-500',
+	},
+	{
+		id: 'math',
+		name: t.home.subjects.math,
+		icon: '📐',
+		color: 'bg-purple-500',
+	},
+];
 
-  return (
-    <div className="min-h-screen bg-linear-to-b from-slate-900 via-slate-800 to-slate-900">
-      <section className="relative overflow-hidden px-6 py-20 text-center">
-        <div className="absolute inset-0 bg-linear-to-r from-cyan-500/10 via-blue-500/10 to-purple-500/10" />
-        <div className="relative mx-auto max-w-5xl">
-          <div className="mb-6 flex items-center justify-center gap-6">
-            <img
-              src="/tanstack-circle-logo.png"
-              alt="TanStack Logo"
-              className="h-24 w-24 md:h-32 md:w-32"
-            />
-            <h1 className="font-black text-6xl text-white tracking-[-0.08em] md:text-7xl">
-              <span className="text-gray-300">TANSTACK</span>{" "}
-              <span className="bg-linear-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
-                START
-              </span>
-            </h1>
-          </div>
-          <p className="mb-4 font-light text-2xl text-gray-300 md:text-3xl">
-            The framework for next generation AI applications
-          </p>
-          <p className="mx-auto mb-8 max-w-3xl text-gray-400 text-lg">
-            Full-stack framework powered by TanStack Router for React and Solid.
-            Build modern applications with server functions, streaming, and type
-            safety.
-          </p>
-          <div className="flex flex-col items-center gap-4">
-            <a
-              href="https://tanstack.com/start"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-lg bg-cyan-500 px-8 py-3 font-semibold text-white shadow-cyan-500/50 shadow-lg transition-colors hover:bg-cyan-600"
-            >
-              Documentation
-            </a>
-            <p className="mt-2 text-gray-400 text-sm">
-              Begin your TanStack Start journey by editing{" "}
-              <code className="rounded bg-slate-700 px-2 py-1 text-cyan-400">
-                /src/routes/index.tsx
-              </code>
-            </p>
-          </div>
-        </div>
-      </section>
+const exams = [
+	{
+		id: 'enem',
+		name: t.home.exams.enem.name,
+		description: t.home.exams.enem.description,
+	},
+	{
+		id: 'fuvest',
+		name: t.home.exams.fuvest.name,
+		description: t.home.exams.fuvest.description,
+	},
+];
 
-      <section className="mx-auto max-w-7xl px-6 py-16">
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {features.map((feature, index) => (
-            <div
-              key={index}
-              className="rounded-xl border border-slate-700 bg-slate-800/50 p-6 backdrop-blur-sm transition-all duration-300 hover:border-cyan-500/50 hover:shadow-cyan-500/10 hover:shadow-lg"
-            >
-              <div className="mb-4">{feature.icon}</div>
-              <h3 className="mb-3 font-semibold text-white text-xl">
-                {feature.title}
-              </h3>
-              <p className="text-gray-400 leading-relaxed">
-                {feature.description}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
-    </div>
-  );
+function HomePage() {
+	const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
+	const [selectedExam, setSelectedExam] = useState<string>('');
+
+	const toggleSubject = (subjectId: string) => {
+		setSelectedSubjects(prev =>
+			prev.includes(subjectId)
+				? prev.filter(id => id !== subjectId)
+				: [...prev, subjectId],
+		);
+	};
+
+	const canStartPractice = selectedSubjects.length > 0 && selectedExam;
+
+	return (
+		<div className="min-h-screen bg-background">
+			{/* Header */}
+			<header className="border-border border-b bg-card">
+				<div className="container mx-auto px-4 py-4">
+					<div className="flex items-center justify-between">
+						<div className="flex items-center gap-2">
+							<div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary">
+								<Brain className="h-6 w-6 text-primary-foreground" />
+							</div>
+							<span className="font-semibold text-foreground text-xl">
+								{t.common.app.name}
+							</span>
+						</div>
+						<nav className="hidden gap-6 md:flex">
+							<Button variant="ghost" size="sm">
+								{t.common.navigation.practice}
+							</Button>
+							<Button variant="ghost" size="sm">
+								{t.common.navigation.progress}
+							</Button>
+							<Button variant="ghost" size="sm">
+								{t.common.navigation.about}
+							</Button>
+						</nav>
+						<Button size="sm">{t.common.navigation.signIn}</Button>
+					</div>
+				</div>
+			</header>
+
+			{/* Hero Section */}
+			<section className="border-border border-b bg-card">
+				<div className="container mx-auto px-4 py-16 md:py-24">
+					<div className="mx-auto max-w-3xl text-center">
+						<Badge variant="secondary" className="mb-4">
+							<Sparkles className="mr-1 h-3 w-3" />
+							{t.home.hero.badge}
+						</Badge>
+						<h1 className="mb-6 text-balance font-bold text-4xl text-foreground md:text-6xl">
+							{t.home.hero.title}
+						</h1>
+						<p className="mb-8 text-pretty text-lg text-muted-foreground md:text-xl">
+							{t.home.hero.description}
+						</p>
+					</div>
+				</div>
+			</section>
+
+			{/* Selection Section */}
+			<section className="container mx-auto px-4 py-12 md:py-16">
+				<div className="mx-auto max-w-4xl">
+					{/* Exam Selection */}
+					<div className="mb-12">
+						<div className="mb-6 flex items-center gap-3">
+							<div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+								<Target className="h-5 w-5 text-primary" />
+							</div>
+							<div>
+								<h2 className="font-semibold text-2xl text-foreground">
+									{t.home.examSelection.title}
+								</h2>
+								<p className="text-muted-foreground text-sm">
+									{t.home.examSelection.subtitle}
+								</p>
+							</div>
+						</div>
+						<div className="grid gap-4 md:grid-cols-2">
+							{exams.map(exam => (
+								<Card
+									key={exam.id}
+									className={`cursor-pointer border-2 p-6 transition-all hover:shadow-lg ${
+										selectedExam === exam.id
+											? 'border-primary bg-primary/5'
+											: 'border-border bg-card hover:border-primary/50'
+									}`}
+									onClick={() => setSelectedExam(exam.id)}>
+									<div className="flex items-start justify-between">
+										<div>
+											<h3 className="mb-1 font-semibold text-card-foreground text-lg">
+												{exam.name}
+											</h3>
+											<p className="text-muted-foreground text-sm">
+												{exam.description}
+											</p>
+										</div>
+										{selectedExam === exam.id && (
+											<div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary">
+												<svg
+													className="h-4 w-4 text-primary-foreground"
+													fill="none"
+													strokeLinecap="round"
+													strokeLinejoin="round"
+													strokeWidth="2"
+													viewBox="0 0 24 24"
+													stroke="currentColor">
+													<title>Checkmark</title>
+													<path d="M5 13l4 4L19 7" />
+												</svg>
+											</div>
+										)}
+									</div>
+								</Card>
+							))}
+						</div>
+					</div>
+
+					{/* Subject Selection */}
+					<div className="mb-12">
+						<div className="mb-6 flex items-center gap-3">
+							<div className="flex h-10 w-10 items-center justify-center rounded-lg bg-secondary/10">
+								<BookOpen className="h-5 w-5 text-secondary" />
+							</div>
+							<div>
+								<h2 className="font-semibold text-2xl text-foreground">
+									{t.home.subjectSelection.title}
+								</h2>
+								<p className="text-muted-foreground text-sm">
+									{t.home.subjectSelection.subtitle}
+								</p>
+							</div>
+						</div>
+						<div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4">
+							{subjects.map(subject => (
+								<Card
+									key={subject.id}
+									className={`cursor-pointer border-2 p-6 text-center transition-all hover:shadow-lg ${
+										selectedSubjects.includes(subject.id)
+											? 'border-primary bg-primary/5'
+											: 'border-border bg-card hover:border-primary/50'
+									}`}
+									onClick={() => toggleSubject(subject.id)}>
+									<div className="mb-3 text-4xl">{subject.icon}</div>
+									<h3 className="mb-2 font-semibold text-card-foreground">
+										{subject.name}
+									</h3>
+									{selectedSubjects.includes(subject.id) && (
+										<Badge className="mt-2" variant="default">
+											{t.common.actions.selected}
+										</Badge>
+									)}
+								</Card>
+							))}
+						</div>
+					</div>
+
+					{/* Start Button */}
+					<div className="flex justify-center">
+						<Link disabled={!canStartPractice} to={'/simulado'}>
+							<Button
+								size="lg"
+								disabled={!canStartPractice}
+								className="h-12 px-8 text-base">
+								{canStartPractice
+									? t.home.actions.startPractice
+									: t.home.actions.selectToBegin}
+							</Button>
+						</Link>
+					</div>
+				</div>
+			</section>
+
+			{/* Features Section */}
+			<section className="border-border border-t bg-muted/30 py-16">
+				<div className="container mx-auto px-4">
+					<div className="mx-auto max-w-4xl">
+						<h2 className="mb-12 text-center font-bold text-3xl text-foreground">
+							{t.home.features.title}
+						</h2>
+						<div className="grid gap-8 md:grid-cols-3">
+							<div className="text-center">
+								<div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+									<Brain className="h-8 w-8 text-primary" />
+								</div>
+								<h3 className="mb-2 font-semibold text-foreground text-lg">
+									{t.home.features.aiHints.title}
+								</h3>
+								<p className="text-pretty text-muted-foreground text-sm">
+									{t.home.features.aiHints.description}
+								</p>
+							</div>
+							<div className="text-center">
+								<div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-secondary/10">
+									<Target className="h-8 w-8 text-secondary" />
+								</div>
+								<h3 className="mb-2 font-semibold text-foreground text-lg">
+									{t.home.features.targetedPractice.title}
+								</h3>
+								<p className="text-pretty text-muted-foreground text-sm">
+									{t.home.features.targetedPractice.description}
+								</p>
+							</div>
+							<div className="text-center">
+								<div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-accent">
+									<BookOpen className="h-8 w-8 text-accent-foreground" />
+								</div>
+								<h3 className="mb-2 font-semibold text-foreground text-lg">
+									{t.home.features.detailedSolutions.title}
+								</h3>
+								<p className="text-pretty text-muted-foreground text-sm">
+									{t.home.features.detailedSolutions.description}
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+	);
 }
