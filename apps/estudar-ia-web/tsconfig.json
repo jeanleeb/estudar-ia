@@ -6,6 +6,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
+      "@/locales/*": ["./src/locales/*"],
+      "@/components/*": ["./src/components/*"],
     },
   },
 }

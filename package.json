@@ -8,7 +8,7 @@
     "preview": "nx vite:preview",
     "test": "vitest run",
     "biome": "biome check --fix --unsafe ./apps",
-    "type-check": "tsc --project tsconfig.json --skipLibCheck true",
+    "type-check": "bash scripts/type-check-all.sh",
     "lint": "pnpm biome && pnpm type-check"
   },
   "private": true,

@@ -15,7 +15,7 @@ todos.json
 # Local Netlify folder
 .netlify
 
-
+*.tsbuildinfo
 
 .nx/cache
 .nx/workspace-data
