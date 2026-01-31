@@ -4,9 +4,11 @@
   "type": "module",
   "scripts": {
     "type-check": "tsc --project tsconfig.json --noEmit",
+    "ui:add": "bash -c 'pnpm dlx shadcn@latest add \"$@\" && pnpm biome' --",
     "test": "vitest run"
   },
   "dependencies": {
+    "@base-ui/react": "1.1.0",
     "@t3-oss/env-core": "0.13.10",
     "@tailwindcss/vite": "4.1.18",
     "@tanstack/ai": "latest",
