@@ -1,6 +1,6 @@
 import type React from 'react';
 import { Badge } from '@/components/ui/badge';
-import { H1, Lead } from '@/components/ui/typography';
+import { Display, H1, Lead } from '@/components/ui/typography';
 import { cn } from '@/lib/utils';
 
 export interface HeroSectionProps {
@@ -81,7 +81,7 @@ export function HeroSection({
 							{badge.text}
 						</Badge>
 					)}
-					<H1 className="text-center">{title}</H1>
+					<Display className="text-center">{title}</Display>
 					{description && <Lead className="text-center">{description}</Lead>}
 					{actions && <div className="mt-6">{actions}</div>}
 				</div>

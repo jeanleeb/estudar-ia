@@ -6,6 +6,7 @@ import {
 	Scripts,
 } from '@tanstack/react-router';
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools';
+import { AppHeader } from '@/components/shared';
 import { ThemeProvider } from '@/core/theme';
 import TanStackQueryDevtools from '../integrations/tanstack-query/devtools';
 import AiDevtools from '../lib/ai-devtools';
@@ -46,7 +47,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 			<head>
 				<HeadContent />
 			</head>
-			<body>
+			<body className="min-h-screen bg-background">
+				<AppHeader />
 				<ThemeProvider>
 					{children}
 					<TanStackDevtools

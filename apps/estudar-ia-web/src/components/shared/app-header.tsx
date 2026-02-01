@@ -1,6 +1,6 @@
 import { Link } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
-import { GraduationCapIcon } from '@/components/ui/icon';
+import { LinkButton } from '@/components/ui/link-button';
 import { Large } from '@/components/ui/typography';
 import { translations } from '@/locales';
 import { AppLogo } from './app-logo';
@@ -72,7 +72,9 @@ export function AppHeader({
 	);
 
 	const defaultActionButton = (
-		<Button size="sm">{translations.common.navigation.signIn}</Button>
+		<LinkButton to="/login" size="sm">
+			{translations.common.navigation.signIn}
+		</LinkButton>
 	);
 
 	const defaultLogo = <AppLogo size="sm" />;
