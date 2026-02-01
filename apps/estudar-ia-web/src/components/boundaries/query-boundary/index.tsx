@@ -1,5 +1,3 @@
-'use client';
-
 import { QueryErrorResetBoundary } from '@tanstack/react-query';
 import type * as React from 'react';
 import { Suspense } from 'react';
