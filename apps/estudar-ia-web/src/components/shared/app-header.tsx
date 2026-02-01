@@ -1,7 +1,9 @@
+import { Link } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
-import { BrainIcon } from '@/components/ui/icon';
+import { GraduationCapIcon } from '@/components/ui/icon';
 import { Large } from '@/components/ui/typography';
 import { translations } from '@/locales';
+import { AppLogo } from './app-logo';
 import { ThemeToggle } from './theme-toggle';
 
 export interface AppHeaderProps {
@@ -73,19 +75,15 @@ export function AppHeader({
 		<Button size="sm">{translations.common.navigation.signIn}</Button>
 	);
 
-	const defaultLogo = (
-		<div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary">
-			<BrainIcon size="lg" className="text-primary-foreground" />
-		</div>
-	);
+	const defaultLogo = <AppLogo size="sm" />;
 
 	return (
 		<header className="border-border border-b bg-card">
 			<div className="container mx-auto flex items-center justify-between px-4 py-4">
-				<div className="flex items-center gap-2">
+				<Link to="/" className="flex items-center gap-2">
 					{logo ?? defaultLogo}
 					<Large className="mb-0">{appName}</Large>
-				</div>
+				</Link>
 
 				{showNavigation && (
 					<nav className="hidden gap-6 md:flex">

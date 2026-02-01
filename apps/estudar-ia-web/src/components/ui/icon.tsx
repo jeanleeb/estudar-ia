@@ -41,6 +41,7 @@ import {
 	Brain,
 	Check,
 	Circle,
+	GraduationCap,
 	type LucideIcon,
 	Monitor,
 	Moon,
@@ -130,7 +131,7 @@ Icon.displayName = 'Icon';
 
 /**
  * BrainIcon - AI/Intelligence icon
- * Used for: App logo, AI features, intelligent hints
+ * Used for: AI features, intelligent hints
  */
 export interface BrainIconProps
 	extends Omit<IconProps, 'icon'>,
@@ -166,6 +167,20 @@ const TargetIcon = React.forwardRef<SVGSVGElement, TargetIconProps>(
 	(props, ref) => <Icon ref={ref} icon={Target} {...props} />,
 );
 TargetIcon.displayName = 'TargetIcon';
+
+/**
+ * GraduationCapIcon - Education/Academic icon
+ * Used for: App logo
+ */
+export interface GraduationCapIconProps
+	extends Omit<IconProps, 'icon'>,
+		VariantProps<typeof iconVariants> {}
+
+const GraduationCapIcon = React.forwardRef<
+	SVGSVGElement,
+	GraduationCapIconProps
+>((props, ref) => <Icon ref={ref} icon={GraduationCap} {...props} />);
+GraduationCapIcon.displayName = 'GraduationCapIcon';
 
 /**
  * SparklesIcon - New/Highlight icon
@@ -307,6 +322,7 @@ export {
 	BrainIcon,
 	CheckIcon,
 	CircleIcon,
+	GraduationCapIcon,
 	Icon,
 	MonitorIcon,
 	MoonIcon,
