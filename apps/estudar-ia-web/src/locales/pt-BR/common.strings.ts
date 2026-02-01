@@ -16,6 +16,12 @@ export const common = {
 		continue: 'Continuar',
 		back: 'Voltar',
 	},
+	theme: {
+		selectTheme: 'Selecionar tema',
+		light: 'Claro',
+		dark: 'Escuro',
+		system: 'Sistema',
+	},
 	error: {
 		title: 'Erro ao carregar dados',
 		description: 'Ocorreu um erro inesperado. Por favor, tente novamente.',

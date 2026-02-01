@@ -42,9 +42,13 @@ import {
 	Check,
 	Circle,
 	type LucideIcon,
+	Monitor,
+	Moon,
 	RefreshCw,
 	Smile,
 	Sparkles,
+	Sun,
+	SunMoon,
 	Target,
 } from 'lucide-react';
 import * as React from 'react';
@@ -241,6 +245,58 @@ const CheckIcon = React.forwardRef<SVGSVGElement, CheckIconProps>(
 );
 CheckIcon.displayName = 'CheckIcon';
 
+/**
+ * SunIcon - Light theme icon
+ * Used for: Light theme toggle, brightness controls
+ */
+export interface SunIconProps
+	extends Omit<IconProps, 'icon'>,
+		VariantProps<typeof iconVariants> {}
+
+const SunIcon = React.forwardRef<SVGSVGElement, SunIconProps>((props, ref) => (
+	<Icon ref={ref} icon={Sun} {...props} />
+));
+SunIcon.displayName = 'SunIcon';
+
+/**
+ * MoonIcon - Dark theme icon
+ * Used for: Dark theme toggle, night mode
+ */
+export interface MoonIconProps
+	extends Omit<IconProps, 'icon'>,
+		VariantProps<typeof iconVariants> {}
+
+const MoonIcon = React.forwardRef<SVGSVGElement, MoonIconProps>(
+	(props, ref) => <Icon ref={ref} icon={Moon} {...props} />,
+);
+MoonIcon.displayName = 'MoonIcon';
+
+/**
+ * MonitorIcon - System theme icon
+ * Used for: System theme toggle, device preferences
+ */
+export interface MonitorIconProps
+	extends Omit<IconProps, 'icon'>,
+		VariantProps<typeof iconVariants> {}
+
+const MonitorIcon = React.forwardRef<SVGSVGElement, MonitorIconProps>(
+	(props, ref) => <Icon ref={ref} icon={Monitor} {...props} />,
+);
+MonitorIcon.displayName = 'MonitorIcon';
+
+/**
+ * SunMoonIcon - Theme toggle icon
+ * Used for: Theme switcher button, combined light/dark indicator
+ */
+export interface SunMoonIconProps
+	extends Omit<IconProps, 'icon'>,
+		VariantProps<typeof iconVariants> {}
+
+const SunMoonIcon = React.forwardRef<SVGSVGElement, SunMoonIconProps>(
+	(props, ref) => <Icon ref={ref} icon={SunMoon} {...props} />,
+);
+SunMoonIcon.displayName = 'SunMoonIcon';
+
 // ============================================================================
 // Exports
 // ============================================================================
@@ -252,9 +308,13 @@ export {
 	CheckIcon,
 	CircleIcon,
 	Icon,
+	MonitorIcon,
+	MoonIcon,
 	RefreshCwIcon,
 	SmileIcon,
 	SparklesIcon,
+	SunIcon,
+	SunMoonIcon,
 	TargetIcon,
 	iconVariants,
 };

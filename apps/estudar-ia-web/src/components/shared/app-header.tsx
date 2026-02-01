@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { BrainIcon } from '@/components/ui/icon';
 import { Large } from '@/components/ui/typography';
 import { translations } from '@/locales';
+import { ThemeToggle } from './theme-toggle';
 
 export interface AppHeaderProps {
 	/**
@@ -81,21 +82,22 @@ export function AppHeader({
 	return (
 		<header className="border-border border-b bg-card">
 			<div className="container mx-auto flex items-center justify-between px-4 py-4">
-				{/* Logo and App Name */}
 				<div className="flex items-center gap-2">
 					{logo ?? defaultLogo}
 					<Large className="mb-0">{appName}</Large>
 				</div>
 
-				{/* Navigation - Hidden on mobile */}
 				{showNavigation && (
 					<nav className="hidden gap-6 md:flex">
 						{navigationItems ?? defaultNavigationItems}
 					</nav>
 				)}
 
-				{/* Action Button */}
-				{actionButton ?? defaultActionButton}
+				<div className="flex items-center gap-2">
+					<ThemeToggle />
+
+					{actionButton ?? defaultActionButton}
+				</div>
 			</div>
 		</header>
 	);

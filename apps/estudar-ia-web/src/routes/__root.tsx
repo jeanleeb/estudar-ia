@@ -6,6 +6,7 @@ import {
 	Scripts,
 } from '@tanstack/react-router';
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools';
+import { ThemeProvider } from '@/core/theme';
 import TanStackQueryDevtools from '../integrations/tanstack-query/devtools';
 import AiDevtools from '../lib/ai-devtools';
 import appCss from '../styles.css?url';
@@ -41,26 +42,28 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
 	return (
-		<html lang="pt-BR">
+		<html lang="pt-BR" suppressHydrationWarning>
 			<head>
 				<HeadContent />
 			</head>
 			<body>
-				{children}
-				<TanStackDevtools
-					config={{
-						position: 'bottom-right',
-					}}
-					plugins={[
-						{
-							name: 'Tanstack Router',
-							render: <TanStackRouterDevtoolsPanel />,
-						},
-						TanStackQueryDevtools,
-						AiDevtools,
-					]}
-				/>
-				<Scripts />
+				<ThemeProvider>
+					{children}
+					<TanStackDevtools
+						config={{
+							position: 'bottom-right',
+						}}
+						plugins={[
+							{
+								name: 'Tanstack Router',
+								render: <TanStackRouterDevtoolsPanel />,
+							},
+							TanStackQueryDevtools,
+							AiDevtools,
+						]}
+					/>
+					<Scripts />
+				</ThemeProvider>
 			</body>
 		</html>
 	);
