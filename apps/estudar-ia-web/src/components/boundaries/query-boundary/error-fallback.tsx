@@ -9,7 +9,7 @@ import {
 	EmptyTitle,
 } from '@/components/ui/empty';
 import { AlertCircleIcon, RefreshCwIcon } from '@/components/ui/icon';
-import { t } from '@/locales';
+import { translations } from '@/locales';
 
 // ============================================================================
 // Types
@@ -70,10 +70,10 @@ export function ErrorFallback({
 	retryLabel,
 	children,
 }: ErrorFallbackProps) {
-	const errorTitle = title || t.common.error.title;
+	const errorTitle = title || translations.common.error.title;
 	const errorDescription =
-		description || error.message || t.common.error.description;
-	const retryButtonLabel = retryLabel || t.common.error.retryButton;
+		description || error.message || translations.common.error.description;
+	const retryButtonLabel = retryLabel || translations.common.error.retryButton;
 
 	return (
 		<Empty className="border border-destructive/20 bg-destructive/5">

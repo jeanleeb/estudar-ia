@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { BrainIcon } from '@/components/ui/icon';
 import { Large } from '@/components/ui/typography';
-import { t } from '@/locales';
+import { translations } from '@/locales';
 
 export interface AppHeaderProps {
 	/**
@@ -48,7 +48,7 @@ export interface AppHeaderProps {
  * ```
  */
 export function AppHeader({
-	appName = t.common.app.name,
+	appName = translations.common.app.name,
 	showNavigation = true,
 	navigationItems,
 	actionButton,
@@ -57,19 +57,19 @@ export function AppHeader({
 	const defaultNavigationItems = (
 		<>
 			<Button variant="ghost" size="sm">
-				{t.common.navigation.practice}
+				{translations.common.navigation.practice}
 			</Button>
 			<Button variant="ghost" size="sm">
-				{t.common.navigation.progress}
+				{translations.common.navigation.progress}
 			</Button>
 			<Button variant="ghost" size="sm">
-				{t.common.navigation.about}
+				{translations.common.navigation.about}
 			</Button>
 		</>
 	);
 
 	const defaultActionButton = (
-		<Button size="sm">{t.common.navigation.signIn}</Button>
+		<Button size="sm">{translations.common.navigation.signIn}</Button>
 	);
 
 	const defaultLogo = (

@@ -9,7 +9,7 @@ import {
 	EmptyTitle,
 } from '@/components/ui/empty';
 import { SmileIcon } from '@/components/ui/icon';
-import { t } from '@/locales';
+import { translations } from '@/locales';
 
 // ============================================================================
 // Types
@@ -77,8 +77,8 @@ export function EmptyFallback({
 	icon,
 	children,
 }: EmptyFallbackProps) {
-	const emptyTitle = title || t.common.empty.title;
-	const emptyDescription = description || t.common.empty.description;
+	const emptyTitle = title || translations.common.empty.title;
+	const emptyDescription = description || translations.common.empty.description;
 
 	return (
 		<Empty>

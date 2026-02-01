@@ -20,6 +20,14 @@ export const home = {
 	subjectSelection: {
 		title: 'Selecione as Matérias',
 		subtitle: 'Escolha uma ou mais matérias para praticar',
+		error: {
+			title: 'Erro ao carregar matérias',
+			description: 'Não foi possível carregar a lista de matérias.',
+		},
+		empty: {
+			title: 'Nenhuma matéria disponível',
+			description: 'Não há matérias cadastradas no momento.',
+		},
 	},
 	subjects: {
 		physics: 'Física',
