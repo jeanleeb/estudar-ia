@@ -1,6 +1,6 @@
 import type React from 'react';
 import { Badge } from '@/components/ui/badge';
-import { Display, H1, Lead } from '@/components/ui/typography';
+import { Display, Lead } from '@/components/ui/typography';
 import { cn } from '@/lib/utils';
 
 export interface HeroSectionProps {

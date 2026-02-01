@@ -40,8 +40,13 @@ import {
 	BookOpen,
 	Brain,
 	Check,
+	ChevronRight,
 	Circle,
+	Eye,
+	EyeOff,
 	GraduationCap,
+	Info,
+	Loader2,
 	type LucideIcon,
 	Monitor,
 	Moon,
@@ -312,6 +317,71 @@ const SunMoonIcon = React.forwardRef<SVGSVGElement, SunMoonIconProps>(
 );
 SunMoonIcon.displayName = 'SunMoonIcon';
 
+/**
+ * ChevronRightIcon - Right arrow/Navigation icon
+ * Used for: Dropdown menus, navigation, submenu indicators
+ */
+export interface ChevronRightIconProps
+	extends Omit<IconProps, 'icon'>,
+		VariantProps<typeof iconVariants> {}
+
+const ChevronRightIcon = React.forwardRef<SVGSVGElement, ChevronRightIconProps>(
+	(props, ref) => <Icon ref={ref} icon={ChevronRight} {...props} />,
+);
+ChevronRightIcon.displayName = 'ChevronRightIcon';
+
+/**
+ * Loader2Icon - Loading spinner icon
+ * Used for: Loading states, processing indicators, async operations
+ */
+export interface Loader2IconProps
+	extends Omit<IconProps, 'icon'>,
+		VariantProps<typeof iconVariants> {}
+
+const Loader2Icon = React.forwardRef<SVGSVGElement, Loader2IconProps>(
+	(props, ref) => <Icon ref={ref} icon={Loader2} {...props} />,
+);
+Loader2Icon.displayName = 'Loader2Icon';
+
+/**
+ * InfoIcon - Information icon
+ * Used for: Info messages, help text, informational alerts
+ */
+export interface InfoIconProps
+	extends Omit<IconProps, 'icon'>,
+		VariantProps<typeof iconVariants> {}
+
+const InfoIcon = React.forwardRef<SVGSVGElement, InfoIconProps>(
+	(props, ref) => <Icon ref={ref} icon={Info} {...props} />,
+);
+InfoIcon.displayName = 'InfoIcon';
+
+/**
+ * EyeIcon - Show/Visible icon
+ * Used for: Show password, visibility toggle, reveal content
+ */
+export interface EyeIconProps
+	extends Omit<IconProps, 'icon'>,
+		VariantProps<typeof iconVariants> {}
+
+const EyeIcon = React.forwardRef<SVGSVGElement, EyeIconProps>((props, ref) => (
+	<Icon ref={ref} icon={Eye} {...props} />
+));
+EyeIcon.displayName = 'EyeIcon';
+
+/**
+ * EyeOffIcon - Hide/Hidden icon
+ * Used for: Hide password, visibility toggle, conceal content
+ */
+export interface EyeOffIconProps
+	extends Omit<IconProps, 'icon'>,
+		VariantProps<typeof iconVariants> {}
+
+const EyeOffIcon = React.forwardRef<SVGSVGElement, EyeOffIconProps>(
+	(props, ref) => <Icon ref={ref} icon={EyeOff} {...props} />,
+);
+EyeOffIcon.displayName = 'EyeOffIcon';
+
 // ============================================================================
 // Exports
 // ============================================================================
@@ -321,9 +391,14 @@ export {
 	BookOpenIcon,
 	BrainIcon,
 	CheckIcon,
+	ChevronRightIcon,
 	CircleIcon,
+	EyeIcon,
+	EyeOffIcon,
 	GraduationCapIcon,
 	Icon,
+	InfoIcon,
+	Loader2Icon,
 	MonitorIcon,
 	MoonIcon,
 	RefreshCwIcon,

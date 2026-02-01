@@ -10,11 +10,19 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SimuladoRouteImport } from './routes/simulado'
+import { Route as RecuperarSenhaRouteImport } from './routes/recuperar-senha'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as authLoginRouteImport } from './routes/(auth)/login'
+import { Route as authCadastroRouteImport } from './routes/(auth)/cadastro'
 
 const SimuladoRoute = SimuladoRouteImport.update({
   id: '/simulado',
   path: '/simulado',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RecuperarSenhaRoute = RecuperarSenhaRouteImport.update({
+  id: '/recuperar-senha',
+  path: '/recuperar-senha',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -22,31 +30,59 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const authLoginRoute = authLoginRouteImport.update({
+  id: '/(auth)/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const authCadastroRoute = authCadastroRouteImport.update({
+  id: '/(auth)/cadastro',
+  path: '/cadastro',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/recuperar-senha': typeof RecuperarSenhaRoute
   '/simulado': typeof SimuladoRoute
+  '/cadastro': typeof authCadastroRoute
+  '/login': typeof authLoginRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/recuperar-senha': typeof RecuperarSenhaRoute
   '/simulado': typeof SimuladoRoute
+  '/cadastro': typeof authCadastroRoute
+  '/login': typeof authLoginRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/recuperar-senha': typeof RecuperarSenhaRoute
   '/simulado': typeof SimuladoRoute
+  '/(auth)/cadastro': typeof authCadastroRoute
+  '/(auth)/login': typeof authLoginRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/simulado'
+  fullPaths: '/' | '/recuperar-senha' | '/simulado' | '/cadastro' | '/login'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/simulado'
-  id: '__root__' | '/' | '/simulado'
+  to: '/' | '/recuperar-senha' | '/simulado' | '/cadastro' | '/login'
+  id:
+    | '__root__'
+    | '/'
+    | '/recuperar-senha'
+    | '/simulado'
+    | '/(auth)/cadastro'
+    | '/(auth)/login'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  RecuperarSenhaRoute: typeof RecuperarSenhaRoute
   SimuladoRoute: typeof SimuladoRoute
+  authCadastroRoute: typeof authCadastroRoute
+  authLoginRoute: typeof authLoginRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -58,6 +94,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SimuladoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/recuperar-senha': {
+      id: '/recuperar-senha'
+      path: '/recuperar-senha'
+      fullPath: '/recuperar-senha'
+      preLoaderRoute: typeof RecuperarSenhaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -65,12 +108,29 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/(auth)/login': {
+      id: '/(auth)/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof authLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(auth)/cadastro': {
+      id: '/(auth)/cadastro'
+      path: '/cadastro'
+      fullPath: '/cadastro'
+      preLoaderRoute: typeof authCadastroRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  RecuperarSenhaRoute: RecuperarSenhaRoute,
   SimuladoRoute: SimuladoRoute,
+  authCadastroRoute: authCadastroRoute,
+  authLoginRoute: authLoginRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
