@@ -1,5 +1,22 @@
+import { cva } from 'class-variance-authority';
 import { SelectableCard } from '@/components/shared';
 import { H3, Small } from '@/components/ui/typography';
+import { cn } from '@/lib/utils';
+
+/**
+ * Shared layout variants for exam selection card
+ * Used to maintain consistency between the real component and shimmer
+ */
+export const examSelectionCardLayoutVariants = cva(
+	'flex items-start justify-between',
+	{
+		variants: {},
+	},
+);
+
+export const examSelectionCardContentVariants = cva('space-y-2', {
+	variants: {},
+});
 
 export interface ExamSelectionCardProps {
 	/**
@@ -49,10 +66,10 @@ export function ExamSelectionCard({
 }: ExamSelectionCardProps) {
 	return (
 		<SelectableCard selected={selected} onSelect={onSelect}>
-			<div className="flex items-start justify-between">
-				<div>
+			<div className={cn(examSelectionCardLayoutVariants())}>
+				<div className={cn(examSelectionCardContentVariants())}>
 					<H3>{name}</H3>
-					<Small>{description}</Small>
+					<Small className="block">{description}</Small>
 				</div>
 			</div>
 		</SelectableCard>

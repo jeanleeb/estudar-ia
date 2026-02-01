@@ -1,7 +1,11 @@
+import { useQuery } from '@tanstack/react-query';
 import { createFileRoute, Link } from '@tanstack/react-router';
-
 import { useState } from 'react';
-import { ExamSelectionCard, SubjectSelectionCard } from '@/components/home';
+import {
+	ExamSelectionCard,
+	ExamSelectionCardShimmer,
+	SubjectSelectionCard,
+} from '@/components/home';
 import { AppHeader, FeatureCard, HeroSection } from '@/components/shared';
 import { Button } from '@/components/ui/button';
 import {
@@ -12,8 +16,10 @@ import {
 } from '@/components/ui/icon';
 import { H2, SectionHeader } from '@/components/ui/typography';
 import { t } from '@/locales';
+import { getExamsFn } from '@/server/functions/exams';
 
 export const Route = createFileRoute('/')({
+	loader: () => getExamsFn(),
 	component: HomePage,
 });
 
@@ -44,22 +50,14 @@ const subjects = [
 	},
 ];
 
-const exams = [
-	{
-		id: 'enem',
-		name: t.home.exams.enem.name,
-		description: t.home.exams.enem.description,
-	},
-	{
-		id: 'fuvest',
-		name: t.home.exams.fuvest.name,
-		description: t.home.exams.fuvest.description,
-	},
-];
-
 function HomePage() {
 	const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
 	const [selectedExam, setSelectedExam] = useState<string>('');
+
+	const { data, isLoading } = useQuery({
+		queryKey: ['exams'],
+		queryFn: () => getExamsFn(),
+	});
 
 	const toggleSubject = (subjectId: string) => {
 		setSelectedSubjects(prev =>
@@ -95,16 +93,23 @@ function HomePage() {
 							subtitle={t.home.examSelection.subtitle}
 						/>
 						<div className="grid gap-4 md:grid-cols-2">
-							{exams.map(exam => (
-								<ExamSelectionCard
-									key={exam.id}
-									id={exam.id}
-									name={exam.name}
-									description={exam.description}
-									selected={selectedExam === exam.id}
-									onSelect={() => setSelectedExam(exam.id)}
-								/>
-							))}
+							{isLoading ? (
+								<>
+									<ExamSelectionCardShimmer />
+									<ExamSelectionCardShimmer />
+								</>
+							) : (
+								data?.map(exam => (
+									<ExamSelectionCard
+										key={exam.id}
+										id={exam.id}
+										name={exam.name}
+										description={exam.description as string}
+										selected={selectedExam === exam.id}
+										onSelect={() => setSelectedExam(exam.id)}
+									/>
+								))
+							)}
 						</div>
 					</div>
 
