@@ -3,6 +3,105 @@ import * as React from 'react';
 import { cn } from '@/lib/utils';
 
 // ============================================================================
+// Typography Architecture: Single Source of Truth
+// ============================================================================
+/**
+ * Typography Variant System - Unified CVA Variants
+ *
+ * This file uses a single variant object for each component type (heading/text).
+ * Shimmer components extract only the spacing and height classes they need.
+ *
+ * Benefits:
+ * ✅ DRY: All styles (spacing + visual) defined once
+ * ✅ Simple: Single variant object, no over-engineering
+ * ✅ Automatic Sync: Shimmer extracts spacing from same variant
+ * ✅ Type-Safe: TypeScript ensures consistency
+ * ✅ Maintainable: Change once, everything updates
+ *
+ * Example:
+ *
+ * Real Component (H3):
+ *   headingVariants({ level: 'h3' }) → 'mb-2 text-lg md:text-xl font-semibold...'
+ *
+ * Shimmer Component (H3Shimmer):
+ *   Extracts: mb-2 (spacing) + h-7 (height, calculated from text-lg line-height)
+ *
+ * Result: Both use same source. Change mb-2 → mb-4, both update automatically!
+ */
+
+// ============================================================================
+// Shared Variants (extracted for shimmer use)
+// ============================================================================
+
+/**
+ * Heading spacing variants - extracted from headingVariants for shimmer use
+ * These match the margin-bottom values in headingVariants below
+ */
+export const headingSpacingVariants = cva('', {
+	variants: {
+		level: {
+			h1: 'mb-6',
+			h2: 'mb-4',
+			h3: 'mb-2',
+			h4: 'mb-2',
+			h5: 'mb-1.5',
+			h6: 'mb-1',
+		},
+	},
+});
+
+/**
+ * Heading height variants - for shimmer components
+ * Heights are based on line-height of corresponding text sizes
+ */
+export const headingHeightVariants = cva('', {
+	variants: {
+		level: {
+			h1: 'h-12', // text-4xl/6xl line-height
+			h2: 'h-8', // text-2xl/3xl line-height
+			h3: 'h-7', // text-lg/xl line-height
+			h4: 'h-6', // text-base/lg line-height
+			h5: 'h-5', // text-sm/base line-height
+			h6: 'h-4', // text-xs/sm line-height
+		},
+	},
+});
+
+/**
+ * Text spacing variants - extracted from textVariants for shimmer use
+ * These match the margin-bottom values in textVariants below
+ */
+export const textSpacingVariants = cva('', {
+	variants: {
+		variant: {
+			default: 'mb-4',
+			lead: 'mb-6',
+			large: 'mb-3',
+			small: '',
+			muted: '',
+			subtle: '',
+		},
+	},
+});
+
+/**
+ * Text height variants - for shimmer components
+ * Heights are based on line-height of corresponding text sizes
+ */
+export const textHeightVariants = cva('', {
+	variants: {
+		variant: {
+			default: 'h-6', // text-base line-height
+			lead: 'h-7', // text-lg/xl line-height
+			large: 'h-7', // text-lg line-height
+			small: 'h-5', // text-sm line-height
+			muted: 'h-5', // text-sm line-height
+			subtle: 'h-4', // text-xs line-height
+		},
+	},
+});
+
+// ============================================================================
 // Heading Components
 // ============================================================================
 

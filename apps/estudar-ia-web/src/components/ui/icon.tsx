@@ -1,8 +1,49 @@
+/**
+ * @file Icon System - Centralized Icon Management
+ *
+ * ⚠️ IMPORTANT: This is the ONLY file that should import from 'lucide-react'
+ *
+ * All icons in the application MUST be:
+ * 1. Defined in this file
+ * 2. Exported as named components (e.g., BrainIcon, AlertCircleIcon)
+ * 3. Used with standardized size props
+ *
+ * ❌ NEVER import directly from 'lucide-react' in other files
+ * ✅ ALWAYS import from '@/components/ui/icon'
+ *
+ * For guidelines and best practices, see: ./ICON_GUIDELINES.md
+ *
+ * @example Correct Usage
+ * ```tsx
+ * import { BrainIcon, AlertCircleIcon } from '@/components/ui/icon';
+ *
+ * function MyComponent() {
+ *   return (
+ *     <div>
+ *       <BrainIcon size="lg" className="text-primary" />
+ *       <AlertCircleIcon size="md" />
+ *     </div>
+ *   );
+ * }
+ * ```
+ *
+ * @example WRONG - Don't do this
+ * ```tsx
+ * // ❌ WRONG - Direct import from lucide-react
+ * import { Brain, AlertCircle } from 'lucide-react';
+ * ```
+ */
+
 import { cva, type VariantProps } from 'class-variance-authority';
 import {
+	AlertCircle,
 	BookOpen,
 	Brain,
+	Check,
+	Circle,
 	type LucideIcon,
+	RefreshCw,
+	Smile,
 	Sparkles,
 	Target,
 } from 'lucide-react';
@@ -12,6 +53,10 @@ import { cn } from '@/lib/utils';
 // ============================================================================
 // Icon Size Variants (Limited for Consistency)
 // ============================================================================
+//
+// These are the ONLY allowed icon sizes in the application.
+// Using custom size classes (e.g., h-7 w-7) breaks visual consistency.
+//
 
 const iconVariants = cva('', {
 	variants: {
@@ -67,6 +112,17 @@ Icon.displayName = 'Icon';
 // ============================================================================
 // Application-Specific Icons
 // ============================================================================
+//
+// IMPORTANT: When adding new icons:
+// 1. Import the Lucide icon at the top of this file
+// 2. Create an interface extending IconProps
+// 3. Create a forwarded ref component using the Icon wrapper
+// 4. Add JSDoc comment explaining usage
+// 5. Export the component at the bottom
+// 6. Document in ICON_GUIDELINES.md
+//
+// See existing icons below as examples.
+//
 
 /**
  * BrainIcon - AI/Intelligence icon
@@ -120,14 +176,84 @@ const SparklesIcon = React.forwardRef<SVGSVGElement, SparklesIconProps>(
 );
 SparklesIcon.displayName = 'SparklesIcon';
 
+/**
+ * AlertCircleIcon - Error/Warning icon
+ * Used for: Error states, warnings, alerts
+ */
+export interface AlertCircleIconProps
+	extends Omit<IconProps, 'icon'>,
+		VariantProps<typeof iconVariants> {}
+
+const AlertCircleIcon = React.forwardRef<SVGSVGElement, AlertCircleIconProps>(
+	(props, ref) => <Icon ref={ref} icon={AlertCircle} {...props} />,
+);
+AlertCircleIcon.displayName = 'AlertCircleIcon';
+
+/**
+ * RefreshCwIcon - Refresh/Retry icon
+ * Used for: Retry actions, refresh data, reload
+ */
+export interface RefreshCwIconProps
+	extends Omit<IconProps, 'icon'>,
+		VariantProps<typeof iconVariants> {}
+
+const RefreshCwIcon = React.forwardRef<SVGSVGElement, RefreshCwIconProps>(
+	(props, ref) => <Icon ref={ref} icon={RefreshCw} {...props} />,
+);
+RefreshCwIcon.displayName = 'RefreshCwIcon';
+
+/**
+ * SmileIcon - Empty state/Positive icon
+ * Used for: Empty states, no data, positive feedback
+ */
+export interface SmileIconProps
+	extends Omit<IconProps, 'icon'>,
+		VariantProps<typeof iconVariants> {}
+
+const SmileIcon = React.forwardRef<SVGSVGElement, SmileIconProps>(
+	(props, ref) => <Icon ref={ref} icon={Smile} {...props} />,
+);
+SmileIcon.displayName = 'SmileIcon';
+
+/**
+ * CircleIcon - Circle/Dot icon
+ * Used for: Radio buttons, indicators, selection states
+ */
+export interface CircleIconProps
+	extends Omit<IconProps, 'icon'>,
+		VariantProps<typeof iconVariants> {}
+
+const CircleIcon = React.forwardRef<SVGSVGElement, CircleIconProps>(
+	(props, ref) => <Icon ref={ref} icon={Circle} {...props} />,
+);
+CircleIcon.displayName = 'CircleIcon';
+
+/**
+ * CheckIcon - Checkmark/Success icon
+ * Used for: Selection indicators, success states, completed items
+ */
+export interface CheckIconProps
+	extends Omit<IconProps, 'icon'>,
+		VariantProps<typeof iconVariants> {}
+
+const CheckIcon = React.forwardRef<SVGSVGElement, CheckIconProps>(
+	(props, ref) => <Icon ref={ref} icon={Check} {...props} />,
+);
+CheckIcon.displayName = 'CheckIcon';
+
 // ============================================================================
 // Exports
 // ============================================================================
 
 export {
+	AlertCircleIcon,
 	BookOpenIcon,
 	BrainIcon,
+	CheckIcon,
+	CircleIcon,
 	Icon,
+	RefreshCwIcon,
+	SmileIcon,
 	SparklesIcon,
 	TargetIcon,
 	iconVariants,

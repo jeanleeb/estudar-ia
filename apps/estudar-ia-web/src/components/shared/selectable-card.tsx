@@ -1,5 +1,6 @@
 import type React from 'react';
 import { Card } from '@/components/ui/card';
+import { CheckIcon } from '@/components/ui/icon';
 import { cn } from '@/lib/utils';
 
 export interface SelectableCardProps {
@@ -57,17 +58,7 @@ export function SelectableCard({
 }: SelectableCardProps) {
 	const defaultIndicator = (
 		<div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary">
-			<svg
-				className="h-4 w-4 text-primary-foreground"
-				fill="none"
-				strokeLinecap="round"
-				strokeLinejoin="round"
-				strokeWidth="2"
-				viewBox="0 0 24 24"
-				stroke="currentColor">
-				<title>Selected</title>
-				<path d="M5 13l4 4L19 7" />
-			</svg>
+			<CheckIcon size="sm" className="text-primary-foreground" />
 		</div>
 	);
 

@@ -3,11 +3,9 @@
   "include": ["**/*.ts", "**/*.tsx"],
   "compilerOptions": {
     "types": ["vite/client"],
-    "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "@/locales/*": ["./src/locales/*"],
-      "@/components/*": ["./src/components/*"],
+      "@/*": ["apps/estudar-ia-web/src/*"],
+      "@estuda-ai/domain": ["libs/domain/src/index.ts"],
     },
   },
 }

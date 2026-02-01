@@ -12,7 +12,7 @@ export const locales = {
 export const currentLocale = defaultLocale;
 
 // Main translations object
-export const t: Translations = locales[currentLocale];
+export const translations: Translations = locales[currentLocale];
 
 // Export types
 export type { Translations };

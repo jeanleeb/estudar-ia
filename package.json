@@ -6,10 +6,11 @@
     "dev": "nx serve estudar-ia-web --port 3000",
     "build": "nx vite:build",
     "preview": "nx vite:preview",
-    "test": "vitest run",
+    "test": "nx test estudar-ia-web",
     "biome": "biome check --fix --unsafe ./apps",
     "type-check": "bash scripts/type-check-all.sh",
-    "lint": "pnpm biome && pnpm type-check"
+    "lint": "pnpm biome && pnpm type-check",
+    "db:types": "dotenv -e .env.local -- sh -c 'supabase gen types typescript --project-id $SUPABASE_PROJECT_ID > libs/domain/src/entities/database.types.ts'"
   },
   "private": true,
   "devDependencies": {
@@ -18,7 +19,9 @@
     "@nx/vitest": "22.4.4",
     "@nx/web": "22.4.4",
     "@nxlv/python": "latest",
+    "dotenv-cli": "11.0.0",
     "nx": "22.4.4",
+    "supabase": "2.74.5",
     "typescript": "5.9.3"
   },
   "packageManager": "pnpm@10.28.0"
