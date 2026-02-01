@@ -147,10 +147,3 @@ export function QueryBoundary({
 		</QueryErrorResetBoundary>
 	);
 }
-
-// ============================================================================
-// Re-export related components
-// ============================================================================
-
-export type { ErrorFallbackProps } from './error-fallback';
-export { ErrorFallback } from './error-fallback';

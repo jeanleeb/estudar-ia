@@ -6,7 +6,7 @@
     "dev": "nx serve estudar-ia-web --port 3000",
     "build": "nx vite:build",
     "preview": "nx vite:preview",
-    "test": "vitest run",
+    "test": "nx test estudar-ia-web",
     "biome": "biome check --fix --unsafe ./apps",
     "type-check": "bash scripts/type-check-all.sh",
     "lint": "pnpm biome && pnpm type-check",

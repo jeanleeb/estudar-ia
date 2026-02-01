@@ -130,10 +130,3 @@ export function EmptyCheck({
 
 	return <>{children}</>;
 }
-
-// ============================================================================
-// Re-export related components
-// ============================================================================
-
-export type { EmptyFallbackProps } from './empty-fallback';
-export { EmptyFallback } from './empty-fallback';
