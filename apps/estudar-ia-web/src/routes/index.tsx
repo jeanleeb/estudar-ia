@@ -1,6 +1,7 @@
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { useState } from 'react';
+import { EmptyCheck, QueryBoundary } from '@/components/boundaries';
 import {
 	ExamSelectionCard,
 	ExamSelectionCardShimmer,
@@ -54,11 +55,6 @@ function HomePage() {
 	const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
 	const [selectedExam, setSelectedExam] = useState<string>('');
 
-	const { data, isLoading } = useQuery({
-		queryKey: ['exams'],
-		queryFn: () => getExamsFn(),
-	});
-
 	const toggleSubject = (subjectId: string) => {
 		setSelectedSubjects(prev =>
 			prev.includes(subjectId)
@@ -92,25 +88,23 @@ function HomePage() {
 							title={t.home.examSelection.title}
 							subtitle={t.home.examSelection.subtitle}
 						/>
-						<div className="grid gap-4 md:grid-cols-2">
-							{isLoading ? (
-								<>
+						<QueryBoundary
+							loadingFallback={
+								<div className="grid gap-4 md:grid-cols-2">
 									<ExamSelectionCardShimmer />
 									<ExamSelectionCardShimmer />
-								</>
-							) : (
-								data?.map(exam => (
-									<ExamSelectionCard
-										key={exam.id}
-										id={exam.id}
-										name={exam.name}
-										description={exam.description as string}
-										selected={selectedExam === exam.id}
-										onSelect={() => setSelectedExam(exam.id)}
-									/>
-								))
-							)}
-						</div>
+								</div>
+							}
+							errorFallbackProps={{
+								title: t.home.examSelection.error.title,
+								description: t.home.examSelection.error.description,
+								retryLabel: t.common.error.retryButton,
+							}}>
+							<ExamsListContent
+								selectedExam={selectedExam}
+								setSelectedExam={setSelectedExam}
+							/>
+						</QueryBoundary>
 					</div>
 
 					<div className="mb-12">
@@ -139,7 +133,7 @@ function HomePage() {
 							<Button
 								size="lg"
 								disabled={!canStartPractice}
-								className="h-12 px-8 text-base">
+								className="text-base">
 								{canStartPractice
 									? t.home.actions.startPractice
 									: t.home.actions.selectToBegin}
@@ -180,5 +174,40 @@ function HomePage() {
 				</div>
 			</section>
 		</div>
+	);
+}
+
+function ExamsListContent({
+	selectedExam,
+	setSelectedExam,
+}: {
+	selectedExam: string;
+	setSelectedExam: (id: string) => void;
+}) {
+	const { data: exams } = useSuspenseQuery({
+		queryKey: ['exams'],
+		queryFn: () => getExamsFn(),
+	});
+
+	return (
+		<EmptyCheck
+			isEmpty={!exams || exams.length === 0}
+			fallbackProps={{
+				title: t.home.examSelection.empty.title,
+				description: t.home.examSelection.empty.description,
+			}}>
+			<div className="grid gap-4 md:grid-cols-2">
+				{exams?.map(exam => (
+					<ExamSelectionCard
+						key={exam.id}
+						id={exam.id}
+						name={exam.name}
+						description={exam.description as string}
+						selected={selectedExam === exam.id}
+						onSelect={() => setSelectedExam(exam.id)}
+					/>
+				))}
+			</div>
+		</EmptyCheck>
 	);
 }

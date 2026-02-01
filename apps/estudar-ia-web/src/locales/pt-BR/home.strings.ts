@@ -8,6 +8,14 @@ export const home = {
 	examSelection: {
 		title: 'Escolha Seu Exame',
 		subtitle: 'Selecione o exame para o qual você está se preparando',
+		error: {
+			title: 'Erro ao carregar exames',
+			description: 'Não foi possível carregar a lista de exames.',
+		},
+		empty: {
+			title: 'Nenhum exame disponível',
+			description: 'Não há exames cadastrados no momento.',
+		},
 	},
 	subjectSelection: {
 		title: 'Selecione as Matérias',
