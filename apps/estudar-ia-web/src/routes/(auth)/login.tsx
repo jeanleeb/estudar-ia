@@ -7,14 +7,7 @@ import { z } from 'zod';
 import { AuthPageWrapper } from '@/components/auth';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardFooter,
-	CardHeader,
-	CardTitle,
-} from '@/components/ui/card';
+import { CardFooter } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
 	Form,
@@ -32,7 +25,7 @@ import {
 } from '@/components/ui/icon';
 import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
-import { H1, Small, Text } from '@/components/ui/typography';
+import { Small } from '@/components/ui/typography';
 import { translations } from '@/locales';
 import { loginSchema } from '@/model/auth.model';
 import { loginFn } from '@/server/functions/auth';
@@ -186,9 +179,6 @@ function RouteComponent() {
 					</Button>
 				</form>
 			</Form>
-			<CardFooter className="flex justify-center">
-				<Small></Small>
-			</CardFooter>
 		</AuthPageWrapper>
 	);
 }

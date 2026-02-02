@@ -110,8 +110,8 @@ export const textHeightVariants = cva('', {
 const headingVariants = cva('font-semibold text-foreground', {
 	variants: {
 		level: {
-			display: 'mb-6 text-balance text-4xl font-bold md:text-6xl',
-			h1: 'mb-4 text-2xl md:text-3xl',
+			display: 'mb-4 text-balance text-4xl font-bold md:text-6xl',
+			h1: 'mb-2 text-2xl md:text-3xl',
 			h2: 'mb-2 text-lg md:text-xl',
 			h3: 'mb-2 text-base md:text-lg',
 			h4: 'mb-1.5 text-sm md:text-base',

@@ -30,7 +30,7 @@ export function AuthPageWrapper({
 			<div className="w-full max-w-md">
 				<div className="mb-8 text-center">
 					<H1 align="center">{title}</H1>
-					<Text align="center" variant="muted" className="mt-2">
+					<Text align="center" variant="muted">
 						{subtitle}
 					</Text>
 				</div>
@@ -43,7 +43,11 @@ export function AuthPageWrapper({
 
 					<CardContent>{children}</CardContent>
 
-					{cardFooter && <CardFooter>{cardFooter}</CardFooter>}
+					{cardFooter && (
+						<CardFooter className="flex justify-center">
+							{cardFooter}
+						</CardFooter>
+					)}
 				</Card>
 
 				{/*<p className="mt-8 text-center text-muted-foreground text-xs">

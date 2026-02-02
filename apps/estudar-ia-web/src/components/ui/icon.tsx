@@ -40,6 +40,7 @@ import {
 	BookOpen,
 	Brain,
 	Check,
+	CheckCircle,
 	ChevronRight,
 	Circle,
 	Eye,
@@ -266,6 +267,19 @@ const CheckIcon = React.forwardRef<SVGSVGElement, CheckIconProps>(
 CheckIcon.displayName = 'CheckIcon';
 
 /**
+ * CheckCircleIcon - Check with circle/Success icon
+ * Used for: Success states, completed items, validation passed
+ */
+export interface CheckCircleIconProps
+	extends Omit<IconProps, 'icon'>,
+		VariantProps<typeof iconVariants> {}
+
+const CheckCircleIcon = React.forwardRef<SVGSVGElement, CheckCircleIconProps>(
+	(props, ref) => <Icon ref={ref} icon={CheckCircle} {...props} />,
+);
+CheckCircleIcon.displayName = 'CheckCircleIcon';
+
+/**
  * SunIcon - Light theme icon
  * Used for: Light theme toggle, brightness controls
  */
@@ -390,6 +404,7 @@ export {
 	AlertCircleIcon,
 	BookOpenIcon,
 	BrainIcon,
+	CheckCircleIcon,
 	CheckIcon,
 	ChevronRightIcon,
 	CircleIcon,
