@@ -4,25 +4,18 @@ export const login = {
 		subtitle: 'Entre para continuar sua jornada de aprendizado',
 	},
 	card: {
-		title: 'Entrar',
+		title: 'Login',
 		description: 'Digite suas credenciais para acessar sua conta',
 	},
 	form: {
 		email: {
 			label: 'Email',
-			validation: {
-				required: 'Insira seu email',
-				invalid: 'Email inválido',
-			},
 		},
 		password: {
 			label: 'Senha',
 			forgotPassword: 'Esqueceu a senha?',
 			show: 'Mostrar senha',
 			hide: 'Ocultar senha',
-			validation: {
-				required: 'Insira sua senha',
-			},
 		},
 		rememberMe: {
 			label: 'Lembrar por 30 dias',

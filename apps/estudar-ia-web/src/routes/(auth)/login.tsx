@@ -7,7 +7,6 @@ import { z } from 'zod';
 import { AuthPageWrapper } from '@/components/auth';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
-import { CardFooter } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
 	Form,

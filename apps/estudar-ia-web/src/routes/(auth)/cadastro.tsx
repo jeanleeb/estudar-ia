@@ -88,12 +88,9 @@ function RouteComponent() {
 		},
 	});
 
-	console.log(form);
-
 	const password = form.watch('password');
 
 	const handleSubmit = (values: SignUpFormValues) => {
-		console.log(values);
 		signUp({ data: values });
 	};
 
