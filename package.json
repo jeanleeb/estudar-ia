@@ -10,7 +10,8 @@
     "biome": "biome check --fix --unsafe ./apps",
     "type-check": "bash scripts/type-check-all.sh",
     "lint": "pnpm biome && pnpm type-check",
-    "db:types": "dotenv -e .env.local -- sh -c 'supabase gen types typescript --project-id $SUPABASE_PROJECT_ID > libs/domain/src/entities/database.types.ts'"
+    "db:types": "dotenv -e .env.local -- sh -c 'supabase gen types typescript --project-id $SUPABASE_PROJECT_ID > libs/domain/src/entities/database.types.ts'",
+    "nx:reset": "nx reset"
   },
   "private": true,
   "devDependencies": {
