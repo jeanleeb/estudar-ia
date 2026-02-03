@@ -8,6 +8,8 @@ import {
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools';
 import { AppHeader } from '@/components/shared';
 import { ThemeProvider } from '@/core/theme';
+import { SESSION_QUERY_KEY } from '@/hooks';
+import { getSessionFn } from '@/server/functions/auth';
 import TanStackQueryDevtools from '../integrations/tanstack-query/devtools';
 import AiDevtools from '../lib/ai-devtools';
 import appCss from '../styles.css?url';
@@ -38,6 +40,14 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 		],
 	}),
 
+	// Prefetch session before any route loads to prevent UI flash
+	beforeLoad: async ({ context }) => {
+		await context.queryClient.prefetchQuery({
+			queryKey: SESSION_QUERY_KEY,
+			queryFn: () => getSessionFn(),
+		});
+	},
+
 	shellComponent: RootDocument,
 });
 
@@ -48,8 +58,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 				<HeadContent />
 			</head>
 			<body className="min-h-screen bg-background">
-				<AppHeader />
 				<ThemeProvider>
+					<AppHeader />
 					{children}
 					<TanStackDevtools
 						config={{

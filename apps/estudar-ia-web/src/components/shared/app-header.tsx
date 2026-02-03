@@ -2,6 +2,7 @@ import { Link } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
 import { LinkButton } from '@/components/ui/link-button';
 import { Large } from '@/components/ui/typography';
+import { useSession } from '@/hooks';
 import { translations } from '@/locales';
 import { AppLogo } from './app-logo';
 import { ThemeToggle } from './theme-toggle';
@@ -35,7 +36,7 @@ export interface AppHeaderProps {
  * Provides a consistent header across the application with:
  * - App logo and name
  * - Navigation menu (responsive - hidden on mobile)
- * - Action button (typically sign in/profile)
+ * - Action button (automatically shows UserProfileButton when authenticated, or sign in button when not)
  *
  * @example
  * ```tsx
@@ -45,7 +46,7 @@ export interface AppHeaderProps {
  * @example
  * ```tsx
  * <AppHeader
- *   actionButton={<Button>Profile</Button>}
+ *   actionButton={<CustomButton />}
  *   showNavigation={false}
  * />
  * ```
@@ -57,6 +58,8 @@ export function AppHeader({
 	actionButton,
 	logo,
 }: AppHeaderProps) {
+	const { isAuthenticated } = useSession();
+
 	const defaultNavigationItems = (
 		<>
 			<Button variant="ghost" size="sm">
@@ -71,7 +74,9 @@ export function AppHeader({
 		</>
 	);
 
-	const defaultActionButton = (
+	const defaultActionButton = isAuthenticated ? (
+		<div className="size-4 rounded-full bg-primary" />
+	) : (
 		<LinkButton to="/login" size="sm">
 			{translations.common.navigation.signIn}
 		</LinkButton>

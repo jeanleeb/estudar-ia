@@ -26,7 +26,7 @@ import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
 import { Small } from '@/components/ui/typography';
 import { translations } from '@/locales';
-import { loginSchema } from '@/model/auth.model';
+import { loginSchema } from '@/model/auth.validation';
 import { loginFn } from '@/server/functions/auth';
 
 const strings = translations.login;

@@ -6,6 +6,7 @@ export const env = createEnv({
 		SERVER_URL: z.url().optional(),
 		SUPABASE_URL: z.url(),
 		SUPABASE_API_KEY: z.string().min(1),
+		SESSION_SECRET: z.string().min(32),
 	},
 
 	/**

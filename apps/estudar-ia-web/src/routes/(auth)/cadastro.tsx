@@ -27,7 +27,7 @@ import { Spinner } from '@/components/ui/spinner';
 import { Small } from '@/components/ui/typography';
 import { cn } from '@/lib/utils';
 import { translations } from '@/locales';
-import { signUpSchema, validatePasswordRule } from '@/model/auth.model';
+import { signUpSchema, validatePasswordRule } from '@/model/auth.validation';
 import { signUpFn } from '@/server/functions/auth';
 
 const strings = translations.signUp;
