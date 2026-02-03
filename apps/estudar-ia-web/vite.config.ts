@@ -13,6 +13,9 @@ const config = defineConfig({
 			'@': fileURLToPath(new URL('./src', import.meta.url)),
 		},
 	},
+	server: {
+		allowedHosts: ['sb-4y179row6404.vercel.run', 'localhost'],
+	},
 	plugins: [
 		devtools(),
 		netlify(),
