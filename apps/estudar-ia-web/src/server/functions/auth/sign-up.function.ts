@@ -2,6 +2,7 @@ import { createServerFn } from '@tanstack/react-start';
 import { signUpSchema } from '@/model/auth.validation';
 import { AuthDbDataSource } from '@/server/data/db';
 import { useAppSession } from '@/server/data/session';
+import { buildAuthUserMetadata, mapAuthUserToSessionUser } from './user.mapper';
 
 export const signUpFn = createServerFn({ method: 'POST' })
 	.inputValidator(signUpSchema)
@@ -12,10 +13,7 @@ export const signUpFn = createServerFn({ method: 'POST' })
 			email,
 			password,
 			options: {
-				data: {
-					first_name: name.split(' ')[0],
-					last_name: name.split(' ').slice(1).join(' '),
-				},
+				data: buildAuthUserMetadata(name),
 			},
 		});
 
@@ -25,12 +23,7 @@ export const signUpFn = createServerFn({ method: 'POST' })
 
 		const session = await useAppSession();
 		await session.update({
-			user: {
-				id: response.user.id,
-				email: response.user.email,
-				firstName: response.user.user_metadata.first_name,
-				lastName: response.user.user_metadata.last_name,
-			},
+			user: mapAuthUserToSessionUser(response.user),
 		});
 
 		return { success: true };

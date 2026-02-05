@@ -2,6 +2,7 @@ import { createServerFn } from '@tanstack/react-start';
 import { type LoginInput, loginSchema } from '@/model/auth.validation';
 import { AuthDbDataSource } from '@/server/data/db';
 import { useAppSession } from '@/server/data/session';
+import { mapAuthUserToSessionUser } from './user.mapper';
 
 export const loginFn = createServerFn({ method: 'POST' })
 	.inputValidator(loginSchema)
@@ -13,14 +14,13 @@ export const loginFn = createServerFn({ method: 'POST' })
 			password,
 		});
 
+		if (!response.user) {
+			throw new Error('Failed to sign in user');
+		}
+
 		const session = await useAppSession();
 		await session.update({
-			user: {
-				id: response.user.id,
-				email: response.user.email,
-				firstName: response.user.user_metadata.first_name,
-				lastName: response.user.user_metadata.last_name,
-			},
+			user: mapAuthUserToSessionUser(response.user),
 		});
 
 		return { success: true };
