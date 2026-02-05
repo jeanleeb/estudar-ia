@@ -27,7 +27,7 @@ import { Spinner } from '@/components/ui/spinner';
 import { Small } from '@/components/ui/typography';
 import { SESSION_QUERY_KEY } from '@/hooks';
 import { translations } from '@/locales';
-import { loginSchema } from '@/model/auth.validation';
+import { loginSchema } from '@/model/auth/auth.validation';
 import { loginFn } from '@/server/functions/auth';
 
 const strings = translations.login;

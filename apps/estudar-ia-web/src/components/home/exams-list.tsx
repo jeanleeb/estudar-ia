@@ -32,7 +32,7 @@ function ExamsListContent({
 						key={exam.id}
 						id={exam.id}
 						name={exam.name}
-						description={exam.description as string}
+						description={exam.description ?? ''}
 						selected={selectedExam === exam.id}
 						onSelect={() => setSelectedExam(exam.id)}
 					/>

@@ -28,7 +28,10 @@ import { Small } from '@/components/ui/typography';
 import { SESSION_QUERY_KEY } from '@/hooks';
 import { cn } from '@/lib/utils';
 import { translations } from '@/locales';
-import { signUpSchema, validatePasswordRule } from '@/model/auth.validation';
+import {
+	signUpSchema,
+	validatePasswordRule,
+} from '@/model/auth/auth.validation';
 import { signUpFn } from '@/server/functions/auth';
 
 const strings = translations.signUp;

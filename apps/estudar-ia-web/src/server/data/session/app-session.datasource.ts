@@ -1,6 +1,6 @@
 import { useSession } from '@tanstack/react-start/server';
 import { env } from '@/env';
-import type { Session } from '@/model/auth.model';
+import type { Session } from '@/model/auth/auth.model';
 
 const SESSION_KEY = 'app-session';
 

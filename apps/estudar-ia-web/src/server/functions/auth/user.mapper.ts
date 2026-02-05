@@ -1,6 +1,6 @@
 import type { Tables } from '@estuda-ai/domain';
 import type { User as SupabaseUser } from '@supabase/supabase-js';
-import type { User } from '@/model/auth.model';
+import type { User } from '@/model/auth/auth.model';
 
 type AuthUserMetadata = Partial<
 	Pick<Tables<'profiles'>, 'first_name' | 'last_name'>

@@ -1,5 +1,5 @@
 import { createServerFn } from '@tanstack/react-start';
-import { signUpSchema } from '@/model/auth.validation';
+import { signUpSchema } from '@/model/auth/auth.validation';
 import { AuthDbDataSource } from '@/server/data/db';
 import { useAppSession } from '@/server/data/session';
 import { buildAuthUserMetadata, mapAuthUserToSessionUser } from './user.mapper';
