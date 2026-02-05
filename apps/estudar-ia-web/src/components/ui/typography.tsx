@@ -40,11 +40,12 @@ import { cn } from '@/lib/utils';
 export const headingSpacingVariants = cva('', {
 	variants: {
 		level: {
-			h1: 'mb-6',
-			h2: 'mb-4',
+			display: 'mb-6',
+			h1: 'mb-4',
+			h2: 'mb-2',
 			h3: 'mb-2',
-			h4: 'mb-2',
-			h5: 'mb-1.5',
+			h4: 'mb-1.5',
+			h5: 'mb-1',
 			h6: 'mb-1',
 		},
 	},
@@ -57,12 +58,13 @@ export const headingSpacingVariants = cva('', {
 export const headingHeightVariants = cva('', {
 	variants: {
 		level: {
-			h1: 'h-12', // text-4xl/6xl line-height
-			h2: 'h-8', // text-2xl/3xl line-height
-			h3: 'h-7', // text-lg/xl line-height
-			h4: 'h-6', // text-base/lg line-height
-			h5: 'h-5', // text-sm/base line-height
-			h6: 'h-4', // text-xs/sm line-height
+			display: 'h-12', // text-4xl/6xl line-height
+			h1: 'h-8', // text-2xl/3xl line-height
+			h2: 'h-7', // text-lg/xl line-height
+			h3: 'h-6', // text-base/lg line-height
+			h4: 'h-5', // text-sm/base line-height
+			h5: 'h-4', // text-xs/sm line-height
+			h6: 'h-4', // text-xs line-height
 		},
 	},
 });
@@ -108,12 +110,13 @@ export const textHeightVariants = cva('', {
 const headingVariants = cva('font-semibold text-foreground', {
 	variants: {
 		level: {
-			h1: 'mb-6 text-balance text-4xl font-bold md:text-6xl',
-			h2: 'mb-4 text-2xl md:text-3xl',
-			h3: 'mb-2 text-lg md:text-xl',
-			h4: 'mb-2 text-base md:text-lg',
-			h5: 'mb-1.5 text-sm md:text-base',
-			h6: 'mb-1 text-xs md:text-sm',
+			display: 'mb-4 text-balance text-4xl font-bold md:text-6xl',
+			h1: 'mb-2 text-2xl md:text-3xl',
+			h2: 'mb-2 text-lg md:text-xl',
+			h3: 'mb-2 text-base md:text-lg',
+			h4: 'mb-1.5 text-sm md:text-base',
+			h5: 'mb-1 text-xs md:text-sm',
+			h6: 'mb-1 text-xs',
 		},
 		align: {
 			left: 'text-left',
@@ -131,6 +134,27 @@ export interface HeadingProps
 	extends React.HTMLAttributes<HTMLHeadingElement>,
 		VariantProps<typeof headingVariants> {}
 
+/**
+ * Display heading - Use for main page titles and hero sections.
+ * This is the largest heading level, rarely used (e.g., homepage main title).
+ * Renders as h1 tag with text-4xl md:text-6xl.
+ */
+const Display = React.forwardRef<HTMLHeadingElement, HeadingProps>(
+	({ className, align, ...props }, ref) => {
+		return React.createElement('h1', {
+			className: cn(headingVariants({ level: 'display', align, className })),
+			ref,
+			...props,
+		});
+	},
+);
+Display.displayName = 'Display';
+
+/**
+ * H1 heading - Use for primary page headings.
+ * This is the main heading for most pages.
+ * Renders as h1 tag with text-2xl md:text-3xl.
+ */
 const H1 = React.forwardRef<HTMLHeadingElement, HeadingProps>(
 	({ className, align, ...props }, ref) => {
 		return React.createElement('h1', {
@@ -142,6 +166,10 @@ const H1 = React.forwardRef<HTMLHeadingElement, HeadingProps>(
 );
 H1.displayName = 'H1';
 
+/**
+ * H2 heading - Use for major section headings.
+ * Renders as h2 tag with text-lg md:text-xl.
+ */
 const H2 = React.forwardRef<HTMLHeadingElement, HeadingProps>(
 	({ className, align, ...props }, ref) => {
 		return React.createElement('h2', {
@@ -153,6 +181,10 @@ const H2 = React.forwardRef<HTMLHeadingElement, HeadingProps>(
 );
 H2.displayName = 'H2';
 
+/**
+ * H3 heading - Use for subsection headings.
+ * Renders as h3 tag with text-base md:text-lg.
+ */
 const H3 = React.forwardRef<HTMLHeadingElement, HeadingProps>(
 	({ className, align, ...props }, ref) => {
 		return React.createElement('h3', {
@@ -164,6 +196,10 @@ const H3 = React.forwardRef<HTMLHeadingElement, HeadingProps>(
 );
 H3.displayName = 'H3';
 
+/**
+ * H4 heading - Use for minor section headings.
+ * Renders as h4 tag with text-sm md:text-base.
+ */
 const H4 = React.forwardRef<HTMLHeadingElement, HeadingProps>(
 	({ className, align, ...props }, ref) => {
 		return React.createElement('h4', {
@@ -175,6 +211,10 @@ const H4 = React.forwardRef<HTMLHeadingElement, HeadingProps>(
 );
 H4.displayName = 'H4';
 
+/**
+ * H5 heading - Use for small section headings.
+ * Renders as h5 tag with text-xs md:text-sm.
+ */
 const H5 = React.forwardRef<HTMLHeadingElement, HeadingProps>(
 	({ className, align, ...props }, ref) => {
 		return React.createElement('h5', {
@@ -186,6 +226,10 @@ const H5 = React.forwardRef<HTMLHeadingElement, HeadingProps>(
 );
 H5.displayName = 'H5';
 
+/**
+ * H6 heading - Use for the smallest section headings.
+ * Renders as h6 tag with text-xs.
+ */
 const H6 = React.forwardRef<HTMLHeadingElement, HeadingProps>(
 	({ className, align, ...props }, ref) => {
 		return React.createElement('h6', {
@@ -445,6 +489,7 @@ SectionHeader.displayName = 'SectionHeader';
 export {
 	Blockquote,
 	Code,
+	Display,
 	H1,
 	H2,
 	H3,

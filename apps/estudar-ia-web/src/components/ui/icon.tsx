@@ -40,11 +40,22 @@ import {
 	BookOpen,
 	Brain,
 	Check,
+	CheckCircle,
+	ChevronRight,
 	Circle,
+	Eye,
+	EyeOff,
+	GraduationCap,
+	Info,
+	Loader2,
 	type LucideIcon,
+	Monitor,
+	Moon,
 	RefreshCw,
 	Smile,
 	Sparkles,
+	Sun,
+	SunMoon,
 	Target,
 } from 'lucide-react';
 import * as React from 'react';
@@ -126,7 +137,7 @@ Icon.displayName = 'Icon';
 
 /**
  * BrainIcon - AI/Intelligence icon
- * Used for: App logo, AI features, intelligent hints
+ * Used for: AI features, intelligent hints
  */
 export interface BrainIconProps
 	extends Omit<IconProps, 'icon'>,
@@ -162,6 +173,20 @@ const TargetIcon = React.forwardRef<SVGSVGElement, TargetIconProps>(
 	(props, ref) => <Icon ref={ref} icon={Target} {...props} />,
 );
 TargetIcon.displayName = 'TargetIcon';
+
+/**
+ * GraduationCapIcon - Education/Academic icon
+ * Used for: App logo
+ */
+export interface GraduationCapIconProps
+	extends Omit<IconProps, 'icon'>,
+		VariantProps<typeof iconVariants> {}
+
+const GraduationCapIcon = React.forwardRef<
+	SVGSVGElement,
+	GraduationCapIconProps
+>((props, ref) => <Icon ref={ref} icon={GraduationCap} {...props} />);
+GraduationCapIcon.displayName = 'GraduationCapIcon';
 
 /**
  * SparklesIcon - New/Highlight icon
@@ -241,6 +266,136 @@ const CheckIcon = React.forwardRef<SVGSVGElement, CheckIconProps>(
 );
 CheckIcon.displayName = 'CheckIcon';
 
+/**
+ * CheckCircleIcon - Check with circle/Success icon
+ * Used for: Success states, completed items, validation passed
+ */
+export interface CheckCircleIconProps
+	extends Omit<IconProps, 'icon'>,
+		VariantProps<typeof iconVariants> {}
+
+const CheckCircleIcon = React.forwardRef<SVGSVGElement, CheckCircleIconProps>(
+	(props, ref) => <Icon ref={ref} icon={CheckCircle} {...props} />,
+);
+CheckCircleIcon.displayName = 'CheckCircleIcon';
+
+/**
+ * SunIcon - Light theme icon
+ * Used for: Light theme toggle, brightness controls
+ */
+export interface SunIconProps
+	extends Omit<IconProps, 'icon'>,
+		VariantProps<typeof iconVariants> {}
+
+const SunIcon = React.forwardRef<SVGSVGElement, SunIconProps>((props, ref) => (
+	<Icon ref={ref} icon={Sun} {...props} />
+));
+SunIcon.displayName = 'SunIcon';
+
+/**
+ * MoonIcon - Dark theme icon
+ * Used for: Dark theme toggle, night mode
+ */
+export interface MoonIconProps
+	extends Omit<IconProps, 'icon'>,
+		VariantProps<typeof iconVariants> {}
+
+const MoonIcon = React.forwardRef<SVGSVGElement, MoonIconProps>(
+	(props, ref) => <Icon ref={ref} icon={Moon} {...props} />,
+);
+MoonIcon.displayName = 'MoonIcon';
+
+/**
+ * MonitorIcon - System theme icon
+ * Used for: System theme toggle, device preferences
+ */
+export interface MonitorIconProps
+	extends Omit<IconProps, 'icon'>,
+		VariantProps<typeof iconVariants> {}
+
+const MonitorIcon = React.forwardRef<SVGSVGElement, MonitorIconProps>(
+	(props, ref) => <Icon ref={ref} icon={Monitor} {...props} />,
+);
+MonitorIcon.displayName = 'MonitorIcon';
+
+/**
+ * SunMoonIcon - Theme toggle icon
+ * Used for: Theme switcher button, combined light/dark indicator
+ */
+export interface SunMoonIconProps
+	extends Omit<IconProps, 'icon'>,
+		VariantProps<typeof iconVariants> {}
+
+const SunMoonIcon = React.forwardRef<SVGSVGElement, SunMoonIconProps>(
+	(props, ref) => <Icon ref={ref} icon={SunMoon} {...props} />,
+);
+SunMoonIcon.displayName = 'SunMoonIcon';
+
+/**
+ * ChevronRightIcon - Right arrow/Navigation icon
+ * Used for: Dropdown menus, navigation, submenu indicators
+ */
+export interface ChevronRightIconProps
+	extends Omit<IconProps, 'icon'>,
+		VariantProps<typeof iconVariants> {}
+
+const ChevronRightIcon = React.forwardRef<SVGSVGElement, ChevronRightIconProps>(
+	(props, ref) => <Icon ref={ref} icon={ChevronRight} {...props} />,
+);
+ChevronRightIcon.displayName = 'ChevronRightIcon';
+
+/**
+ * Loader2Icon - Loading spinner icon
+ * Used for: Loading states, processing indicators, async operations
+ */
+export interface Loader2IconProps
+	extends Omit<IconProps, 'icon'>,
+		VariantProps<typeof iconVariants> {}
+
+const Loader2Icon = React.forwardRef<SVGSVGElement, Loader2IconProps>(
+	(props, ref) => <Icon ref={ref} icon={Loader2} {...props} />,
+);
+Loader2Icon.displayName = 'Loader2Icon';
+
+/**
+ * InfoIcon - Information icon
+ * Used for: Info messages, help text, informational alerts
+ */
+export interface InfoIconProps
+	extends Omit<IconProps, 'icon'>,
+		VariantProps<typeof iconVariants> {}
+
+const InfoIcon = React.forwardRef<SVGSVGElement, InfoIconProps>(
+	(props, ref) => <Icon ref={ref} icon={Info} {...props} />,
+);
+InfoIcon.displayName = 'InfoIcon';
+
+/**
+ * EyeIcon - Show/Visible icon
+ * Used for: Show password, visibility toggle, reveal content
+ */
+export interface EyeIconProps
+	extends Omit<IconProps, 'icon'>,
+		VariantProps<typeof iconVariants> {}
+
+const EyeIcon = React.forwardRef<SVGSVGElement, EyeIconProps>((props, ref) => (
+	<Icon ref={ref} icon={Eye} {...props} />
+));
+EyeIcon.displayName = 'EyeIcon';
+
+/**
+ * EyeOffIcon - Hide/Hidden icon
+ * Used for: Hide password, visibility toggle, conceal content
+ */
+export interface EyeOffIconProps
+	extends Omit<IconProps, 'icon'>,
+		VariantProps<typeof iconVariants> {}
+
+const EyeOffIcon = React.forwardRef<SVGSVGElement, EyeOffIconProps>(
+	(props, ref) => <Icon ref={ref} icon={EyeOff} {...props} />,
+);
+EyeOffIcon.displayName = 'EyeOffIcon';
+
 // ============================================================================
 // Exports
 // ============================================================================
@@ -249,12 +404,23 @@ export {
 	AlertCircleIcon,
 	BookOpenIcon,
 	BrainIcon,
+	CheckCircleIcon,
 	CheckIcon,
+	ChevronRightIcon,
 	CircleIcon,
+	EyeIcon,
+	EyeOffIcon,
+	GraduationCapIcon,
 	Icon,
+	InfoIcon,
+	Loader2Icon,
+	MonitorIcon,
+	MoonIcon,
 	RefreshCwIcon,
 	SmileIcon,
 	SparklesIcon,
+	SunIcon,
+	SunMoonIcon,
 	TargetIcon,
 	iconVariants,
 };

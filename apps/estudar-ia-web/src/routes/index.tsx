@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { useReducer, useState } from 'react';
 import { ExamsList, SubjectsList } from '@/components/home';
-import { AppHeader, FeatureCard, HeroSection } from '@/components/shared';
+import { FeatureCard, HeroSection } from '@/components/shared';
 import { Button } from '@/components/ui/button';
 import {
 	BookOpenIcon,
@@ -9,7 +9,7 @@ import {
 	SparklesIcon,
 	TargetIcon,
 } from '@/components/ui/icon';
-import { H2 } from '@/components/ui/typography';
+import { H1 } from '@/components/ui/typography';
 import { translations } from '@/locales';
 import { getExamsFn } from '@/server/functions/exams';
 
@@ -34,8 +34,6 @@ function HomePage() {
 
 	return (
 		<div className="min-h-screen bg-background">
-			<AppHeader />
-
 			<HeroSection
 				badge={{
 					icon: <SparklesIcon size="xs" />,
@@ -81,9 +79,9 @@ function HomePage() {
 			<section className="border-border border-t bg-muted/30 py-16">
 				<div className="container mx-auto px-4">
 					<div className="mx-auto max-w-4xl">
-						<H2 className="mb-12 text-center">
+						<H1 className="mb-12 text-center">
 							{translations.home.features.title}
-						</H2>
+						</H1>
 						<div className="grid gap-8 md:grid-cols-3">
 							<FeatureCard
 								icon={<BrainIcon size="xl" className="text-primary" />}

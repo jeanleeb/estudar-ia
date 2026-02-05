@@ -1,7 +1,12 @@
+import { Link } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
-import { BrainIcon } from '@/components/ui/icon';
+import { LinkButton } from '@/components/ui/link-button';
 import { Large } from '@/components/ui/typography';
+import { useSession } from '@/hooks';
 import { translations } from '@/locales';
+import { AppLogo } from './app-logo';
+import { ThemeToggle } from './theme-toggle';
+import { UserProfileButton } from './user-profile-button';
 
 export interface AppHeaderProps {
 	/**
@@ -32,7 +37,7 @@ export interface AppHeaderProps {
  * Provides a consistent header across the application with:
  * - App logo and name
  * - Navigation menu (responsive - hidden on mobile)
- * - Action button (typically sign in/profile)
+ * - Action button (automatically shows UserProfileButton when authenticated, or sign in button when not)
  *
  * @example
  * ```tsx
@@ -42,7 +47,7 @@ export interface AppHeaderProps {
  * @example
  * ```tsx
  * <AppHeader
- *   actionButton={<Button>Profile</Button>}
+ *   actionButton={<CustomButton />}
  *   showNavigation={false}
  * />
  * ```
@@ -54,6 +59,8 @@ export function AppHeader({
 	actionButton,
 	logo,
 }: AppHeaderProps) {
+	const { isAuthenticated } = useSession();
+
 	const defaultNavigationItems = (
 		<>
 			<Button variant="ghost" size="sm">
@@ -68,34 +75,35 @@ export function AppHeader({
 		</>
 	);
 
-	const defaultActionButton = (
-		<Button size="sm">{translations.common.navigation.signIn}</Button>
+	const defaultActionButton = isAuthenticated ? (
+		<UserProfileButton />
+	) : (
+		<LinkButton to="/login" size="sm">
+			{translations.common.navigation.signIn}
+		</LinkButton>
 	);
 
-	const defaultLogo = (
-		<div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary">
-			<BrainIcon size="lg" className="text-primary-foreground" />
-		</div>
-	);
+	const defaultLogo = <AppLogo size="lg" />;
 
 	return (
 		<header className="border-border border-b bg-card">
-			<div className="container mx-auto flex items-center justify-between px-4 py-4">
-				{/* Logo and App Name */}
-				<div className="flex items-center gap-2">
+			<div className="container mx-auto grid grid-cols-[1fr_auto_1fr] items-center p-4">
+				<Link to="/" className="flex items-center gap-2">
 					{logo ?? defaultLogo}
 					<Large className="mb-0">{appName}</Large>
-				</div>
+				</Link>
 
-				{/* Navigation - Hidden on mobile */}
 				{showNavigation && (
-					<nav className="hidden gap-6 md:flex">
+					<nav className="hidden flex-1 justify-center gap-6 md:flex">
 						{navigationItems ?? defaultNavigationItems}
 					</nav>
 				)}
 
-				{/* Action Button */}
-				{actionButton ?? defaultActionButton}
+				<div className="ml-auto flex min-w-48 items-center">
+					<ThemeToggle />
+					<div className="w-2" />
+					{actionButton ?? defaultActionButton}
+				</div>
 			</div>
 		</header>
 	);
