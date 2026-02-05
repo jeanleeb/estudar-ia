@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from '@tanstack/react-query';
-import { createFileRoute, Link } from '@tanstack/react-router';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import type { z } from 'zod';
@@ -25,6 +25,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
 import { Small } from '@/components/ui/typography';
+import { SESSION_QUERY_KEY } from '@/hooks';
 import { cn } from '@/lib/utils';
 import { translations } from '@/locales';
 import { signUpSchema, validatePasswordRule } from '@/model/auth.validation';
@@ -69,6 +70,8 @@ const passwordRules: PasswordRule[] = [
 function RouteComponent() {
 	const [showPassword, setShowPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+	const queryClient = useQueryClient();
+	const navigate = useNavigate();
 
 	const {
 		mutate: signUp,
@@ -76,6 +79,11 @@ function RouteComponent() {
 		error,
 	} = useMutation({
 		mutationFn: signUpFn,
+		onSuccess: async () => {
+			await queryClient.invalidateQueries({ queryKey: SESSION_QUERY_KEY });
+			await queryClient.refetchQueries({ queryKey: SESSION_QUERY_KEY });
+			navigate({ to: '/' });
+		},
 	});
 
 	const form = useForm<SignUpFormValues>({

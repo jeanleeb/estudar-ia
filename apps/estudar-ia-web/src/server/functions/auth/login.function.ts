@@ -1,4 +1,3 @@
-import { redirect } from '@tanstack/react-router';
 import { createServerFn } from '@tanstack/react-start';
 import { type LoginInput, loginSchema } from '@/model/auth.validation';
 import { AuthDbDataSource } from '@/server/data/db';
@@ -24,5 +23,5 @@ export const loginFn = createServerFn({ method: 'POST' })
 			},
 		});
 
-		throw redirect({ to: '/' });
+		return { success: true };
 	});

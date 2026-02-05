@@ -40,9 +40,9 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 		],
 	}),
 
-	// Prefetch session before any route loads to prevent UI flash
+	// Ensure session data is fresh before any route loads
 	beforeLoad: async ({ context }) => {
-		await context.queryClient.prefetchQuery({
+		await context.queryClient.ensureQueryData({
 			queryKey: SESSION_QUERY_KEY,
 			queryFn: () => getSessionFn(),
 		});

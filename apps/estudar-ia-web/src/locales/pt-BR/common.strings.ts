@@ -16,7 +16,15 @@ export const common = {
 		continue: 'Continuar',
 		back: 'Voltar',
 	},
+	user: {
+		profile: 'Meu Perfil',
+		myProgress: 'Meu Progresso',
+		settings: 'Configurações',
+		logout: 'Sair',
+		defaultName: 'Usuário',
+	},
 	theme: {
+		label: 'Tema',
 		selectTheme: 'Selecionar tema',
 		light: 'Claro',
 		dark: 'Escuro',

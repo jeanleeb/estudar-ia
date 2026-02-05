@@ -18,7 +18,7 @@ export function useSession() {
 		queryKey: SESSION_QUERY_KEY,
 		queryFn: () => getSessionFn(),
 		retry: 1,
-		refetchOnMount: false,
+		refetchOnMount: true,
 		refetchOnWindowFocus: true,
 		refetchOnReconnect: true,
 	});

@@ -6,6 +6,7 @@ import { useSession } from '@/hooks';
 import { translations } from '@/locales';
 import { AppLogo } from './app-logo';
 import { ThemeToggle } from './theme-toggle';
+import { UserProfileButton } from './user-profile-button';
 
 export interface AppHeaderProps {
 	/**
@@ -75,32 +76,32 @@ export function AppHeader({
 	);
 
 	const defaultActionButton = isAuthenticated ? (
-		<div className="size-4 rounded-full bg-primary" />
+		<UserProfileButton />
 	) : (
 		<LinkButton to="/login" size="sm">
 			{translations.common.navigation.signIn}
 		</LinkButton>
 	);
 
-	const defaultLogo = <AppLogo size="sm" />;
+	const defaultLogo = <AppLogo size="lg" />;
 
 	return (
 		<header className="border-border border-b bg-card">
-			<div className="container mx-auto flex items-center justify-between px-4 py-4">
+			<div className="container mx-auto grid grid-cols-[1fr_auto_1fr] items-center p-4">
 				<Link to="/" className="flex items-center gap-2">
 					{logo ?? defaultLogo}
 					<Large className="mb-0">{appName}</Large>
 				</Link>
 
 				{showNavigation && (
-					<nav className="hidden gap-6 md:flex">
+					<nav className="hidden flex-1 justify-center gap-6 md:flex">
 						{navigationItems ?? defaultNavigationItems}
 					</nav>
 				)}
 
-				<div className="flex items-center gap-2">
+				<div className="ml-auto flex min-w-48 items-center">
 					<ThemeToggle />
-
+					<div className="w-2" />
 					{actionButton ?? defaultActionButton}
 				</div>
 			</div>

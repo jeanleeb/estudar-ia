@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from '@tanstack/react-query';
-import { createFileRoute, Link } from '@tanstack/react-router';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -25,6 +25,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Spinner } from '@/components/ui/spinner';
 import { Small } from '@/components/ui/typography';
+import { SESSION_QUERY_KEY } from '@/hooks';
 import { translations } from '@/locales';
 import { loginSchema } from '@/model/auth.validation';
 import { loginFn } from '@/server/functions/auth';
@@ -39,6 +40,8 @@ type LoginFormValues = z.infer<typeof loginSchema> & { rememberMe: boolean };
 
 function RouteComponent() {
 	const [showPassword, setShowPassword] = useState(false);
+	const queryClient = useQueryClient();
+	const navigate = useNavigate();
 
 	const {
 		mutate: login,
@@ -46,6 +49,12 @@ function RouteComponent() {
 		error,
 	} = useMutation({
 		mutationFn: loginFn,
+		onSuccess: async () => {
+			// Invalidate and immediately refetch session to ensure fresh data
+			await queryClient.invalidateQueries({ queryKey: SESSION_QUERY_KEY });
+			await queryClient.refetchQueries({ queryKey: SESSION_QUERY_KEY });
+			navigate({ to: '/' });
+		},
 	});
 
 	const returnUrl = '';
