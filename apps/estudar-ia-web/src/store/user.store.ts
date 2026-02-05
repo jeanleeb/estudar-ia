@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { User } from '@/model/auth.model';
+import type { User } from '@/model/auth/auth.model';
 
 const USER_STORE_KEY = 'user-store';
 

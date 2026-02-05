@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
-import type { Session } from '@/model/auth.model';
+import type { Session } from '@/model/auth/auth.model';
 import { getSessionFn } from '@/server/functions/auth';
 import { useUserStore } from '@/store/user.store';
 
