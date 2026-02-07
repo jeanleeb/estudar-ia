@@ -4,7 +4,7 @@ from pydantic import ValidationError
 from ai_tutor.schemas.agent.solution import AgentSolution
 
 
-def test_agent_solution_rejects_unknown_dependency():
+def test_agent_solution_rejects_unknown_dependency() -> None:
     data = {
         "steps": [
             {"id": 1, "title": "A", "explanation": "x", "depends_on": []},
@@ -22,7 +22,7 @@ def test_agent_solution_rejects_unknown_dependency():
     assert "Step 3 depends on an unknown step: 7" in errors[0]["msg"]
 
 
-def test_agent_solution_rejects_self_dependency():
+def test_agent_solution_rejects_self_dependency() -> None:
     data = {
         "steps": [
             {"id": 1, "title": "A", "explanation": "x", "depends_on": [1]},
@@ -38,7 +38,7 @@ def test_agent_solution_rejects_self_dependency():
     assert "Step 1 cannot depend on itself" in errors[0]["msg"]
 
 
-def test_agent_solution_rejects_duplicate_step_ids():
+def test_agent_solution_rejects_duplicate_step_ids() -> None:
     data = {
         "steps": [
             {"id": 1, "title": "A", "explanation": "x", "depends_on": []},
@@ -58,7 +58,7 @@ def test_agent_solution_rejects_duplicate_step_ids():
     assert "Duplicate step ids: [2, 3]" in errors[0]["msg"]
 
 
-def test_agent_solution_accepts_valid_dependencies():
+def test_agent_solution_accepts_valid_dependencies() -> None:
     data = {
         "steps": [
             {"id": 1, "title": "A", "explanation": "x", "depends_on": []},

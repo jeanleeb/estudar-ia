@@ -54,7 +54,7 @@ if [ $python_total -eq 1 ]; then
   current=$((current + 1))
   echo "[$current/$total] Checking apps/ai-tutor-service..."
 
-  if nx run ai-tutor-service:typecheck; then
+  if nx run ai-tutor-service:type-check; then
     echo "✅ apps/ai-tutor-service passed"
   else
     echo "❌ apps/ai-tutor-service failed"

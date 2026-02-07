@@ -1,5 +1,30 @@
 {
   "include": ["src", "tests"],
-  "executionEnvironments": [{ "root": "src" }],
-  "typeCheckingMode": "off",
+  "exclude": [".venv", "**/__pycache__"],
+
+  "pythonVersion": "3.11",
+  "typeCheckingMode": "strict",
+
+  "executionEnvironments": [
+    {
+      "root": "src",
+    },
+    {
+      "root": "tests",
+      "extraPaths": ["src"],
+      "reportUnknownVariableType": "none",
+      "reportUnknownMemberType": "none",
+      "reportUnknownArgumentType": "warning",
+      "reportUnknownParameterType": "warning",
+      "reportMissingTypeStubs": "none",
+    },
+  ],
+
+  "reportUnusedImport": "error",
+  "reportUnusedVariable": "error",
+  "reportUnusedFunction": "error",
+
+  "reportUnnecessaryTypeIgnoreComment": "error",
+
+  "reportMissingTypeStubs": "warning",
 }
