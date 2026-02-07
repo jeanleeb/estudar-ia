@@ -10,6 +10,7 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Small } from '@/components/ui/typography';
 import { SESSION_QUERY_KEY, useSession } from '@/hooks';
 import { translations } from '@/locales';
 import { logoutFn } from '@/server/functions/auth';
@@ -87,10 +88,10 @@ export function UserProfileButton() {
 						</AvatarFallback>
 					</Avatar>
 					<div className="flex flex-col space-y-0.5">
-						<p className="font-medium text-sm">
+						<Small className="font-medium text-foreground">
 							{userName || translations.common.user.defaultName}
-						</p>
-						<p className="text-muted-foreground text-xs">{userEmail}</p>
+						</Small>
+						<Small className="text-xs">{userEmail}</Small>
 					</div>
 				</div>
 				<DropdownMenuSeparator />

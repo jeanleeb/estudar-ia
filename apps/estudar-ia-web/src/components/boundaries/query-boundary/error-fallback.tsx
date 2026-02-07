@@ -58,7 +58,7 @@ export interface ErrorFallbackProps {
  * @example With custom content
  * ```tsx
  * <ErrorFallback error={error} onReset={reset}>
- *   <p>Custom error details here</p>
+ *   <Small>Custom error details here</Small>
  * </ErrorFallback>
  * ```
  */

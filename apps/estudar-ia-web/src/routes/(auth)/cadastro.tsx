@@ -190,9 +190,9 @@ function RouteComponent() {
 
 					{password && (
 						<div className="space-y-2 rounded-md border border-border bg-muted/50 p-3">
-							<p className="font-medium text-muted-foreground text-sm">
+							<Small className="font-medium">
 								{strings.passwordRules.title}
-							</p>
+							</Small>
 							<ul className="space-y-1.5">
 								{passwordRules.map((rule, index) => {
 									const isValid = rule.validator(password);

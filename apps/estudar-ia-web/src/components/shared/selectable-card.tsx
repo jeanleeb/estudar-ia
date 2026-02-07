@@ -43,8 +43,8 @@ export interface SelectableCardProps {
  *   onSelect={() => setSelected(true)}
  *   selectedIndicator={<CheckIcon />}
  * >
- *   <h3>Option 1</h3>
- *   <p>Description</p>
+ *   <H3>Option 1</H3>
+ *   <Small>Description</Small>
  * </SelectableCard>
  * ```
  */

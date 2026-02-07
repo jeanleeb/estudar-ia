@@ -12,3 +12,10 @@
 - For Nx plugin best practices, check `node_modules/@nx/<plugin>/PLUGIN.md`. Not all plugins have this file - proceed without it if unavailable.
 
 <!-- nx configuration end-->
+
+## Instruções Operacionais (Projeto)
+
+- Sempre usar a versão do Node definida em `.nvmrc` antes de executar comandos (`nvm use`).
+- Para tarefas padrão (build, test, lint, type-check, serve), preferir targets do Nx.
+- Quando não existir target Nx apropriado para a ação, usar scripts do `package.json`.
+- Em caso de regras específicas por projeto, seguir o `AGENTS.md` local do app/lib em foco.
