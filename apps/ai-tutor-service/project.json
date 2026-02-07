@@ -31,7 +31,7 @@
         "command": "uv run ruff format ."
       }
     },
-    "typecheck": {
+    "type-check": {
       "executor": "nx:run-commands",
       "options": {
         "cwd": "apps/ai-tutor-service",
