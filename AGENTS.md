@@ -17,5 +17,20 @@
 
 - Sempre usar a versão do Node definida em `.nvmrc` antes de executar comandos (`nvm use`).
 - Para tarefas padrão (build, test, lint, type-check, serve), preferir targets do Nx.
+- Neste workspace, ao executar Nx, usar: `env NX_DAEMON=false NX_ISOLATE_PLUGINS=false nx ...`.
+- Para targets Nx que executam ferramentas Python/`uv` (ex.: `ai-tutor-service`), usar também `UV_CACHE_DIR=/Users/taqtile/projects/personal/estudar-ia/.uv-cache`.
 - Quando não existir target Nx apropriado para a ação, usar scripts do `package.json`.
 - Em caso de regras específicas por projeto, seguir o `AGENTS.md` local do app/lib em foco.
+
+## Diretrizes para apps Python no monorepo
+
+- O app Python atual é `ai-tutor-service` e deve ser operado preferencialmente via Nx:
+  - `nx run ai-tutor-service:run`
+  - `nx run ai-tutor-service:test`
+  - `nx run ai-tutor-service:lint`
+  - `nx run ai-tutor-service:type-check`
+  - `nx run ai-tutor-service:format`
+  - `nx run ai-tutor-service:check`
+- Quando a ação não tiver target Nx, executar a ferramenta Python local do app (`uv`) em `apps/ai-tutor-service`.
+- Evitar `pip install` global e evitar criar fluxo paralelo fora de `uv`.
+- Alterações no `ai-tutor-service` devem seguir o `AGENTS.md` local em `apps/ai-tutor-service/AGENTS.md`.
