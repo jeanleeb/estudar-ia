@@ -50,16 +50,16 @@ export function AuthPageWrapper({
 					)}
 				</Card>
 
-				{/*<p className="mt-8 text-center text-muted-foreground text-xs">
-				By signing in, you agree to our{' '}
-				<Link to="/terms" className="text-primary hover:underline">
-					Terms of Service
-				</Link>{' '}
-				and{' '}
-				<Link to="/privacy" className="text-primary hover:underline">
-					Privacy Policy
-				</Link>
-			</p>*/}
+				{/*<Text className="mt-8 text-center" variant="subtle">
+					By signing in, you agree to our{' '}
+					<Link to="/terms" className="text-primary hover:underline">
+						Terms of Service
+					</Link>{' '}
+					and{' '}
+					<Link to="/privacy" className="text-primary hover:underline">
+						Privacy Policy
+					</Link>
+				</Text>*/}
 			</div>
 		</div>
 	);
