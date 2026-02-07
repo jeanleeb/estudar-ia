@@ -1,7 +1,6 @@
 {
   "name": "estudar-ia",
   "version": "0.0.0",
-  "license": "MIT",
   "scripts": {
     "dev": "nx serve estudar-ia-web --port 3000",
     "build": "nx vite:build",
