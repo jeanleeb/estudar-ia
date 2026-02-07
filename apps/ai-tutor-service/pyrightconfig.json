@@ -5,6 +5,10 @@
   "pythonVersion": "3.11",
   "typeCheckingMode": "strict",
 
+  "strict": ["src"],
+
+  "allowedUntypedLibraries": ["dspy"],
+
   "executionEnvironments": [
     {
       "root": "src",
@@ -12,19 +16,17 @@
     {
       "root": "tests",
       "extraPaths": ["src"],
-      "reportUnknownVariableType": "none",
-      "reportUnknownMemberType": "none",
-      "reportUnknownArgumentType": "warning",
-      "reportUnknownParameterType": "warning",
-      "reportMissingTypeStubs": "none",
+      "reportUntypedFunctionDecorator": "none",
     },
   ],
+
+  "reportUnknownVariableType": "none",
+  "reportUnknownMemberType": "none",
+  "reportMissingTypeStubs": "none",
 
   "reportUnusedImport": "error",
   "reportUnusedVariable": "error",
   "reportUnusedFunction": "error",
 
   "reportUnnecessaryTypeIgnoreComment": "error",
-
-  "reportMissingTypeStubs": "warning",
 }
