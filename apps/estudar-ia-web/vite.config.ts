@@ -13,11 +13,6 @@ const config = defineConfig({
 			'@': fileURLToPath(new URL('./src', import.meta.url)),
 		},
 	},
-	server: {
-		host: true,
-		port: 3000,
-		allowedHosts: ['.vercel.run', 'localhost'],
-	},
 	plugins: [
 		devtools(),
 		netlify(),
