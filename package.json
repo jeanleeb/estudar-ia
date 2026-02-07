@@ -2,13 +2,22 @@
   "name": "estudar-ia",
   "version": "0.0.0",
   "scripts": {
-    "dev": "nx serve estudar-ia-web --port 3000",
-    "build": "nx vite:build",
-    "preview": "nx vite:preview",
-    "test": "nx test estudar-ia-web",
-    "biome": "biome check --fix --unsafe ./apps",
+    "dev:web": "nx serve estudar-ia-web --port 3000",
+    "dev:ai": "nx run ai-tutor-service:run",
+    "dev": "pnpm dev:web",
+
+    "build:web": "nx estudar-ia-web:vite:build",
+    "preview:web": "nx run estudar-ia-web:vite:preview",
+
+    "test:web": "nx test estudar-ia-web",
+    "test:affected": "nx affected -t test",
+    "test": "nx run-many -t test",
+
+    "biome": "biome check --fix --unsafe ./apps ./libs",
+    "lint": "nx run-many -t lint",
     "type-check": "bash scripts/type-check-all.sh",
-    "lint": "pnpm biome && pnpm type-check",
+    "check": "nx run-many -t check",
+
     "db:types": "dotenv -e .env.local -- sh -c 'supabase gen types typescript --project-id $SUPABASE_PROJECT_ID > libs/domain/src/entities/database.types.ts'",
     "nx:reset": "nx reset"
   },

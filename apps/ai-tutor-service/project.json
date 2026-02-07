@@ -1,0 +1,50 @@
+{
+  "name": "ai-tutor-service",
+  "projectType": "application",
+  "sourceRoot": "apps/ai-tutor-service/src",
+  "targets": {
+    "run": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/ai-tutor-service",
+        "command": "uv run python -m ai_tutor.cli"
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/ai-tutor-service",
+        "command": "uv run pytest"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/ai-tutor-service",
+        "command": "uv run ruff check ."
+      }
+    },
+    "format": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/ai-tutor-service",
+        "command": "uv run ruff format ."
+      }
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/ai-tutor-service",
+        "command": "uv run mypy"
+      }
+    },
+    "check": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["format", "lint", "type-check", "test"],
+      "options": {
+        "cwd": "apps/ai-tutor-service",
+        "commands": [{ "command": "echo \"ai-tutor-service check OK\""}]
+      }
+    }
+  }
+}
