@@ -45,11 +45,35 @@
       },
       "language_servers": ["tailwindcss-intellisense-css", "biome"],
     },
+    "Python": {
+      "language_servers": ["basedpyright", "ty", "ruff"],
+      "format_on_save": "on",
+      "formatter": [
+        {
+          "language_server": {
+            "name": "ruff",
+          },
+        },
+      ],
+    },
   },
   "lsp": {
     "biome": {
       "settings": {
         "organize_imports_on_save": true,
+      },
+    },
+    "basedpyright": {
+      "settings": {
+        "python": {
+          "analysis": {
+            "autoImportCompletions": true,
+            "extraPaths": [
+              "apps/ai-tutor-service/src",
+              "apps/ai-tutor-service/tests",
+            ],
+          },
+        },
       },
     },
     "tailwindcss-language-server": {
