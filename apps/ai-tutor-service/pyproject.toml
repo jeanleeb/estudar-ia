@@ -1,0 +1,25 @@
+[project]
+name = "ai-tutor-service"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11.8"
+dependencies = [
+    "pydantic>=2.12.5",
+    "pytest>=9.0.2",
+]
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests"]
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = ["E501"]
+
+[dependency-groups]
+dev = [
+    "basedpyright>=1.37.4",
+    "ruff>=0.15.0",
+]

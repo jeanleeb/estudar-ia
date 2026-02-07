@@ -43,7 +43,7 @@
         "devTargetName": "vite:dev",
         "previewTargetName": "vite:preview",
         "serveStaticTargetName": "serve-static",
-        "typecheckTargetName": "typecheck",
+        "typecheckTargetName": "type-check",
         "buildDepsTargetName": "build-deps",
         "watchDepsTargetName": "watch-deps"
       }
