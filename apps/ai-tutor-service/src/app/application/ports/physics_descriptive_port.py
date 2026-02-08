@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Protocol
 
-from domain.models.physics import PhysicsDescriptiveQuestion, PhysicsDescriptiveSolution
+from app.domain.models.physics import PhysicsDescriptiveQuestion, PhysicsDescriptiveSolution
 
 
 class PhysicsDescriptivePort(Protocol):

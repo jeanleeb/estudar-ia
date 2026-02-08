@@ -5,6 +5,7 @@ dist-ssr
 *.local
 count.txt
 .env
+.uv-cache
 .nitro
 .tanstack
 .wrangler
@@ -22,3 +23,7 @@ todos.json
 vite.config.*.timestamp*
 vitest.config.*.timestamp*
 .nx/installation
+
+# ai-tutor-service local artifacts
+apps/ai-tutor-service/.artifacts
+apps/ai-tutor-service/.venv

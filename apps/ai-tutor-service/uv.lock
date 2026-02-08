@@ -5,7 +5,7 @@ requires-python = ">=3.11.8"
 [[package]]
 name = "ai-tutor-service"
 version = "0.1.0"
-source = { virtual = "." }
+source = { editable = "." }
 dependencies = [
     { name = "dspy" },
     { name = "pydantic" },

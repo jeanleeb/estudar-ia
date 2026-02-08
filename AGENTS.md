@@ -31,6 +31,7 @@
   - `nx run ai-tutor-service:type-check`
   - `nx run ai-tutor-service:format`
   - `nx run ai-tutor-service:check`
+- Sempre executar o código Python **no ambiente virtual do `uv`** (ou seja, via `uv run ...`), evitando `python ...` direto fora do `uv`.
 - Quando a ação não tiver target Nx, executar a ferramenta Python local do app (`uv`) em `apps/ai-tutor-service`.
 - Evitar `pip install` global e evitar criar fluxo paralelo fora de `uv`.
 - Alterações no `ai-tutor-service` devem seguir o `AGENTS.md` local em `apps/ai-tutor-service/AGENTS.md`.

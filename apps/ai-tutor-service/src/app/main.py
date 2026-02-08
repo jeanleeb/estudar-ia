@@ -1,5 +1,5 @@
-from core.settings import get_settings
-from data.agents.dspy_config import configure_dspy
+from app.core.settings import get_settings
+from app.data.dspy.dspy_config import configure_dspy
 
 
 def main() -> None:

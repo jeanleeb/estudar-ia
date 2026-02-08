@@ -8,7 +8,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     llm_api_key: SecretStr = Field(alias="LLM_API_KEY")
-    llm_name: str = Field(default="gemini/gemini-3-flash-preview", alias="LLM_NAME")
+    llm_name: str = Field(default="gemini/gemini-2.5-flash", alias="LLM_NAME")
     model_config = SettingsConfigDict(env_file=".env", env_prefix="")
 
 
