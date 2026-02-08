@@ -1,6 +1,6 @@
 import dspy
 
-from core.settings import Settings
+from app.core.settings import Settings
 
 _configured = False
 

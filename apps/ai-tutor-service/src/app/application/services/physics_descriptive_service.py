@@ -1,5 +1,5 @@
-from application.ports.physics_descriptive_port import PhysicsDescriptivePort
-from domain.models.physics import PhysicsDescriptiveQuestion, PhysicsDescriptiveSolution
+from app.application.ports.physics_descriptive_port import PhysicsDescriptivePort
+from app.domain.models.physics import PhysicsDescriptiveQuestion, PhysicsDescriptiveSolution
 
 
 class PhysicsDescriptiveService:

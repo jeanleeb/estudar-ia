@@ -1,7 +1,7 @@
 import pytest
 
-from application.services.physics_descriptive_service import PhysicsDescriptiveService
-from domain.models.physics import PhysicsDescriptiveQuestion, PhysicsDescriptiveSolution
+from app.application.services.physics_descriptive_service import PhysicsDescriptiveService
+from app.domain.models.physics import PhysicsDescriptiveQuestion, PhysicsDescriptiveSolution
 
 
 class FakePhysicsSolver:

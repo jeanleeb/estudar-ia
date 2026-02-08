@@ -7,7 +7,7 @@
       "executor": "nx:run-commands",
       "options": {
         "cwd": "apps/ai-tutor-service",
-        "command": "uv run python -m src.cli"
+        "command": "uv run ai-tutor-service"
       }
     },
     "test": {

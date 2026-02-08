@@ -4,9 +4,9 @@ from typing import Protocol, cast
 
 import dspy
 
-from application.ports.physics_descriptive_port import PhysicsDescriptivePort
-from application.signatures.physics_descriptive_signature import PhysicsDescriptiveSignature
-from domain.models.physics import PhysicsDescriptiveQuestion, PhysicsDescriptiveSolution
+from app.application.ports.physics_descriptive_port import PhysicsDescriptivePort
+from app.application.signatures.physics_descriptive_signature import PhysicsDescriptiveSignature
+from app.domain.models.physics import PhysicsDescriptiveQuestion, PhysicsDescriptiveSolution
 
 
 class PhysicsDescriptiveAgent(PhysicsDescriptivePort):

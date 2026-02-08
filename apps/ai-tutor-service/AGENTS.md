@@ -23,8 +23,9 @@ Quando houver conflito com o `AGENTS.md` da raiz, este arquivo prevalece para es
    - `nx run ai-tutor-service:type-check`
    - `nx run ai-tutor-service:format`
    - `nx run ai-tutor-service:check`
-2. Quando não houver target Nx para a tarefa, use `uv` no diretório `apps/ai-tutor-service`.
-3. Não usar `pip` global para fluxo de desenvolvimento do app.
+2. Sempre executar este app **no ambiente virtual do `uv`** (via `uv run ...`), evitando `python ...` direto fora do `uv`.
+3. Quando não houver target Nx para a tarefa, use `uv` no diretório `apps/ai-tutor-service`.
+4. Não usar `pip` global para fluxo de desenvolvimento do app.
 
 ## Convenções de arquitetura
 

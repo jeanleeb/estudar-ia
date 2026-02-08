@@ -1,7 +1,7 @@
 import pytest
 from pydantic import ValidationError
 
-from domain.models.physics import PhysicsDescriptiveSolution
+from app.domain.models.physics import PhysicsDescriptiveSolution
 
 
 def test_should_create_valid_solution():
