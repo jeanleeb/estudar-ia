@@ -38,9 +38,16 @@ Quando houver conflito com o `AGENTS.md` da raiz, este arquivo prevalece para es
 
 - Assinaturas DSPy ficam em `src/application/signatures`.
 - Agentes concretos ficam em `src/data/agents` e implementam portas de `src/application/ports`.
-- Configuração global do DSPy deve ficar centralizada em `src/data/agents/dspy_config.py`.
+- DSPy é um pilar do app para desenho, implementação e evolução de agentes.
+- Para qualquer sugestão ou implementação de agentes neste app, priorizar padrões alinhados a DSPy (assinaturas, métricas/eval e otimização orientada a dados).
+- Configuração global do DSPy deve ficar centralizada em `src/app/data/dspy/dspy_config.py`.
 - Evitar reconfigurar `dspy.configure(...)` em múltiplos pontos.
 - Saída estruturada do modelo deve ser validada por modelos de domínio (Pydantic) antes de retornar ao app.
+
+## Diretriz de Datasets para Eval
+
+- Antes de propor criação manual de datasets de avaliação, sempre buscar bases estruturadas existentes (por exemplo, BLUEX: `https://github.com/Portuguese-Benchmark-Datasets/BLUEX`).
+- Construção manual deve ser reservada para complementar campos faltantes do schema de eval (como tolerâncias, rubricas de reasoning e metadados específicos do projeto).
 
 ## Tipagem, lint e testes
 

@@ -35,3 +35,13 @@
 - Quando a ação não tiver target Nx, executar a ferramenta Python local do app (`uv`) em `apps/ai-tutor-service`.
 - Evitar `pip install` global e evitar criar fluxo paralelo fora de `uv`.
 - Alterações no `ai-tutor-service` devem seguir o `AGENTS.md` local em `apps/ai-tutor-service/AGENTS.md`.
+
+## Diretriz de Agentes (DSPy)
+
+- DSPy é um pilar do projeto para desenho, implementação e evolução de agentes.
+- Para qualquer sugestão ou implementação de agentes, priorizar abordagem e padrões alinhados a DSPy (assinaturas, métricas/eval e otimização orientada a dados).
+
+## Diretriz de Datasets para Eval
+
+- Antes de propor criação manual de datasets, sempre fazer busca ampla por bases estruturadas já existentes (por exemplo, BLUEX: `https://github.com/Portuguese-Benchmark-Datasets/BLUEX`).
+- A criação manual deve ser usada apenas para complementar campos faltantes do schema de eval (por exemplo, tolerâncias, rubricas de reasoning e metadados específicos do projeto).

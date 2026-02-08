@@ -5,6 +5,7 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 
+from app.domain.models.eval import EvalRunSummary
 from app.domain.models.physics import PhysicsDescriptiveQuestion, PhysicsDescriptiveSolution
 
 
@@ -28,3 +29,17 @@ class RunArtifact(BaseModel):
     raw_output: str | None = None
     validated_output: PhysicsDescriptiveSolution | None = None
     error: RunError | None = None
+
+
+class EvalRunArtifact(BaseModel):
+    format_version: Literal["eval_run_artifact.v1"] = Field(default="eval_run_artifact.v1")
+
+    trace_id: str = Field(min_length=1)
+    started_at: datetime
+    finished_at: datetime
+    duration_ms: int = Field(ge=0)
+
+    llm_name: str | None = None
+
+    dataset_path: str = Field(min_length=1)
+    run_summary: EvalRunSummary
