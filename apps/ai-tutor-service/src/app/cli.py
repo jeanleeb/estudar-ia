@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import argparse
 
-from app.cli.run_case import run_case
+from app.runner.run_case import run_case
 
 
 def _build_parser() -> argparse.ArgumentParser:

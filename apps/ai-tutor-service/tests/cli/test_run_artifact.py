@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from datetime import UTC, datetime
 
-from app.cli.run_artifact import RunArtifact
 from app.domain.models.physics import PhysicsDescriptiveQuestion, PhysicsDescriptiveSolution
+from app.runner.run_artifact import RunArtifact
 
 
 def test_run_artifact_serializes_to_json() -> None:

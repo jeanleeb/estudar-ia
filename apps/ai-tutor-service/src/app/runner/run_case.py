@@ -6,12 +6,12 @@ from datetime import UTC, datetime
 import dspy
 
 from app.application.services.physics_descriptive_service import PhysicsDescriptiveService
-from app.cli.artifact import default_artifacts_dir, extract_raw_output
-from app.cli.run_artifact import RunArtifact, RunError
 from app.core.settings import get_settings
 from app.data.agents.physics_descriptive_agent import PhysicsDescriptiveAgent
 from app.data.dspy.dspy_config import configure_dspy
 from app.domain.models.physics import PhysicsDescriptiveQuestion, PhysicsDescriptiveSolution
+from app.runner.artifact import default_artifacts_dir, extract_raw_output
+from app.runner.run_artifact import RunArtifact, RunError
 
 
 def _utcnow() -> datetime:
@@ -54,26 +54,42 @@ def run_case(*, agent: str, question: str, offline: bool, print_output: bool) ->
 
         validated_output = asyncio.run(_run_physics_descriptive(question))
         raw_output = extract_raw_output()
+
+        finished_at = _utcnow()
+        duration_ms = int((finished_at - started_at).total_seconds() * 1000)
+
+        artifact = RunArtifact(
+            trace_id=trace_id,
+            started_at=started_at,
+            finished_at=finished_at,
+            duration_ms=duration_ms,
+            agent=str(agent),
+            llm_name=llm_name,
+            input=PhysicsDescriptiveQuestion(text=str(question)),
+            raw_output=raw_output,
+            validated_output=validated_output,
+            error=run_error,
+        )
     except Exception as exc:  # noqa: BLE001 - want artifact even on failure
         raw_output = extract_raw_output()
         run_error = RunError(type=type(exc).__name__, message=str(exc) or repr(exc))
         traceback_str = traceback.format_exc()
-    finally:
-        finished_at = _utcnow()
 
-    duration_ms = int((finished_at - started_at).total_seconds() * 1000)
-    artifact = RunArtifact(
-        trace_id=trace_id,
-        started_at=started_at,
-        finished_at=finished_at,
-        duration_ms=duration_ms,
-        agent=str(agent),
-        llm_name=llm_name,
-        input=PhysicsDescriptiveQuestion(text=str(question)),
-        raw_output=raw_output,
-        validated_output=validated_output,
-        error=run_error,
-    )
+        finished_at = _utcnow()
+        duration_ms = int((finished_at - started_at).total_seconds() * 1000)
+
+        artifact = RunArtifact(
+            trace_id=trace_id,
+            started_at=started_at,
+            finished_at=finished_at,
+            duration_ms=duration_ms,
+            agent=str(agent),
+            llm_name=llm_name,
+            input=PhysicsDescriptiveQuestion(text=str(question)),
+            raw_output=raw_output,
+            validated_output=validated_output,
+            error=run_error,
+        )
 
     out_path = default_artifacts_dir() / started_at.date().isoformat() / f"{trace_id}.json"
 
