@@ -1,12 +1,10 @@
 import dspy
 
-from app.core.observability import init_observability
 from app.core.settings import get_settings
 from app.data.dspy.dspy_config import configure_dspy
 
 
 def setup_llm(offline: bool) -> str:
-    init_observability()
     if offline:
         from dspy.utils import DummyLM
 
