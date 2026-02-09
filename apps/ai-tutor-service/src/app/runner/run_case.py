@@ -4,11 +4,11 @@ import uuid
 from datetime import UTC, datetime
 
 from app.application.services.physics_descriptive_service import PhysicsDescriptiveService
-from app.core.settings import get_settings
 from app.data.agents.physics_descriptive_agent import PhysicsDescriptiveAgent
 from app.domain.models.physics import PhysicsDescriptiveQuestion, PhysicsDescriptiveSolution
 from app.runner.artifact import default_artifacts_dir, extract_raw_output
 from app.runner.run_artifact import RunArtifact, RunError
+from app.runner.utils import setup_llm
 
 
 def _utcnow() -> datetime:
