@@ -3,15 +3,12 @@ import traceback
 import uuid
 from datetime import UTC, datetime
 
-import dspy
-
 from app.application.services.physics_descriptive_service import PhysicsDescriptiveService
-from app.core.settings import get_settings
 from app.data.agents.physics_descriptive_agent import PhysicsDescriptiveAgent
-from app.data.dspy.dspy_config import configure_dspy
 from app.domain.models.physics import PhysicsDescriptiveQuestion, PhysicsDescriptiveSolution
 from app.runner.artifact import default_artifacts_dir, extract_raw_output
 from app.runner.run_artifact import RunArtifact, RunError
+from app.runner.utils import setup_llm
 
 
 def _utcnow() -> datetime:
@@ -28,20 +25,7 @@ def run_case(*, agent: str, question: str, offline: bool, print_output: bool) ->
     started_at = _utcnow()
     trace_id = str(uuid.uuid4())
 
-    if offline:
-        from dspy.utils import DummyLM
-
-        dummy_answer = {
-            "reasoning": "Offline mode: no dummy solver available for this question pattern.",
-            "value": 0.0,
-            "unit": "unit",
-        }
-        dspy.configure(lm=DummyLM([dummy_answer]), adapter=dspy.ChatAdapter())
-        llm_name = "offline/dummy"
-    else:
-        settings = get_settings()
-        configure_dspy(settings)
-        llm_name = settings.llm_name
+    llm_name = setup_llm(offline=offline)
 
     raw_output: str | None = None
     validated_output: PhysicsDescriptiveSolution | None = None
