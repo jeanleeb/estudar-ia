@@ -13,7 +13,9 @@ def setup_llm(offline: bool) -> str:
             "value": 0.0,
             "unit": "unit",
         }
-        dspy.configure(lm=DummyLM([dummy_answer]), adapter=dspy.ChatAdapter())
+        dspy.configure(
+            lm=DummyLM({"": dummy_answer}),
+        )
         return "offline/dummy"
     else:
         settings = get_settings()
