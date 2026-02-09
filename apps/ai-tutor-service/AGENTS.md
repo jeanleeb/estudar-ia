@@ -6,7 +6,7 @@ Quando houver conflito com o `AGENTS.md` da raiz, este arquivo prevalece para es
 ## Escopo
 
 - App Python no monorepo Nx responsável pelo sistema de agentes do projeto.
-- Stack principal: DSPy + Pydantic + Pytest + Ruff + BasedPyright + `uv`.
+- Stack principal: DSPy + Pydantic + Pytest + Ruff + Ty + `uv`.
 
 ## Objetivo das regras
 
@@ -44,7 +44,7 @@ Quando houver conflito com o `AGENTS.md` da raiz, este arquivo prevalece para es
 
 ## Tipagem, lint e testes
 
-- Manter tipagem estrita compatível com `basedpyright` (`pyrightconfig.json`).
+- Manter tipagem estrita compatível com `ty` (executado via `uv run ty check`).
 - Evitar `Any`; preferir `Protocol`, `TypedDict` ou modelos Pydantic quando necessário.
 - Manter lint/format com Ruff (`ruff check` e `ruff format` via Nx).
 - Testes devem ficar em `tests/` com foco em:
@@ -55,7 +55,7 @@ Quando houver conflito com o `AGENTS.md` da raiz, este arquivo prevalece para es
 ## Convenções de código e estrutura
 
 - Nomes de arquivos Python em `snake_case`.
-- Imports absolutos a partir de `src` (conforme `pytest.ini` e `pyrightconfig.json`).
+- Imports absolutos a partir de `src` (conforme `pytest.ini`).
 - Não versionar artefatos locais e cache (`.venv`, `.pytest_cache`, `.ruff_cache`, `.mypy_cache`, `__pycache__`).
 
 ## Ambiente e segredos
@@ -67,6 +67,6 @@ Quando houver conflito com o `AGENTS.md` da raiz, este arquivo prevalece para es
 ## Checklist rápido antes de finalizar
 
 - Mudança respeita camadas (`domain`/`application`/`data`/`core`)?
-- Há tipagem adequada sem relaxar regras do pyright?
+- Há tipagem adequada sem relaxar regras do `ty`?
 - Testes relevantes foram adicionados/atualizados?
 - Comandos de validação via Nx passaram para o app?

@@ -46,7 +46,7 @@
       "language_servers": ["tailwindcss-intellisense-css", "biome"],
     },
     "Python": {
-      "language_servers": ["basedpyright", "ruff", "!pywright"],
+      "language_servers": ["ty", "ruff", "!basedpyright", "!pyright"],
       "format_on_save": "on",
       "formatter": [
         {
@@ -63,17 +63,11 @@
         "organize_imports_on_save": true,
       },
     },
-    "basedpyright": {
+    "ty": {
       "settings": {
-        "python": {
-          "analysis": {
-            "autoImportCompletions": true,
-            "extraPaths": [
-              "apps/ai-tutor-service/src",
-              "apps/ai-tutor-service/tests",
-            ],
-          },
-        },
+        "ty": {
+          "diagnosticMode": "workspace",
+        }
       },
     },
     "tailwindcss-language-server": {

@@ -35,7 +35,7 @@
       "executor": "nx:run-commands",
       "options": {
         "cwd": "apps/ai-tutor-service",
-        "command": "uv run basedpyright"
+        "command": "uv run ty check"
       }
     },
     "check": {
