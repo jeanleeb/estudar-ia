@@ -1,10 +1,12 @@
 import dspy
 
+from app.core.observability import init_observability
 from app.core.settings import get_settings
 from app.data.dspy.dspy_config import configure_dspy
 
 
 def setup_llm(offline: bool) -> str:
+    init_observability()
     if offline:
         from dspy.utils import DummyLM
 
@@ -13,7 +15,9 @@ def setup_llm(offline: bool) -> str:
             "value": 0.0,
             "unit": "unit",
         }
-        dspy.configure(lm=DummyLM([dummy_answer]), adapter=dspy.ChatAdapter())
+        dspy.configure(
+            lm=DummyLM({"": dummy_answer}),
+        )
         return "offline/dummy"
     else:
         settings = get_settings()
