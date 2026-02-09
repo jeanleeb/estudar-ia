@@ -15,6 +15,6 @@ def test_should_create_valid_solution():
 def test_should_fail_without_reasoning():
     """Checks if the system blocks a solution that is missing the reasoning."""
     with pytest.raises(ValidationError):
-        PhysicsDescriptiveSolution(  # pyright: ignore[reportCallIssue]
+        PhysicsDescriptiveSolution(  # type: ignore[missing-argument]
             value=50.0, unit="km/h"
         )
