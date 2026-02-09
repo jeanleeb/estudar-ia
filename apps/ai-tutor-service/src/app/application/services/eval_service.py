@@ -17,10 +17,12 @@ def load_cases(dataset_path: Path, max_cases: int | None = None):
                 case = json.loads(line)
                 if not case:
                     continue
-                eval_case = EvalCase(**case)
-                eval_cases.append(eval_case)
                 if max_cases is not None and len(eval_cases) >= max_cases:
                     break
+
+                eval_case = EvalCase(**case)
+                eval_cases.append(eval_case)
+
             except Exception as e:
                 raise ValueError(f"Error loading eval case {index + 1}: {line}") from e
 
