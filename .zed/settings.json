@@ -63,13 +63,6 @@
         "organize_imports_on_save": true,
       },
     },
-    "ty": {
-      "settings": {
-        "ty": {
-          "diagnosticMode": "workspace",
-        }
-      },
-    },
     "tailwindcss-language-server": {
       "settings": {
         "classFunctions": ["cva", "cx"],
