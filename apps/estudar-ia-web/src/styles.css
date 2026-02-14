@@ -2,6 +2,9 @@
 
 @import 'tw-animate-css';
 
+@import './styles/_animation.css';
+@import './styles/_interaction.css';
+
 @custom-variant dark (&:is(.dark *));
 
 body {

@@ -1,0 +1,13 @@
+/* Hero grid pattern - subtle graph-paper background */
+.hero-grid-pattern {
+	background-image:
+		linear-gradient(to right, oklch(0.5 0 0 / 0.04) 1px, transparent 1px),
+		linear-gradient(to bottom, oklch(0.5 0 0 / 0.04) 1px, transparent 1px);
+	background-size: 48px 48px;
+}
+
+.dark .hero-grid-pattern {
+	background-image:
+		linear-gradient(to right, oklch(0.5 0 0 / 0.07) 1px, transparent 1px),
+		linear-gradient(to bottom, oklch(0.5 0 0 / 0.07) 1px, transparent 1px);
+}

@@ -1,4 +1,5 @@
 import { SelectableCard } from '@/components/shared';
+import { TargetIcon } from '@/components/ui/icon';
 import { H3, Small } from '@/components/ui/typography';
 
 /**
@@ -54,11 +55,15 @@ export function ExamSelectionCard({
 }: ExamSelectionCardProps) {
 	return (
 		<SelectableCard selected={selected} onSelect={onSelect}>
-			<div className="exam-selection-card-layout">
+			<div className="exam-selection-card-layout relative">
 				<div className="exam-selection-card-content">
 					<H3>{name}</H3>
 					<Small className="block">{description}</Small>
 				</div>
+				<TargetIcon
+					size="xl"
+					className="absolute right-1 bottom-1 text-muted-foreground/10"
+				/>
 			</div>
 		</SelectableCard>
 	);

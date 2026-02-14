@@ -41,6 +41,7 @@ import {
 	Brain,
 	Check,
 	CheckCircle,
+	ChevronDown,
 	ChevronRight,
 	Circle,
 	Eye,
@@ -332,6 +333,19 @@ const SunMoonIcon = React.forwardRef<SVGSVGElement, SunMoonIconProps>(
 SunMoonIcon.displayName = 'SunMoonIcon';
 
 /**
+ * ChevronDownIcon - Down arrow/Scroll hint icon
+ * Used for: Scroll indicators, expand actions, dropdown triggers
+ */
+export interface ChevronDownIconProps
+	extends Omit<IconProps, 'icon'>,
+		VariantProps<typeof iconVariants> {}
+
+const ChevronDownIcon = React.forwardRef<SVGSVGElement, ChevronDownIconProps>(
+	(props, ref) => <Icon ref={ref} icon={ChevronDown} {...props} />,
+);
+ChevronDownIcon.displayName = 'ChevronDownIcon';
+
+/**
  * ChevronRightIcon - Right arrow/Navigation icon
  * Used for: Dropdown menus, navigation, submenu indicators
  */
@@ -406,6 +420,7 @@ export {
 	BrainIcon,
 	CheckCircleIcon,
 	CheckIcon,
+	ChevronDownIcon,
 	ChevronRightIcon,
 	CircleIcon,
 	EyeIcon,

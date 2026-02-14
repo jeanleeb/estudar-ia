@@ -1,5 +1,6 @@
 import { SelectableCard } from '@/components/shared';
 import { H3 } from '@/components/ui/typography';
+import { cn } from '@/lib/utils';
 
 export interface SubjectSelectionCardProps {
 	/**
@@ -52,7 +53,13 @@ export function SubjectSelectionCard({
 			selected={selected}
 			onSelect={onToggle}
 			className="text-center">
-			<div className="mb-3 text-4xl">{icon}</div>
+			<div
+				className={cn(
+					'mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full transition-colors duration-200',
+					selected ? 'bg-primary/10' : 'bg-muted',
+				)}>
+				<span className="text-3xl">{icon}</span>
+			</div>
 			<H3 className="text-center">{name}</H3>
 		</SelectableCard>
 	);
