@@ -65,11 +65,12 @@ export function SelectableCard({
 	return (
 		<Card
 			className={cn(
-				'cursor-pointer border-2 transition-all hover:shadow-lg',
+				'cursor-pointer border-2 transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.98]',
 				selected
-					? 'border-primary bg-primary/5'
-					: 'border-border bg-card hover:border-primary/50',
-				disabled && 'cursor-not-allowed opacity-50',
+					? 'border-primary bg-primary/5 shadow-md ring-2 ring-primary/20'
+					: 'border-border bg-card hover:border-primary/50 hover:shadow-lg',
+				disabled &&
+					'cursor-not-allowed opacity-50 hover:translate-y-0 active:scale-100',
 				className,
 			)}
 			onClick={disabled ? undefined : onSelect}>
