@@ -123,6 +123,7 @@ function MyComponent() {
 | Smile | `SmileIcon` | Empty states, positive feedback, no data |
 | Circle | `CircleIcon` | Radio buttons, indicators, selection states |
 | Check | `CheckIcon` | Selection indicators, success states, completed items |
+| Chevron Down | `ChevronDownIcon` | Scroll indicators, expand actions, dropdown triggers |
 
 ### Example Usage
 

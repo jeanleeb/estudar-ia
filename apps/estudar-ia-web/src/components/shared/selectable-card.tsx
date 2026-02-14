@@ -70,7 +70,7 @@ export function SelectableCard({
 					? 'border-primary bg-primary/5 shadow-md ring-2 ring-primary/20'
 					: 'border-border bg-card hover:border-primary/50 hover:shadow-lg',
 				disabled &&
-					'cursor-not-allowed opacity-50 hover:translate-y-0 active:scale-100',
+					'cursor-not-allowed opacity-50 hover:translate-y-0 hover:border-border hover:shadow-none active:scale-100',
 				className,
 			)}
 			onClick={disabled ? undefined : onSelect}>

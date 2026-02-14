@@ -51,7 +51,7 @@
 }
 
 .animate-fade-in {
-	animation: fade-in 0.3s ease-out;
+	animation: fade-in 0.3s ease-out both;
 }
 
 /* Respect user's reduced-motion preference */
@@ -63,6 +63,7 @@
 	}
 	.animate-bounce-subtle {
 		animation: none;
+		transform: none;
 	}
 	.animate-fade-in {
 		animation: none;

@@ -1,8 +1,7 @@
-import { createFileRoute, Link } from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router';
 import { useReducer, useState } from 'react';
 import { ExamsList, SubjectsList } from '@/components/home';
 import { FeatureCard, HeroSection } from '@/components/shared';
-import { Button } from '@/components/ui/button';
 import {
 	BookOpenIcon,
 	BrainIcon,
@@ -10,6 +9,7 @@ import {
 	SparklesIcon,
 	TargetIcon,
 } from '@/components/ui/icon';
+import { LinkButton } from '@/components/ui/link-button';
 import { H2, Muted } from '@/components/ui/typography';
 import { translations } from '@/locales';
 import { getExamsFn } from '@/server/functions/exams';
@@ -31,7 +31,8 @@ function HomePage() {
 		[],
 	);
 
-	const canStartPractice = selectedSubjects.length > 0 && selectedExam;
+	const canStartPractice =
+		selectedSubjects.length > 0 && selectedExam.length > 0;
 	const t = translations.home;
 
 	return (
@@ -105,16 +106,15 @@ function HomePage() {
 						<H2 className="mt-2 text-center">{t.steps.start.title}</H2>
 						<Muted className="text-center">{t.steps.start.subtitle}</Muted>
 						<div className="mt-4">
-							<Link disabled={!canStartPractice} to={'/simulado'}>
-								<Button
-									size="lg"
-									disabled={!canStartPractice}
-									className="text-base transition-transform hover:scale-105">
-									{canStartPractice
-										? t.actions.startPractice
-										: t.actions.selectToBegin}
-								</Button>
-							</Link>
+							<LinkButton
+								disabled={!canStartPractice}
+								to="/simulado"
+								size="lg"
+								className="text-base transition-transform hover:scale-105">
+								{canStartPractice
+									? t.actions.startPractice
+									: t.actions.selectToBegin}
+							</LinkButton>
 						</div>
 					</div>
 				</div>
