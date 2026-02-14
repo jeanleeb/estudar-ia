@@ -85,6 +85,10 @@ export function AppHeader({
 
 	const defaultLogo = <AppLogo size="lg" />;
 
+	let actionKey = 'login';
+	if (actionButton) actionKey = 'custom';
+	else if (isAuthenticated) actionKey = 'profile';
+
 	return (
 		<header className="border-border border-b bg-card">
 			<div className="container mx-auto grid grid-cols-[1fr_1fr] items-center p-4 md:grid-cols-[1fr_auto_1fr]">
@@ -99,10 +103,11 @@ export function AppHeader({
 					</nav>
 				)}
 
-				<div className="ml-auto flex items-center">
+				<div className="flex items-center justify-end gap-2">
 					<ThemeToggle />
-					<div className="w-2" />
-					{actionButton ?? defaultActionButton}
+					<div key={actionKey} className="animate-fade-in">
+						{actionButton ?? defaultActionButton}
+					</div>
 				</div>
 			</div>
 		</header>
