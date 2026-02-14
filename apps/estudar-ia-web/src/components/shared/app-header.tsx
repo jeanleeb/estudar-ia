@@ -87,8 +87,8 @@ export function AppHeader({
 
 	return (
 		<header className="border-border border-b bg-card">
-			<div className="container mx-auto grid grid-cols-[1fr_auto_1fr] items-center p-4">
-				<Link to="/" className="flex items-center gap-2">
+			<div className="container mx-auto grid grid-cols-[1fr_1fr] items-center p-4 md:grid-cols-[1fr_auto_1fr]">
+				<Link to="/" className="flex flex-1 items-center gap-2">
 					{logo ?? defaultLogo}
 					<Large className="mb-0">{appName}</Large>
 				</Link>
@@ -99,7 +99,7 @@ export function AppHeader({
 					</nav>
 				)}
 
-				<div className="ml-auto flex min-w-48 items-center">
+				<div className="ml-auto flex items-center">
 					<ThemeToggle />
 					<div className="w-2" />
 					{actionButton ?? defaultActionButton}
