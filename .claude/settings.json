@@ -1,0 +1,27 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "FILE_PATH=$(jq -r '.tool_input.file_path // empty' < /dev/stdin); if [ -z \"$FILE_PATH\" ]; then exit 0; fi; case \"$(basename \"$FILE_PATH\")\" in .env|.env.*) echo 'BLOCKED: Edição de arquivos .env não é permitida. Esses arquivos contêm credenciais sensíveis.' >&2; exit 2 ;; esac"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "FILE_PATH=$(jq -r '.tool_input.file_path // empty' < /dev/stdin); if [ -z \"$FILE_PATH\" ] || [ ! -f \"$FILE_PATH\" ]; then exit 0; fi; case \"$FILE_PATH\" in *.ts|*.tsx|*.js|*.jsx) npx biome check --fix --unsafe \"$FILE_PATH\" 2>/dev/null || true ;; *.py) uv --project apps/ai-tutor-service run ruff check --fix \"$FILE_PATH\" 2>/dev/null && uv --project apps/ai-tutor-service run ruff format \"$FILE_PATH\" 2>/dev/null || true ;; esac",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}
