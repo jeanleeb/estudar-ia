@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 
 from app.application.ports.physics_descriptive_port import PhysicsDescriptivePort
+from app.core.unit_registry import UnitQuantity
 from app.domain.models.eval import EvalCase, EvalCaseScore, EvalRunSummary
 from app.domain.models.physics import PhysicsDescriptiveQuestion, PhysicsDescriptiveSolution
 
@@ -29,81 +30,39 @@ def load_cases(dataset_path: Path, max_cases: int | None = None):
     return eval_cases
 
 
-def value_ok(expected: float, predicted: float, abs_tol: float, rel_tol: float) -> bool:
-    diff = abs(expected - predicted)
+def check_result(
+    case: EvalCase,
+    predicted_value: int | float,
+    predicted_unit: str,
+) -> bool:
+    try:
+        expected_value = case.expected.value
+        expected_unit = case.expected.unit
 
-    is_within_abs_tol = diff <= abs_tol
-    is_within_rel_tol = (diff / max(abs(expected), 1e-12)) <= rel_tol
+        normalized_expected = UnitQuantity(f"{expected_value} {expected_unit}")
+        normalized_predicted = UnitQuantity(f"{predicted_value} {predicted_unit}")
 
-    return is_within_abs_tol or is_within_rel_tol
+        diff = abs(normalized_expected - normalized_predicted)
 
+        is_within_rel_tolerance = diff <= case.tolerance.rel * normalized_expected
 
-unit_aliases = {
-    "meter": "m",
-    "meters": "m",
-    "kilometer": "km",
-    "kilometers": "km",
-    "kilogram": "kg",
-    "kilograms": "kg",
-    "gram": "g",
-    "grams": "g",
-    "second": "s",
-    "seconds": "s",
-    "segundo": "s",
-    "segundos": "s",
-    "minute": "min",
-    "minutes": "min",
-    "minuto": "min",
-    "minutos": "min",
-    "ano": "year",
-    "anos": "year",
-    "year": "year",
-    "years": "year",
-    "hour": "h",
-    "hours": "h",
-    "horas": "h",
-    "hora": "h",
-    "ampere": "a",
-    "ampères": "a",
-    "amperes": "a",
-    "amp": "a",
-    "amps": "a",
-    "kelvin": "k",
-    "watt": "w",
-    "watts": "w",
-    "ratio": "dimensionless",
-    "ohms": "ohm",
-}
-
-
-def normalize_unit(unit: str) -> str:
-    clean_unit = unit.strip().lower().replace(" ", "")
-
-    unaliased_unit = unit_aliases.get(clean_unit, clean_unit)
-
-    if unaliased_unit:
-        return unaliased_unit
-
-    return clean_unit
-
-
-def unit_ok(expected_unit: str, predicted_unit: str) -> bool:
-    expected_unit = normalize_unit(expected_unit)
-    predicted_unit = normalize_unit(predicted_unit)
-    return expected_unit == predicted_unit
+        return is_within_rel_tolerance
+    except Exception:
+        return False
 
 
 def score_case(case: EvalCase, predicted: PhysicsDescriptiveSolution) -> EvalCaseScore:
-    value_result = value_ok(
-        expected=case.expected.value,
-        predicted=predicted.value,
-        abs_tol=case.tolerance.abs,
-        rel_tol=case.tolerance.rel,
-    )
-    unit_result = unit_ok(expected_unit=case.expected.unit, predicted_unit=predicted.unit)
+    expected_value = case.expected.value
+    expected_unit = case.expected.unit
 
-    value_score = 1.0 if value_result else 0.0
-    unit_score = 1.0 if unit_result else 0.0
+    normalized_expected = UnitQuantity(f"{expected_value} {expected_unit}")
+    normalized_predicted = UnitQuantity(f"{predicted.value} {predicted.unit}")
+    result_ok = check_result(
+        case=case,
+        predicted_value=predicted.value,
+        predicted_unit=predicted.unit,
+    )
+    result_score = 1.0 if result_ok else 0.0
 
     normalized_reasoning = predicted.reasoning.strip().lower()
     has_min_length = len(normalized_reasoning) >= 40
@@ -112,14 +71,15 @@ def score_case(case: EvalCase, predicted: PhysicsDescriptiveSolution) -> EvalCas
     reasoning_points = sum([has_min_length, has_step_marker])
     reasoning_score = reasoning_points / 2.0
 
-    total_score = 0.2 * value_score + 0.2 * unit_score + 0.6 * reasoning_score
+    total_score = 0.4 * result_score + 0.6 * reasoning_score
 
     return EvalCaseScore(
-        value_ok=value_result,
-        unit_ok=unit_result,
+        expected=f"{normalized_expected}",
+        predicted=f"{normalized_predicted}",
+        result_ok=result_ok,
         reasoning_score=reasoning_score,
         total_score=total_score,
-        passed=value_result and unit_result,
+        passed=result_ok,
     )
 
 
@@ -134,7 +94,7 @@ class EvalService:
         total_cases = len(self.cases)
         passed_cases = 0
         reasoning_sum = 0.0
-        value_sum = 0.0
+        result_sum = 0.0
         unit_sum = 0.0
         total_sum = 0.0
 
@@ -150,22 +110,20 @@ class EvalService:
 
                 passed_cases = passed_cases + 1 if case_score.passed else passed_cases
                 reasoning_sum += case_score.reasoning_score
-                value_sum += case_score.value_ok
-                unit_sum += case_score.unit_ok
+                result_sum += case_score.result_ok
                 total_sum += case_score.total_score
             except Exception as e:
                 case_results.append(
                     EvalCaseScore(
                         passed=False,
                         reasoning_score=0.0,
-                        value_ok=False,
-                        unit_ok=False,
+                        result_ok=False,
                         total_score=0.0,
                         error=str(e),
                     )
                 )
                 reasoning_sum += 0.0
-                value_sum += 0.0
+                result_sum += 0.0
                 unit_sum += 0.0
                 total_sum += 0.0
 
@@ -175,7 +133,7 @@ class EvalService:
             passed_cases=passed_cases,
             pass_rate=passed_cases / total_cases if total_cases > 0 else 0.0,
             avg_reasoning_score=reasoning_sum / total_cases if total_cases > 0 else 0.0,
-            avg_value_score=value_sum / total_cases if total_cases > 0 else 0.0,
+            avg_value_score=result_sum / total_cases if total_cases > 0 else 0.0,
             avg_unit_score=unit_sum / total_cases if total_cases > 0 else 0.0,
             avg_total_score=total_sum / total_cases if total_cases > 0 else 0.0,
         )

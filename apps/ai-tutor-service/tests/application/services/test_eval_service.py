@@ -32,8 +32,7 @@ def test_score_case_perfect() -> None:
 
     result = score_case(case, predicted)
 
-    assert result.value_ok is True
-    assert result.unit_ok is True
+    assert result.result_ok is True
     assert result.reasoning_score == pytest.approx(1.0)
     assert result.total_score == pytest.approx(1.0)
     assert result.passed is True
@@ -49,8 +48,7 @@ def test_score_case_incorrect_value_good_reasoning() -> None:
 
     result = score_case(case, predicted)
 
-    assert result.value_ok is False
-    assert result.unit_ok is False
+    assert result.result_ok is False
     assert result.reasoning_score == pytest.approx(1.0)
     assert result.total_score == pytest.approx(0.6)
     assert result.passed is False
@@ -66,8 +64,7 @@ def test_score_case_correct_value_bad_reasoning() -> None:
 
     result = score_case(case, predicted)
 
-    assert result.value_ok is True
-    assert result.unit_ok is True
+    assert result.result_ok is True
     assert result.reasoning_score == pytest.approx(0.0)
     assert result.total_score == pytest.approx(0.4)
     assert result.passed is True
