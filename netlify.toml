@@ -1,6 +1,6 @@
 [build]
-  command = "npx nx run estudar-ia-web:vite:build"
-  publish = "apps/estudar-ia-web/dist/client"
+  command = "cd ../.. && npx nx run estudar-ia-web:vite:build"
+  publish = "dist/client"
 
 [dev]
   command = "pnpm dev:web"
