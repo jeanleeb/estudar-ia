@@ -1,8 +1,0 @@
-[build]
-  command = "npx nx run estudar-ia-web:vite:build"
-  publish = "apps/estudar-ia-web/dist/client"
-
-[dev]
-  command = "pnpm dev:web"
-  targetPort = 3000
-  port = 8888
