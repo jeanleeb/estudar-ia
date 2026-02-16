@@ -1,4 +1,5 @@
 import asyncio
+import logging
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -13,12 +14,15 @@ from app.runner.artifact import default_artifacts_dir
 from app.runner.run_artifact import EvalRunArtifact
 from app.runner.utils import setup_llm
 
+logger = logging.getLogger(__name__)
+
 
 def _utcnow() -> datetime:
     return datetime.now(tz=UTC)
 
 
 def run_eval(*, dataset: str, max_cases: int | None, offline: bool, print_output: bool) -> int:
+    logging.basicConfig(level=logging.INFO)
     init_observability()
     started_at = _utcnow()
     tracer = trace.get_tracer(__name__)
@@ -29,6 +33,8 @@ def run_eval(*, dataset: str, max_cases: int | None, offline: bool, print_output
         span.set_attribute(AttrKey.OFFLINE, offline)
         span.set_attribute(AttrKey.DATASET_PATH, dataset)
         span.set_attribute(SpanAttributes.OPENINFERENCE_SPAN_KIND, "EVALUATOR")
+        if max_cases is not None:
+            span.set_attribute(AttrKey.EVAL_MAX_CASES, max_cases)
 
         llm_name = setup_llm(offline=offline)
         span.set_attribute(SpanAttributes.LLM_MODEL_NAME, llm_name)
@@ -38,22 +44,23 @@ def run_eval(*, dataset: str, max_cases: int | None, offline: bool, print_output
             eval_service = EvalService(cases=cases, solver=PhysicsDescriptiveAgent())
             run_summary = asyncio.run(eval_service.run())
         except Exception as e:
+            span.record_exception(e)
             span.set_attribute(AttrKey.ERROR_TYPE, type(e).__name__)
             span.set_attribute(AttrKey.ERROR_MESSAGE, str(e) or repr(e))
             span.set_status(trace.StatusCode.ERROR)
 
-            print(
-                "[eval] failed "
-                f"trace_id={trace_id} "
-                f"dataset='{dataset}' "
-                f"max_cases={max_cases} "
-                f"error_type={type(e).__name__} "
-                f"error='{e}'"
+            logger.error(
+                "[eval] failed trace_id=%s dataset='%s' max_cases=%s error_type=%s error='%s'",
+                trace_id,
+                dataset,
+                max_cases,
+                type(e).__name__,
+                e,
             )
             return 1
 
         finished_at = _utcnow()
-        duration_ms = int((finished_at - started_at).total_seconds() * 1000)
+        duration_ms = round((finished_at - started_at).total_seconds() * 1000)
         artifact = EvalRunArtifact(
             trace_id=trace_id,
             started_at=started_at,
@@ -67,6 +74,7 @@ def run_eval(*, dataset: str, max_cases: int | None, offline: bool, print_output
         out_path = default_artifacts_dir() / "evals" / f"{trace_id}.json"
         out_path.parent.mkdir(parents=True, exist_ok=True)
         out_path.write_text(artifact.model_dump_json(indent=2), encoding="utf-8")
+        logger.info("Artifact saved to: %s", out_path)
 
         error_cases = sum(
             1 for case_result in run_summary.case_results if case_result.error is not None
@@ -81,19 +89,17 @@ def run_eval(*, dataset: str, max_cases: int | None, offline: bool, print_output
             span.set_attribute(AttrKey.ERROR_TYPE, "EvalCaseExecutionError")
             span.set_attribute(AttrKey.ERROR_MESSAGE, error_message)
             span.set_status(trace.StatusCode.ERROR)
-            print(
-                "[eval] completed with errors "
-                f"trace_id={trace_id} "
-                f"dataset='{dataset}' "
-                f"error_cases={error_cases}/{run_summary.total_cases}"
+            logger.warning(
+                "[eval] completed with errors trace_id=%s dataset='%s' error_cases=%s/%s",
+                trace_id,
+                dataset,
+                error_cases,
+                run_summary.total_cases,
             )
-            print("Artifact saved to:", out_path)
-            if print_output:
-                print(run_summary.model_dump_json(indent=2))
-            return 1
+        else:
+            span.set_status(trace.StatusCode.OK)
 
-        span.set_status(trace.StatusCode.OK)
-        print("OK. Artifact saved to:", out_path)
         if print_output:
             print(run_summary.model_dump_json(indent=2))
-        return 0
+
+        return 1 if error_cases > 0 else 0

@@ -10,7 +10,12 @@ def configure_dspy(settings: Settings) -> None:
     if _configured:
         return
 
-    lm = dspy.LM(settings.llm_name, api_key=settings.llm_api_key.get_secret_value(), num_retries=1)
+    lm = dspy.LM(
+        settings.llm_name,
+        api_key=settings.llm_api_key.get_secret_value(),
+        api_base=settings.llm_api_base,
+        num_retries=1,
+    )
 
     dspy.configure(lm=lm, adapter=dspy.JSONAdapter())
     _configured = True

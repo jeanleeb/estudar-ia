@@ -41,9 +41,7 @@ def check_result(
 
         normalized_expected = UnitQuantity(f"{expected_value} {expected_unit}")
         normalized_predicted = UnitQuantity(f"{predicted_value} {predicted_unit}")
-
         diff = abs(normalized_expected - normalized_predicted)
-
         is_within_rel_tolerance = diff <= case.tolerance.rel * normalized_expected
 
         return is_within_rel_tolerance
@@ -54,7 +52,6 @@ def check_result(
 def score_case(case: EvalCase, predicted: PhysicsDescriptiveSolution) -> EvalCaseScore:
     expected_value = case.expected.value
     expected_unit = case.expected.unit
-
     normalized_expected = UnitQuantity(f"{expected_value} {expected_unit}")
     normalized_predicted = UnitQuantity(f"{predicted.value} {predicted.unit}")
     result_ok = check_result(
@@ -64,7 +61,7 @@ def score_case(case: EvalCase, predicted: PhysicsDescriptiveSolution) -> EvalCas
     )
     result_score = 1.0 if result_ok else 0.0
 
-    normalized_reasoning = predicted.reasoning.strip().lower()
+    normalized_reasoning = predicted.reasoning.strip()
     has_min_length = len(normalized_reasoning) >= 40
     step_markers = ["=", "logo", "portanto", "assim", "então"]
     has_step_marker = any(marker in normalized_reasoning for marker in step_markers)
@@ -76,6 +73,7 @@ def score_case(case: EvalCase, predicted: PhysicsDescriptiveSolution) -> EvalCas
     return EvalCaseScore(
         expected=f"{normalized_expected}",
         predicted=f"{normalized_predicted}",
+        reasoning=normalized_reasoning,
         result_ok=result_ok,
         reasoning_score=reasoning_score,
         total_score=total_score,

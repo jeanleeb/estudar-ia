@@ -37,6 +37,7 @@ class EvalCase(BaseModel):
 class EvalCaseScore(BaseModel):
     expected: str | None = None
     predicted: str | None = None
+    reasoning: str | None = None
     result_ok: bool
     reasoning_score: float
     total_score: float
