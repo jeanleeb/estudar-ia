@@ -1,3 +1,5 @@
+from typing import Any
+
 import dspy
 
 
@@ -14,6 +16,9 @@ class PhysicsDescriptiveSignature(dspy.Signature):
     """
 
     question: str = dspy.InputField()
+    reference_data: dict[str, Any] | None = dspy.InputField(
+        default=None, desc="Dados de referência para a questão, em formato JSON."
+    )
 
     reasoning: str = dspy.OutputField()
     value: float = dspy.OutputField()

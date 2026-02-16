@@ -98,7 +98,9 @@ class EvalService:
 
         for case in self.cases:
             try:
-                question = PhysicsDescriptiveQuestion(text=case.question_text)
+                question = PhysicsDescriptiveQuestion(
+                    text=case.question_text, reference_data=case.reference_data
+                )
 
                 prediction = await self.solver.solve(question=question)
                 case_score = score_case(case=case, predicted=prediction)

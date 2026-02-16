@@ -1,16 +1,19 @@
+from typing import Any
+
 from pydantic import BaseModel, Field
 
 
 class PhysicsDescriptiveQuestion(BaseModel):
-    text: str = Field(min_length=1, description="Texto da questão de física")
+    text: str = Field(min_length=1, description="The text of the physics question")
+    reference_data: dict[str, Any] | None = Field(
+        default=None, description="Reference data that can be used to solve the problem."
+    )
 
 
 class PhysicsDescriptiveSolution(BaseModel):
-    reasoning: str = Field(
-        min_length=1, description="Explicacão e lógica de resolucão passo a passo"
-    )
-    value: float = Field(description="Valor numérico final")
+    reasoning: str = Field(min_length=1, description="Step-by-step explanation and logic")
+    value: float = Field(description="The final numeric value")
     unit: str = Field(
         min_length=1,
-        description="Unidade de medida, em inglês, compatível com Python Pint (por exemplo, m/s, N, year, meter, Hz). Não usar nomes em português.",
+        description="Physical unit in English, compatible with Python Pint (e.g., m/s, N, year, meter). Never Portuguese names.",
     )
