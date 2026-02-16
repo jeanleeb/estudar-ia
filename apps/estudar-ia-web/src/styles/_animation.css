@@ -1,0 +1,72 @@
+/* Staggered entrance animations */
+@keyframes fade-up {
+	from {
+		opacity: 0;
+		transform: translateY(16px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.animate-fade-up {
+	animation: fade-up 0.7s ease-out both;
+}
+
+/* Reusable stagger delays */
+.animate-delay-150 {
+	animation-delay: 150ms;
+}
+.animate-delay-300 {
+	animation-delay: 300ms;
+}
+.animate-delay-450 {
+	animation-delay: 450ms;
+}
+
+/* Subtle bounce for scroll hint */
+@keyframes bounce-subtle {
+	0%,
+	100% {
+		transform: translateY(0);
+	}
+	50% {
+		transform: translateY(6px);
+	}
+}
+
+.animate-bounce-subtle {
+	animation: bounce-subtle 2s ease-in-out infinite;
+}
+
+/* Quick fade-in for swappable content (e.g. header action button) */
+@keyframes fade-in {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+.animate-fade-in {
+	animation: fade-in 0.3s ease-out both;
+}
+
+/* Respect user's reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+	.animate-fade-up {
+		animation: none;
+		opacity: 1;
+		transform: none;
+	}
+	.animate-bounce-subtle {
+		animation: none;
+		transform: none;
+	}
+	.animate-fade-in {
+		animation: none;
+		opacity: 1;
+	}
+}

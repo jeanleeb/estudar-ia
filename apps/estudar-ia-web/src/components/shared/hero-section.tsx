@@ -37,6 +37,14 @@ export interface HeroSectionProps {
 	 * Additional CSS classes for the container
 	 */
 	containerClassName?: string;
+	/**
+	 * CSS classes for atmospheric background effects (e.g., gradients, patterns)
+	 */
+	backgroundClassName?: string;
+	/**
+	 * Additional content rendered below the actions (e.g., scroll hint)
+	 */
+	children?: React.ReactNode;
 }
 
 /**
@@ -66,9 +74,16 @@ export function HeroSection({
 	maxWidth = 'max-w-3xl',
 	className,
 	containerClassName,
+	backgroundClassName,
+	children,
 }: HeroSectionProps) {
 	return (
-		<section className={cn('border-border border-b bg-card', className)}>
+		<section
+			className={cn(
+				'border-border border-b bg-card',
+				backgroundClassName,
+				className,
+			)}>
 			<div
 				className={cn(
 					'container mx-auto px-4 py-16 md:py-24',
@@ -76,15 +91,28 @@ export function HeroSection({
 				)}>
 				<div className={cn('mx-auto text-center', maxWidth)}>
 					{badge && (
-						<Badge variant={badge.variant ?? 'secondary'} className="mb-4">
-							{badge.icon && <span className="mr-1">{badge.icon}</span>}
-							{badge.text}
-						</Badge>
+						<div className="animate-fade-up">
+							<Badge variant={badge.variant ?? 'secondary'} className="mb-4">
+								{badge.icon && <span className="mr-1">{badge.icon}</span>}
+								{badge.text}
+							</Badge>
+						</div>
 					)}
-					<Display className="text-center">{title}</Display>
-					{description && <Lead className="text-center">{description}</Lead>}
-					{actions && <div className="mt-6">{actions}</div>}
+					<div className="animate-delay-150 animate-fade-up">
+						<Display className="text-center">{title}</Display>
+					</div>
+					{description && (
+						<div className="animate-delay-300 animate-fade-up">
+							<Lead className="text-center">{description}</Lead>
+						</div>
+					)}
+					{actions && (
+						<div className="mt-6 animate-delay-450 animate-fade-up">
+							{actions}
+						</div>
+					)}
 				</div>
+				{children}
 			</div>
 		</section>
 	);

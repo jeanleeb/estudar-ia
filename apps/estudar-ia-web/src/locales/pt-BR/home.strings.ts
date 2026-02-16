@@ -4,6 +4,16 @@ export const home = {
 		title: 'Domine Seus Exames com Prática Inteligente',
 		description:
 			'Pratique milhares de questões de vestibular com dicas e soluções fornecidas por IA. Receba orientação personalizada quando precisar, domine conceitos no seu próprio ritmo.',
+		scrollHint: 'Comece abaixo',
+	},
+	steps: {
+		exam: { number: '01' },
+		subjects: { number: '02' },
+		start: {
+			number: '03',
+			title: 'Comece a Praticar',
+			subtitle: 'Tudo pronto! Inicie sua sessão de estudo personalizada.',
+		},
 	},
 	examSelection: {
 		title: 'Escolha Seu Exame',

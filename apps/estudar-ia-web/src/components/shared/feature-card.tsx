@@ -50,10 +50,10 @@ export function FeatureCard({
 	className,
 }: FeatureCardProps) {
 	return (
-		<div className={cn('text-center', className)}>
+		<div className={cn('group text-center', className)}>
 			<div
 				className={cn(
-					'mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full',
+					'mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full transition-transform duration-300 group-hover:scale-110',
 					iconBgColor,
 				)}>
 				{icon}
