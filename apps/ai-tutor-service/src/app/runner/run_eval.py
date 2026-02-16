@@ -68,6 +68,30 @@ def run_eval(*, dataset: str, max_cases: int | None, offline: bool, print_output
         out_path.parent.mkdir(parents=True, exist_ok=True)
         out_path.write_text(artifact.model_dump_json(indent=2), encoding="utf-8")
 
+        error_cases = sum(
+            1 for case_result in run_summary.case_results if case_result.error is not None
+        )
+        span.set_attribute(AttrKey.EVAL_TOTAL_CASES, run_summary.total_cases)
+        span.set_attribute(AttrKey.EVAL_ERROR_CASES, error_cases)
+
+        if error_cases > 0:
+            error_message = (
+                f"Eval completed with case-level errors: {error_cases}/{run_summary.total_cases}"
+            )
+            span.set_attribute(AttrKey.ERROR_TYPE, "EvalCaseExecutionError")
+            span.set_attribute(AttrKey.ERROR_MESSAGE, error_message)
+            span.set_status(trace.StatusCode.ERROR)
+            print(
+                "[eval] completed with errors "
+                f"trace_id={trace_id} "
+                f"dataset='{dataset}' "
+                f"error_cases={error_cases}/{run_summary.total_cases}"
+            )
+            print("Artifact saved to:", out_path)
+            if print_output:
+                print(run_summary.model_dump_json(indent=2))
+            return 1
+
         span.set_status(trace.StatusCode.OK)
         print("OK. Artifact saved to:", out_path)
         if print_output:

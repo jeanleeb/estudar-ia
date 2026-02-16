@@ -103,7 +103,6 @@ class EvalService:
                 question = PhysicsDescriptiveQuestion(text=case.question_text)
 
                 prediction = await self.solver.solve(question=question)
-
                 case_score = score_case(case=case, predicted=prediction)
 
                 case_results.append(case_score)
