@@ -6,7 +6,7 @@
     "dev:ai": "nx run ai-tutor-service:run",
     "dev": "pnpm dev:web",
 
-    "build:web": "nx estudar-ia-web:vite:build",
+    "build:web": "nx run estudar-ia-web:vite:build",
     "preview:web": "nx run estudar-ia-web:vite:preview",
 
     "test:web": "nx test estudar-ia-web",
