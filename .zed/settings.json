@@ -65,9 +65,7 @@
     },
     "ty": {
       "settings": {
-        "ty": {
-          "diagnosticMode": "workspace",
-        }
+        "diagnosticMode": "workspace",
       },
     },
     "tailwindcss-language-server": {

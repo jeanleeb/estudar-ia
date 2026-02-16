@@ -1,18 +1,27 @@
+from typing import Any
+
 import dspy
 
 
 class PhysicsDescriptiveSignature(dspy.Signature):
     """
-    Solve a descriptive physics problem step-by-step.
+    Resolver uma questão dissertativa de física, passo a passo.
 
-    Rules:
-    - 'value' must be a pure number (no unit, no commas, no text).
-    - 'unit' must contain only the unit string (e.g., "m/s", "N", "J").
-    - 'reasoning' must explain the steps clearly for a student.
+    Regras:
+    - 'value' deve ser um número puro (sem unidade, sem vírgulas, sem texto).
+    - 'unit' deve estar em inglês e compatível com a biblioteca Python Pint
+      (e.g., "m/s", "N", "J", "year", "meter", "kg"). Não usar nomes de unidades em português,
+      como "ano", "metro".
+    - 'reasoning' deve explicar os passos claramente para um aluno.
     """
 
     question: str = dspy.InputField()
+    reference_data: dict[str, Any] | None = dspy.InputField(
+        default=None, desc="Dados de referência para a questão, em formato JSON."
+    )
 
     reasoning: str = dspy.OutputField()
     value: float = dspy.OutputField()
-    unit: str = dspy.OutputField()
+    unit: str = dspy.OutputField(
+        desc="Unidade de medida, em inglês, compatível com Python Pint (por exemplo, m/s, N, year, meter, Hz). Não usar nomes em português."
+    )

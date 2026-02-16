@@ -14,7 +14,12 @@ class PhysicsDescriptiveAgent(PhysicsDescriptivePort):
         self._predictor = dspy.ChainOfThought(PhysicsDescriptiveSignature)
 
     async def solve(self, question: PhysicsDescriptiveQuestion) -> PhysicsDescriptiveSolution:
-        pred = cast(_PhysicsPred, await self._predictor.acall(question=question.text))
+        pred = cast(
+            _PhysicsPred,
+            await self._predictor.acall(
+                question=question.text, reference_data=question.reference_data
+            ),
+        )
 
         return PhysicsDescriptiveSolution(
             reasoning=pred.reasoning,
