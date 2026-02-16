@@ -22,7 +22,6 @@ def _utcnow() -> datetime:
 
 
 def run_eval(*, dataset: str, max_cases: int | None, offline: bool, print_output: bool) -> int:
-    logging.basicConfig(level=logging.INFO)
     init_observability()
     started_at = _utcnow()
     tracer = trace.get_tracer(__name__)

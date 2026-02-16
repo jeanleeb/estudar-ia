@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import logging
 
 from app.runner.run_case import run_case
 from app.runner.run_eval import run_eval
@@ -34,6 +35,7 @@ def _build_parser() -> argparse.ArgumentParser:
 
 
 def main() -> None:
+    logging.basicConfig(level=logging.INFO)
     parser = _build_parser()
     args = parser.parse_args()
 

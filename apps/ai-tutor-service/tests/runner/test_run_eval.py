@@ -73,7 +73,6 @@ def _summary_with_errors(error_cases: int) -> EvalRunSummary:
         avg_total_score=sum(c.total_score for c in case_results) / total_cases,
         avg_reasoning_score=sum(c.reasoning_score for c in case_results) / total_cases,
         avg_value_score=sum(1.0 if c.result_ok else 0.0 for c in case_results) / total_cases,
-        avg_unit_score=0.0,
     )
 
 

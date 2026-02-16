@@ -42,9 +42,10 @@ def check_result(
         normalized_expected = UnitQuantity(f"{expected_value} {expected_unit}")
         normalized_predicted = UnitQuantity(f"{predicted_value} {predicted_unit}")
         diff = abs(normalized_expected - normalized_predicted)
-        is_within_rel_tolerance = diff <= case.tolerance.rel * normalized_expected
+        abs_tolerance = UnitQuantity(f"{case.tolerance.abs} {expected_unit}")
+        tolerance_band = abs_tolerance + case.tolerance.rel * abs(normalized_expected)
 
-        return is_within_rel_tolerance
+        return bool(diff <= tolerance_band)
     except Exception:
         return False
 
@@ -52,8 +53,17 @@ def check_result(
 def score_case(case: EvalCase, predicted: PhysicsDescriptiveSolution) -> EvalCaseScore:
     expected_value = case.expected.value
     expected_unit = case.expected.unit
-    normalized_expected = UnitQuantity(f"{expected_value} {expected_unit}")
-    normalized_predicted = UnitQuantity(f"{predicted.value} {predicted.unit}")
+
+    try:
+        expected_str = f"{UnitQuantity(f'{expected_value} {expected_unit}')}"
+    except Exception:
+        expected_str = f"{expected_value} {expected_unit}"
+
+    try:
+        predicted_str = f"{UnitQuantity(f'{predicted.value} {predicted.unit}')}"
+    except Exception:
+        predicted_str = f"{predicted.value} {predicted.unit}"
+
     result_ok = check_result(
         case=case,
         predicted_value=predicted.value,
@@ -71,8 +81,8 @@ def score_case(case: EvalCase, predicted: PhysicsDescriptiveSolution) -> EvalCas
     total_score = 0.4 * result_score + 0.6 * reasoning_score
 
     return EvalCaseScore(
-        expected=f"{normalized_expected}",
-        predicted=f"{normalized_predicted}",
+        expected=expected_str,
+        predicted=predicted_str,
         reasoning=normalized_reasoning,
         result_ok=result_ok,
         reasoning_score=reasoning_score,
@@ -93,7 +103,6 @@ class EvalService:
         passed_cases = 0
         reasoning_sum = 0.0
         result_sum = 0.0
-        unit_sum = 0.0
         total_sum = 0.0
 
         for case in self.cases:
@@ -123,7 +132,6 @@ class EvalService:
                 )
                 reasoning_sum += 0.0
                 result_sum += 0.0
-                unit_sum += 0.0
                 total_sum += 0.0
 
         return EvalRunSummary(
@@ -133,6 +141,5 @@ class EvalService:
             pass_rate=passed_cases / total_cases if total_cases > 0 else 0.0,
             avg_reasoning_score=reasoning_sum / total_cases if total_cases > 0 else 0.0,
             avg_value_score=result_sum / total_cases if total_cases > 0 else 0.0,
-            avg_unit_score=unit_sum / total_cases if total_cases > 0 else 0.0,
             avg_total_score=total_sum / total_cases if total_cases > 0 else 0.0,
         )

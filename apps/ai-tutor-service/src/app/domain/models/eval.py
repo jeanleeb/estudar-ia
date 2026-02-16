@@ -53,4 +53,3 @@ class EvalRunSummary(BaseModel):
     avg_total_score: float
     avg_reasoning_score: float
     avg_value_score: float
-    avg_unit_score: float
