@@ -45,6 +45,13 @@
         "command": "uv run ty check"
       }
     },
+    "openapi": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/ai-tutor-service",
+        "command": "uv run python scripts/generate_openapi.py"
+      }
+    },
     "check": {
       "executor": "nx:run-commands",
       "dependsOn": ["format", "lint", "type-check", "test"],
