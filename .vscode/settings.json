@@ -1,9 +1,13 @@
 {
 	"files.watcherExclude": {
-		"**/routeTree.gen.ts": true
+		"**/routeTree.gen.ts": true,
+		"**/node_modules": true,
+		"**/__pycache__": true
 	},
 	"search.exclude": {
-		"**/routeTree.gen.ts": true
+		"**/routeTree.gen.ts": true,
+		"**/node_modules": true,
+		"**/__pycache__": true
 	},
 	"files.readonlyInclude": {
 		"**/routeTree.gen.ts": true
@@ -29,7 +33,14 @@
 	"[css]": {
 		"editor.defaultFormatter": "biomejs.biome"
 	},
+	"[python]": {
+		"editor.defaultFormatter": "charliermarsh.ruff",
+		"editor.formatOnSave": true
+	},
 	"editor.codeActionsOnSave": {
-		"source.organizeImports.biome": "explicit"
-	}
+		"source.organizeImports.biome": "explicit",
+		"source.organizeImports.ruff": "explicit"
+	},
+	"ty.diagnosticMode": "workspace",
+	"python.defaultInterpreterPath": "apps/ai-tutor-service/.venv/bin/python"
 }

@@ -5,11 +5,11 @@ from datetime import UTC, datetime
 from openinference.semconv.trace import SpanAttributes
 from opentelemetry import trace
 
-from app.application.services.physics_descriptive_service import PhysicsDescriptiveService
+from app.application.services.physics_service import PhysicsService
 from app.core.observability import init_observability
 from app.core.observability_contract import AttrKey, SpanKind, SpanName
-from app.data.agents.physics_descriptive_agent import PhysicsDescriptiveAgent
-from app.domain.models.physics import PhysicsDescriptiveQuestion, PhysicsDescriptiveSolution
+from app.data.agents.physics_agent import PhysicsAgent
+from app.domain.models.physics import PhysicsQuestion, PhysicsSolution
 from app.runner.artifact import default_artifacts_dir, extract_raw_output
 from app.runner.run_artifact import RunArtifact, RunError
 from app.runner.utils import setup_llm
@@ -19,10 +19,10 @@ def _utcnow() -> datetime:
     return datetime.now(tz=UTC)
 
 
-async def _run_physics_descriptive(question_text: str) -> PhysicsDescriptiveSolution:
-    agent = PhysicsDescriptiveAgent()
-    service = PhysicsDescriptiveService(agent)
-    return await service.solve_once(PhysicsDescriptiveQuestion(text=question_text))
+async def _run_physics_descriptive(question_text: str) -> PhysicsSolution:
+    agent = PhysicsAgent()
+    service = PhysicsService(agent)
+    return await service.solve_once(PhysicsQuestion(text=question_text))
 
 
 def run_case(*, agent: str, question: str, offline: bool, print_output: bool) -> int:
@@ -44,7 +44,7 @@ def run_case(*, agent: str, question: str, offline: bool, print_output: bool) ->
         span.set_attribute(SpanAttributes.LLM_MODEL_NAME, llm_name)
 
         raw_output: str | None = None
-        validated_output: PhysicsDescriptiveSolution | None = None
+        validated_output: PhysicsSolution | None = None
         run_error: RunError | None = None
         traceback_str: str | None = None
 
@@ -65,7 +65,7 @@ def run_case(*, agent: str, question: str, offline: bool, print_output: bool) ->
                 duration_ms=duration_ms,
                 agent=str(agent),
                 llm_name=llm_name,
-                input=PhysicsDescriptiveQuestion(text=str(question)),
+                input=PhysicsQuestion(text=str(question)),
                 raw_output=raw_output,
                 validated_output=validated_output,
                 error=run_error,
@@ -89,7 +89,7 @@ def run_case(*, agent: str, question: str, offline: bool, print_output: bool) ->
                 duration_ms=duration_ms,
                 agent=str(agent),
                 llm_name=llm_name,
-                input=PhysicsDescriptiveQuestion(text=str(question)),
+                input=PhysicsQuestion(text=str(question)),
                 raw_output=raw_output,
                 validated_output=validated_output,
                 error=run_error,

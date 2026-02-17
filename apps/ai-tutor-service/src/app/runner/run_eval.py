@@ -9,7 +9,7 @@ from opentelemetry import trace
 from app.application.services.eval_service import EvalService, load_cases
 from app.core.observability import init_observability
 from app.core.observability_contract import AttrKey, SpanName
-from app.data.agents.physics_descriptive_agent import PhysicsDescriptiveAgent
+from app.data.agents.physics_agent import PhysicsAgent
 from app.runner.artifact import default_artifacts_dir
 from app.runner.run_artifact import EvalRunArtifact
 from app.runner.utils import setup_llm
@@ -40,7 +40,7 @@ def run_eval(*, dataset: str, max_cases: int | None, offline: bool, print_output
 
         try:
             cases = load_cases(dataset_path=Path(dataset), max_cases=max_cases)
-            eval_service = EvalService(cases=cases, solver=PhysicsDescriptiveAgent())
+            eval_service = EvalService(cases=cases, solver=PhysicsAgent())
             run_summary = asyncio.run(eval_service.run())
         except Exception as e:
             span.record_exception(e)

@@ -3,6 +3,13 @@
   "projectType": "application",
   "sourceRoot": "apps/ai-tutor-service/src",
   "targets": {
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/ai-tutor-service",
+        "command": "uv run uvicorn app.main:app --reload --host 0.0.0.0 --port 8000"
+      }
+    },
     "run": {
       "executor": "nx:run-commands",
       "options": {
@@ -36,6 +43,13 @@
       "options": {
         "cwd": "apps/ai-tutor-service",
         "command": "uv run ty check"
+      }
+    },
+    "openapi": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "apps/ai-tutor-service",
+        "command": "uv run python scripts/generate_openapi.py"
       }
     },
     "check": {
