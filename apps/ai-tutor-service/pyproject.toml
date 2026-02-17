@@ -36,9 +36,10 @@ ignore = ["E501"]
 
 [tool.ty.environment]
 python = ".venv/bin/python"
+root = ["./src"]
 
 [tool.ty.src]
-include = ["src", "tests"]
+include = ["./src", "./tests"]
 
 [project.scripts]
 ai-tutor-service = "app.cli:main"
