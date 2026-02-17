@@ -12,6 +12,7 @@ class Settings(BaseSettings):
     llm_api_base: str | None = Field(default=None, alias="LLM_API_BASE")
     otel_project_name: str = Field(default="ai-tutor-service", alias="OTEL_PROJECT_NAME")
     phoenix_collector_endpoint: str = Field(alias="PHOENIX_COLLECTOR_ENDPOINT")
+    tutor_api_key: SecretStr = Field(alias="TUTOR_API_KEY")
     model_config = SettingsConfigDict(env_file=".env", env_prefix="", env_ignore_empty=True)
 
 

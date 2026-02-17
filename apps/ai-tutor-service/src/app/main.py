@@ -9,4 +9,4 @@ configure_dspy(settings)
 
 physics_service = PhysicsService(solver=PhysicsAgent())
 
-app = create_app(physics_service=physics_service)
+app = create_app(physics_service=physics_service, settings=settings)
