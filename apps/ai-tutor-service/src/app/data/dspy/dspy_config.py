@@ -32,5 +32,5 @@ def configure_dspy_offline() -> None:
         "value": 0.0,
         "unit": "unit",
     }
-    dspy.configure(lm=DummyLM({"": dummy_answer}))
+    dspy.configure(lm=DummyLM({"": dummy_answer}), adapter=dspy.JSONAdapter())
     _configured = True

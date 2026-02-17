@@ -35,7 +35,8 @@ def fake_settings():
 
 
 @pytest.fixture
-def client(fake_settings: Settings, physics_service: PhysicsService):
+async def client(fake_settings: Settings, physics_service: PhysicsService):
     app = create_app(physics_service=physics_service, settings=fake_settings)
     transport = ASGITransport(app=app)
-    return AsyncClient(transport=transport, base_url="http://test")
+    async with AsyncClient(transport=transport, base_url="http://test") as ac:
+        yield ac
