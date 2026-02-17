@@ -1,3 +1,5 @@
+import math
+
 import pytest
 from pydantic import ValidationError
 
@@ -9,7 +11,7 @@ def test_should_create_valid_solution():
     solution = PhysicsSolution(
         reasoning="Velocity is distance divided by time.", value=10.0, unit="m/s"
     )
-    assert solution.value == 10.0
+    assert math.isclose(solution.value, 10.0)
 
 
 def test_should_fail_without_reasoning():
