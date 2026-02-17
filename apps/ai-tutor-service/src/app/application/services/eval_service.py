@@ -1,10 +1,10 @@
 import json
 from pathlib import Path
 
-from app.application.ports.physics_descriptive_port import PhysicsDescriptivePort
+from app.application.ports.physics_port import PhysicsPort
 from app.core.unit_registry import UnitQuantity
 from app.domain.models.eval import EvalCase, EvalCaseScore, EvalRunSummary
-from app.domain.models.physics import PhysicsDescriptiveQuestion, PhysicsDescriptiveSolution
+from app.domain.models.physics import PhysicsQuestion, PhysicsSolution
 
 
 def load_cases(dataset_path: Path, max_cases: int | None = None):
@@ -50,7 +50,7 @@ def check_result(
         return False
 
 
-def score_case(case: EvalCase, predicted: PhysicsDescriptiveSolution) -> EvalCaseScore:
+def score_case(case: EvalCase, predicted: PhysicsSolution) -> EvalCaseScore:
     expected_value = case.expected.value
     expected_unit = case.expected.unit
 
@@ -92,7 +92,7 @@ def score_case(case: EvalCase, predicted: PhysicsDescriptiveSolution) -> EvalCas
 
 
 class EvalService:
-    def __init__(self, cases: list[EvalCase], solver: PhysicsDescriptivePort):
+    def __init__(self, cases: list[EvalCase], solver: PhysicsPort):
         self.solver = solver
         self.cases = cases
 
@@ -107,7 +107,7 @@ class EvalService:
 
         for case in self.cases:
             try:
-                question = PhysicsDescriptiveQuestion(
+                question = PhysicsQuestion(
                     text=case.question_text, reference_data=case.reference_data
                 )
 

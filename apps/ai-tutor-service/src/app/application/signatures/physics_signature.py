@@ -3,9 +3,9 @@ from typing import Any
 import dspy
 
 
-class PhysicsDescriptiveSignature(dspy.Signature):
+class PhysicsSignature(dspy.Signature):
     """
-    Resolver uma questão dissertativa de física, passo a passo.
+    Resolver uma questão de física, passo a passo.
 
     Regras:
     - 'value' deve ser um número puro (sem unidade, sem vírgulas, sem texto).

@@ -6,7 +6,7 @@ from typing import Literal
 from pydantic import BaseModel, Field
 
 from app.domain.models.eval import EvalRunSummary
-from app.domain.models.physics import PhysicsDescriptiveQuestion, PhysicsDescriptiveSolution
+from app.domain.models.physics import PhysicsQuestion, PhysicsSolution
 
 
 class RunError(BaseModel):
@@ -25,9 +25,9 @@ class RunArtifact(BaseModel):
     agent: str = Field(min_length=1)
     llm_name: str | None = None
 
-    input: PhysicsDescriptiveQuestion
+    input: PhysicsQuestion
     raw_output: str | None = None
-    validated_output: PhysicsDescriptiveSolution | None = None
+    validated_output: PhysicsSolution | None = None
     error: RunError | None = None
 
 

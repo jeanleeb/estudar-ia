@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import asyncio
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -93,10 +94,10 @@ def test_run_eval_returns_error_when_case_level_errors_exist(tmp_path, monkeypat
             self._solver = solver
 
         async def run(self) -> EvalRunSummary:
-            return _summary_with_errors(error_cases=1)
+            return await asyncio.to_thread(_summary_with_errors, error_cases=1)
 
     monkeypatch.setattr(run_eval_module, "EvalService", _FakeEvalService)
-    monkeypatch.setattr(run_eval_module, "PhysicsDescriptiveAgent", lambda: object())
+    monkeypatch.setattr(run_eval_module, "PhysicsAgent", lambda: object())
 
     result = run_eval_module.run_eval(
         dataset=str(dataset_path),
@@ -127,10 +128,10 @@ def test_run_eval_returns_ok_when_no_case_level_errors(tmp_path, monkeypatch) ->
             self._solver = solver
 
         async def run(self) -> EvalRunSummary:
-            return _summary_with_errors(error_cases=0)
-
+            return await asyncio.to_thread(_summary_with_errors, error_cases=0)
+    
     monkeypatch.setattr(run_eval_module, "EvalService", _FakeEvalService)
-    monkeypatch.setattr(run_eval_module, "PhysicsDescriptiveAgent", lambda: object())
+    monkeypatch.setattr(run_eval_module, "PhysicsAgent", lambda: object())
 
     result = run_eval_module.run_eval(
         dataset=str(dataset_path),

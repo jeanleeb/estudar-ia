@@ -103,7 +103,7 @@ export const currentLocale = 'en-US';
 2. **Use nested objects**: Group related strings for better organization
 3. **Use `as const`**: Ensures TypeScript provides accurate type checking
 4. **Avoid hardcoded strings**: All user-facing text should come from this directory
-5. **Keep keys in English**: Use descriptive English keys even if the values are in another language
+5. **Keep keys in English**: Use  English keys even if the values are in another language
 6. **Be consistent**: Follow the existing structure and naming conventions
 
 ## File Organization Guidelines

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from datetime import UTC, datetime
 
-from app.domain.models.physics import PhysicsDescriptiveQuestion, PhysicsDescriptiveSolution
+from app.domain.models.physics import PhysicsQuestion, PhysicsSolution
 from app.runner.run_artifact import RunArtifact
 
 
@@ -17,9 +17,9 @@ def test_run_artifact_serializes_to_json() -> None:
         duration_ms=1000,
         agent="physics_descriptive",
         llm_name="test-llm",
-        input=PhysicsDescriptiveQuestion(text="Q?"),
+        input=PhysicsQuestion(text="Q?"),
         raw_output="raw",
-        validated_output=PhysicsDescriptiveSolution(reasoning="r", value=1.0, unit="m/s"),
+        validated_output=PhysicsSolution(reasoning="r", value=1.0, unit="m/s"),
         error=None,
     )
 

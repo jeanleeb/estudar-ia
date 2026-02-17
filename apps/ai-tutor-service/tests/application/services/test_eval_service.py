@@ -2,7 +2,7 @@ import pytest
 
 from app.application.services.eval_service import score_case
 from app.domain.models.eval import EvalCase
-from app.domain.models.physics import PhysicsDescriptiveSolution
+from app.domain.models.physics import PhysicsSolution
 
 
 def make_case() -> EvalCase:
@@ -24,7 +24,7 @@ def make_case() -> EvalCase:
 
 def test_score_case_perfect() -> None:
     case = make_case()
-    predicted = PhysicsDescriptiveSolution(
+    predicted = PhysicsSolution(
         reasoning="Usamos v = delta_s/delta_t, logo o valor final é 10 m/s.",
         value=10.0,
         unit="m/s",
@@ -40,7 +40,7 @@ def test_score_case_perfect() -> None:
 
 def test_score_case_incorrect_value_good_reasoning() -> None:
     case = make_case()
-    predicted = PhysicsDescriptiveSolution(
+    predicted = PhysicsSolution(
         reasoning="O espaço deslocado é = 100 metros, logo, podemos considerar que ele andou 100 metros! Muito bom. Por fim, concluimos que, fazendo delta s sobre delta t, chegamos na resposta em metros por segundo!!!",
         value=11.0,
         unit="km/h",
@@ -56,7 +56,7 @@ def test_score_case_incorrect_value_good_reasoning() -> None:
 
 def test_score_case_correct_value_bad_reasoning() -> None:
     case = make_case()
-    predicted = PhysicsDescriptiveSolution(
+    predicted = PhysicsSolution(
         reasoning="Se vira aí",
         value=10.0,
         unit="m/s",
