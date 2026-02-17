@@ -185,8 +185,13 @@ def solve_formula(formula: str, solve_for: str, variables_json: str) -> str:
     if not solutions:
         return f"Error: could not solve for '{solve_for}'."
 
-    if len(solutions) == 1:
-        return evaluate_expression(expression=solutions[0], variables=variables)
+    try:
+        if len(solutions) == 1:
+            return evaluate_expression(expression=solutions[0], variables=variables)
 
-    results = [evaluate_expression(expression=s, variables=variables) for s in solutions]
-    return json.dumps(results)
+        results = [evaluate_expression(expression=s, variables=variables) for s in solutions]
+        return json.dumps(results)
+    except ValueError as exc:
+        return str(exc)
+    except Exception as exc:
+        return f"Error evaluating solution: {exc}"
