@@ -16,7 +16,7 @@ def auth_headers():
 
 
 class FakePhysicsSolver:
-    async def solve(self, question: PhysicsQuestion) -> PhysicsSolution:  # noqa: S7503 - async needed for interface
+    async def solve(self, question: PhysicsQuestion) -> PhysicsSolution:
         return PhysicsSolution(reasoning="Fake reasoning", value=42.0, unit="N")
 
 
