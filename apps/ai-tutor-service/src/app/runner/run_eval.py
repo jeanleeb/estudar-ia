@@ -21,7 +21,13 @@ def _utcnow() -> datetime:
     return datetime.now(tz=UTC)
 
 
-def run_eval(*, dataset: str, max_cases: int | None, offline: bool, print_output: bool) -> int:
+def run_eval(
+    *,
+    dataset: str,
+    max_cases: int | None,
+    offline: bool,
+    print_output: bool,
+) -> int:
     init_observability()
     started_at = _utcnow()
     tracer = trace.get_tracer(__name__)
@@ -40,7 +46,10 @@ def run_eval(*, dataset: str, max_cases: int | None, offline: bool, print_output
 
         try:
             cases = load_cases(dataset_path=Path(dataset), max_cases=max_cases)
-            eval_service = EvalService(cases=cases, solver=PhysicsAgent())
+            eval_service = EvalService(
+                cases=cases,
+                solver=PhysicsAgent(),
+            )
             run_summary = asyncio.run(eval_service.run())
         except Exception as e:
             span.record_exception(e)

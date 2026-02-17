@@ -14,6 +14,8 @@ class Settings(BaseSettings):
     phoenix_collector_endpoint: str = Field(alias="PHOENIX_COLLECTOR_ENDPOINT")
     tutor_api_key: SecretStr = Field(alias="TUTOR_API_KEY")
     model_config = SettingsConfigDict(env_file=".env", env_prefix="", env_ignore_empty=True)
+    ollama_base_url: str = Field(default="http://localhost:11434", alias="OLLAMA_BASE_URL")
+    ollama_judge_model: str = Field(default="gemma3:4b", alias="OLLAMA_JUDGE_MODEL")
 
 
 @lru_cache(maxsize=1)

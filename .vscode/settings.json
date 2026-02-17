@@ -41,6 +41,5 @@
 		"source.organizeImports.biome": "explicit",
 		"source.organizeImports.ruff": "explicit"
 	},
-	"ty.diagnosticMode": "workspace",
-	"python.defaultInterpreterPath": "apps/ai-tutor-service/.venv/bin/python"
+	"ty.diagnosticMode": "workspace"
 }

@@ -1,10 +1,17 @@
+import asyncio
 import json
+import logging
 from pathlib import Path
 
 from app.application.ports.physics_port import PhysicsPort
 from app.core.unit_registry import UnitQuantity
+from app.data.judges.reasoning_judge import judge_reasoning
 from app.domain.models.eval import EvalCase, EvalCaseScore, EvalRunSummary
 from app.domain.models.physics import PhysicsQuestion, PhysicsSolution
+
+logger = logging.getLogger(__name__)
+
+CASE_TIMEOUT_SECONDS = 120
 
 
 def load_cases(dataset_path: Path, max_cases: int | None = None):
@@ -50,7 +57,7 @@ def check_result(
         return False
 
 
-def score_case(case: EvalCase, predicted: PhysicsSolution) -> EvalCaseScore:
+async def score_case(case: EvalCase, predicted: PhysicsSolution) -> EvalCaseScore:
     expected_value = case.expected.value
     expected_unit = case.expected.unit
 
@@ -72,11 +79,17 @@ def score_case(case: EvalCase, predicted: PhysicsSolution) -> EvalCaseScore:
     result_score = 1.0 if result_ok else 0.0
 
     normalized_reasoning = predicted.reasoning.strip()
-    has_min_length = len(normalized_reasoning) >= 40
-    step_markers = ["=", "logo", "portanto", "assim", "então"]
-    has_step_marker = any(marker in normalized_reasoning for marker in step_markers)
-    reasoning_points = sum([has_min_length, has_step_marker])
-    reasoning_score = reasoning_points / 2.0
+
+    reasoning_score = await judge_reasoning(
+        question=case.question_text,
+        value=predicted.value,
+        unit=predicted.unit,
+        reasoning=predicted.reasoning,
+        rubric=case.reasoning_rubric,
+    )
+
+    if reasoning_score is None:
+        raise RuntimeError("LLM judge unavailable — case discarded")
 
     total_score = 0.4 * result_score + 0.6 * reasoning_score
 
@@ -92,7 +105,11 @@ def score_case(case: EvalCase, predicted: PhysicsSolution) -> EvalCaseScore:
 
 
 class EvalService:
-    def __init__(self, cases: list[EvalCase], solver: PhysicsPort):
+    def __init__(
+        self,
+        cases: list[EvalCase],
+        solver: PhysicsPort,
+    ):
         self.solver = solver
         self.cases = cases
 
@@ -111,8 +128,10 @@ class EvalService:
                     text=case.question_text, reference_data=case.reference_data
                 )
 
-                prediction = await self.solver.solve(question=question)
-                case_score = score_case(case=case, predicted=prediction)
+                async with asyncio.timeout(CASE_TIMEOUT_SECONDS):
+                    prediction = await self.solver.solve(question=question)
+
+                case_score = await score_case(case=case, predicted=prediction)
 
                 case_results.append(case_score)
 
@@ -120,6 +139,21 @@ class EvalService:
                 reasoning_sum += case_score.reasoning_score
                 result_sum += case_score.result_ok
                 total_sum += case_score.total_score
+            except TimeoutError:
+                logger.warning(
+                    "[eval] case timed out after %ss: %s",
+                    CASE_TIMEOUT_SECONDS,
+                    case.question_text[:80],
+                )
+                case_results.append(
+                    EvalCaseScore(
+                        passed=False,
+                        reasoning_score=0.0,
+                        result_ok=False,
+                        total_score=0.0,
+                        error=f"TimeoutError: exceeded {CASE_TIMEOUT_SECONDS}s",
+                    )
+                )
             except Exception as e:
                 case_results.append(
                     EvalCaseScore(
