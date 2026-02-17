@@ -1,5 +1,3 @@
-import asyncio
-
 import pytest
 from httpx import ASGITransport, AsyncClient
 from pydantic import SecretStr
@@ -18,13 +16,13 @@ def auth_headers():
 
 
 class FakePhysicsSolver:
-    async def solve(self, question: PhysicsQuestion) -> PhysicsSolution:
-        return await asyncio.to_thread(
-            PhysicsSolution, reasoning="Fake reasoning", value=42.0, unit="N"
-        )
+    async def solve(self, question: PhysicsQuestion) -> PhysicsSolution:  # noqa: S7503 - async needed for interface
+        return PhysicsSolution(reasoning="Fake reasoning", value=42.0, unit="N")
 
 
-physics_service = PhysicsService(solver=FakePhysicsSolver())
+@pytest.fixture
+def physics_service():
+    return PhysicsService(solver=FakePhysicsSolver())
 
 
 @pytest.fixture
@@ -37,7 +35,7 @@ def fake_settings():
 
 
 @pytest.fixture
-def client(fake_settings: Settings):
+def client(fake_settings: Settings, physics_service: PhysicsService):
     app = create_app(physics_service=physics_service, settings=fake_settings)
     transport = ASGITransport(app=app)
     return AsyncClient(transport=transport, base_url="http://test")

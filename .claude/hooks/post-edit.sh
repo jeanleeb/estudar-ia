@@ -17,7 +17,7 @@ ERRORS=""
 case "$FILE_PATH" in
   *.ts|*.tsx|*.js|*.jsx)
     # Lint + format
-    npx biome check --fix "$FILE_PATH" 2>&1 || true
+    npx biome check --fix --unsafe "$FILE_PATH" 2>&1 || true
 
     # Type-check (only the relevant app)
     if [[ "$FILE_PATH" == *"estudar-ia-web"* ]]; then
@@ -40,15 +40,11 @@ case "$FILE_PATH" in
 esac
 
 if [ -n "$ERRORS" ]; then
-  # Report type errors as additional context to Claude
-  cat <<EOF
-{
-  "hookSpecificOutput": {
-    "hookEventName": "PostToolUse",
-    "additionalContext": "Type-check errors found after editing $FILE_PATH:\n$ERRORS"
-  }
-}
-EOF
+  # Report type errors as additional context to Claude (jq ensures proper JSON escaping)
+  jq -n \
+    --arg file "$FILE_PATH" \
+    --arg errors "$ERRORS" \
+    '{hookSpecificOutput: {hookEventName: "PostToolUse", additionalContext: ("Type-check errors found after editing " + $file + ":\n" + $errors)}}'
 fi
 
 exit 0

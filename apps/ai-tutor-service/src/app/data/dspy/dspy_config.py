@@ -1,4 +1,5 @@
 import dspy
+from dspy.utils import DummyLM
 
 from app.core.settings import Settings
 
@@ -18,4 +19,18 @@ def configure_dspy(settings: Settings) -> None:
     )
 
     dspy.configure(lm=lm, adapter=dspy.JSONAdapter())
+    _configured = True
+
+
+def configure_dspy_offline() -> None:
+    global _configured
+    if _configured:
+        return
+
+    dummy_answer = {
+        "reasoning": "Offline mode: no dummy solver available for this question pattern.",
+        "value": 0.0,
+        "unit": "unit",
+    }
+    dspy.configure(lm=DummyLM({"": dummy_answer}))
     _configured = True

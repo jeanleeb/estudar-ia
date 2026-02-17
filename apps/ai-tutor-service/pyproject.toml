@@ -36,7 +36,7 @@ select = ["E", "F", "I", "B", "UP"]
 ignore = ["E501"]
 
 [tool.ty.environment]
-python = ".venv/bin/python"
+python = ".venv"
 root = ["./src"]
 
 [tool.ty.src]

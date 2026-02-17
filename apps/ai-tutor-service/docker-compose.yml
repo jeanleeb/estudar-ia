@@ -1,6 +1,6 @@
 services:
   phoenix:
-    image: arizephoenix/phoenix
+    image: arizephoenix/phoenix:version-12.34.0
     ports:
       - "6006:6006" # UI
       - "4317:4317" # OTEL gRPC collector
