@@ -59,6 +59,9 @@ def calculate(operation: ArithmeticOperation, a: str, b: str) -> str:
     if operation not in ops:
         return f"Error: unknown operation '{operation}'. Use one of: {', '.join(ops)}"
 
+    if operation == "power" and not qb.dimensionless:
+        return "Error: exponent must be dimensionless"
+
     try:
         result = ops[operation]()
         return str(result)

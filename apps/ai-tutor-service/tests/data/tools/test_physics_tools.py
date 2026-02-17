@@ -1,3 +1,5 @@
+import json
+
 from app.data.tools.physics_tools import (
     calculate,
     convert_unit,
@@ -26,6 +28,11 @@ class TestCalculate:
     def test_power(self):
         result = calculate("power", "3 m", "2")
         assert "9" in result
+
+    def test_power_with_unit_exponent_returns_error(self):
+        result = calculate("power", "3 m", "2 s")
+        assert "error" in result.lower()
+        assert "dimensionless" in result.lower()
 
     def test_add_incompatible_units_returns_error(self):
         result = calculate("add", "5 kg", "3 m")
@@ -75,6 +82,10 @@ class TestEvaluateFormula:
         result = evaluate_formula("E = h * f", "not json")
         assert "error" in result.lower()
 
+    def test_non_object_json_returns_error(self):
+        result = evaluate_formula("E = h * f", "[1, 2]")
+        assert "error" in result.lower()
+
     def test_invalid_formula_returns_error(self):
         result = evaluate_formula("no equals sign", '{"x": "1 m"}')
         assert "error" in result.lower()
@@ -94,7 +105,6 @@ class TestSolveFormula:
     def test_quadratic_returns_multiple_solutions_as_json(self):
         # E = 0.5 * m * v**2  →  v = ±sqrt(2E/m)
         result = solve_formula("E = 0.5 * m * v**2", "v", '{"E": "50 J", "m": "1 kg"}')
-        import json
 
         solutions = json.loads(result)
         assert isinstance(solutions, list)

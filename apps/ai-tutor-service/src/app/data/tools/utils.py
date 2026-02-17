@@ -10,11 +10,17 @@ def parse_variables(variables_json: str) -> dict[str, str]:
         variables = json.loads(variables_json)
     except json.JSONDecodeError as exc:
         raise ValueError(f"Error parsing variables JSON: {exc}") from exc
+    if not isinstance(variables, dict):
+        raise ValueError(f"Error: expected a JSON object, got {type(variables).__name__}")
     return variables
 
 
 def evaluate_expression(expression: sympy.Expr, variables: dict[str, str]) -> str:
     """Evaluate a sympy expression by substituting pint quantities."""
+    expr_symbols = {str(s) for s in expression.free_symbols}
+    missing = expr_symbols - set(variables.keys())
+    if missing:
+        raise ValueError(f"Missing variables for expression: {missing}")
     func = sympy.lambdify(list(variables.keys()), expression)
     pint_values = {k: UnitQuantity(v) for k, v in variables.items()}
     return str(func(**pint_values))
