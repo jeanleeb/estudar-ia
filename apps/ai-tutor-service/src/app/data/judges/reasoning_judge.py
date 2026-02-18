@@ -1,10 +1,8 @@
 """LLM-as-Judge for evaluating PhysicsAgent reasoning quality.
 
-Default model: gemma3:4b — fast enough to not significantly slow down eval runs.
-
-The judge evaluates reasoning across 3 fixed binary criteria, returning a score
-from 0.0 to 1.0 (fraction of criteria met). The EvalCase's `reasoning_rubric`
-is provided as additional context when available.
+The judge evaluates reasoning across N criteria on a 1-5 scale, returning a
+normalized score from 0.0 to 1.0. The EvalCase's `reasoning_rubric` is provided
+as additional context when available.
 """
 
 from __future__ import annotations
@@ -23,30 +21,38 @@ from app.core.settings import get_settings
 logger = logging.getLogger(__name__)
 tracer = trace.get_tracer(__name__)
 
-# Fixed 3-criteria schema keeps score comparable across all cases.
-# Score = sum(criteria) / 3, regardless of rubric availability.
+_MAX_SCORE = 5
+
+# Score = mean(scores) / MAX_SCORE, normalized to 0.0–1.0.
 _JUDGE_CRITERIA = [
-    "utiliza as equações ou leis físicas corretas",
-    "aplica os valores numéricos corretamente",
-    "chega à conclusão por meio de um raciocínio coerente passo a passo",
+    "Introdução contextual da resolução",
+    "Identificação explícita dos princípios/leis usados",
+    "Eficiência (sem passos desnecessários ou redundantes)",
+    "Coesão entre os passos do raciocínio (conexão lógica entre passos)",
+    "Clareza didática (explicação como um professor faria)",
 ]
+
+_criteria_block = "\n".join(f"{i}. {c}" for i, c in enumerate(_JUDGE_CRITERIA, 1))
+_n = len(_JUDGE_CRITERIA)
+_example_scores = [3] * _n
 
 _SYSTEM_PROMPT = f"""\
 Você é um avaliador de resoluções de física. Avalie o raciocínio apresentado \
-segundo exatamente 3 critérios e responda com um objeto JSON.
+segundo exatamente {_n} critérios, usando uma escala de 1 a {_MAX_SCORE} para cada.
+
+Escala:
+1 = muito fraco, 2 = fraco, 3 = adequado, 4 = bom, 5 = excelente
 
 Os critérios são:
-1. {_JUDGE_CRITERIA[0]}
-2. {_JUDGE_CRITERIA[1]}
-3. {_JUDGE_CRITERIA[2]}
+{_criteria_block}
 
 Aceite caminhos matematicamente equivalentes, incluindo simplificações algébricas e uso de unidades diferentes,
 desde que o raciocínio seja coerente e lógico.
 
 Responda APENAS com um objeto JSON válido no seguinte formato:
-{{"criteria": [true, false, true], "reason": "explicação curta em uma frase"}}
+{{"scores": {_example_scores}, "reason": "explicação curta em uma frase"}}
 
-O array "criteria" deve ter exatamente 3 elementos booleanos, um por critério, na ordem acima.
+O array "scores" deve ter exatamente {_n} inteiros (1-{_MAX_SCORE}), um por critério, na ordem acima.
 Não inclua nenhum texto fora do JSON.\
 """
 
@@ -60,7 +66,7 @@ RESULTADO OBTIDO: {value} {unit}
 RACIOCÍNIO APRESENTADO:
 {reasoning}
 {rubric_section}
-Avalie o raciocínio segundo os 3 critérios definidos.\
+Avalie o raciocínio segundo os {_n} critérios definidos, com notas de 1 a {_MAX_SCORE}.\
 """
 
 _RUBRIC_SECTION = """
@@ -101,6 +107,8 @@ def _build_user_prompt(
         reasoning=reasoning,
         rubric_section=rubric_section,
         reference_section=reference_section,
+        _n=_n,
+        _MAX_SCORE=_MAX_SCORE,
     )
 
 
@@ -112,19 +120,21 @@ async def judge_reasoning(
     reasoning: str,
     rubric: list[str],
     reference_data: dict[str, Any] | None = None,
+    model: str | None = None,
+    base_url: str | None = None,
     request_timeout: float = 30.0,
 ) -> float | None:
     """Call Ollama to evaluate reasoning quality.
 
-    Returns a score from 0.0 to 1.0 (fraction of the 3 criteria met),
+    Returns a score from 0.0 to 1.0 (normalized average across all criteria),
     or None if the judge is unavailable.
     """
     settings = get_settings()
-    base_url = settings.ollama_base_url
-    model = settings.ollama_judge_model
+    judge_base_url = base_url or settings.ollama_base_url
+    judge_model = model or settings.ollama_judge_model
 
     payload = {
-        "model": model,
+        "model": judge_model,
         "messages": [
             {"role": "system", "content": _SYSTEM_PROMPT},
             {
@@ -145,45 +155,51 @@ async def judge_reasoning(
         span.set_attribute(SpanAttributes.OPENINFERENCE_SPAN_KIND, "EVALUATOR")
         span.set_attribute(SpanAttributes.INPUT_VALUE, user_prompt)
         span.set_attribute(SpanAttributes.INPUT_MIME_TYPE, "text/plain")
-        span.set_attribute(AttrKey.JUDGE_MODEL, model)
+        span.set_attribute(AttrKey.JUDGE_MODEL, judge_model)
 
         try:
-            async with httpx.AsyncClient(base_url=base_url, timeout=request_timeout) as client:
+            async with httpx.AsyncClient(
+                base_url=judge_base_url, timeout=request_timeout
+            ) as client:
                 response = await client.post("/api/chat", json=payload)
                 response.raise_for_status()
 
             content = response.json()["message"]["content"].strip()
             parsed = json.loads(content)
-            criteria: list[bool] = parsed["criteria"]
+            scores: list[int] = parsed["scores"]
 
-            if len(criteria) != len(_JUDGE_CRITERIA):
+            if len(scores) != _n:
                 logger.warning(
-                    "[judge] Unexpected criteria length: got %d, expected %d",
-                    len(criteria),
-                    len(_JUDGE_CRITERIA),
+                    "[judge] Unexpected scores length: got %d, expected %d",
+                    len(scores),
+                    _n,
                 )
                 return None
 
-            score = sum(criteria) / len(_JUDGE_CRITERIA)
+            if not all(1 <= score <= _MAX_SCORE for score in scores):
+                logger.warning("[judge] Scores out of range 1-%d: %s", _MAX_SCORE, scores)
+                return None
+
+            score = sum(scores) / (_n * _MAX_SCORE)
 
             judge_reason = parsed.get("reason", "")
 
             span.set_attribute(SpanAttributes.OUTPUT_VALUE, content)
             span.set_attribute(SpanAttributes.OUTPUT_MIME_TYPE, "application/json")
             span.set_attribute(AttrKey.JUDGE_SCORE, score)
-            span.set_attribute(AttrKey.JUDGE_CRITERIA, str(criteria))
+            span.set_attribute(AttrKey.JUDGE_CRITERIA, str(scores))
             span.set_attribute(AttrKey.JUDGE_REASON, judge_reason)
 
             logger.debug(
                 "[judge] score=%.2f criteria=%s reason=%s",
                 score,
-                criteria,
+                scores,
                 judge_reason,
             )
             return score
 
         except httpx.ConnectError:
-            logger.warning("[judge] Ollama not available at %s — skipping judge", base_url)
+            logger.warning("[judge] Ollama not available at %s — skipping judge", judge_base_url)
             span.set_status(trace.StatusCode.ERROR, "Ollama unavailable")
             return None
         except Exception as e:
