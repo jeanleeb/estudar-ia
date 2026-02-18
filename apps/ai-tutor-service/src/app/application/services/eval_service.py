@@ -86,6 +86,7 @@ async def score_case(case: EvalCase, predicted: PhysicsSolution) -> EvalCaseScor
         unit=predicted.unit,
         reasoning=predicted.reasoning,
         rubric=case.reasoning_rubric,
+        reference_data=case.reference_data,
     )
 
     if reasoning_score is None:

@@ -37,7 +37,7 @@ def run_eval(
         span.set_attribute(AttrKey.TRACE_ID, trace_id)
         span.set_attribute(AttrKey.OFFLINE, offline)
         span.set_attribute(AttrKey.DATASET_PATH, dataset)
-        span.set_attribute(SpanAttributes.OPENINFERENCE_SPAN_KIND, "EVALUATOR")
+        span.set_attribute(SpanAttributes.OPENINFERENCE_SPAN_KIND, "CHAIN")
         if max_cases is not None:
             span.set_attribute(AttrKey.EVAL_MAX_CASES, max_cases)
 
