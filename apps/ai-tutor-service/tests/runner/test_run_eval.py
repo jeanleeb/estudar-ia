@@ -130,7 +130,7 @@ def test_run_eval_returns_ok_when_no_case_level_errors(tmp_path, monkeypatch) ->
 
         async def run(self) -> EvalRunSummary:
             return await asyncio.to_thread(_summary_with_errors, error_cases=0)
-    
+
     monkeypatch.setattr(run_eval_module, "EvalService", _FakeEvalService)
     monkeypatch.setattr(run_eval_module, "PhysicsAgent", lambda: object())
 
