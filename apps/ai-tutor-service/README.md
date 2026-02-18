@@ -50,7 +50,7 @@ O modelo ideal depende do hardware disponível. Consulte o [Ollama model library
 | `gemma3:4b` | ~3 GB | MacBook M1 16 GB, qualquer GPU ≥ 4 GB |
 | `qwen2.5:7b` | ~5 GB | GPU ≥ 8 GB; melhor aderência a JSON estruturado |
 | `gemma3:12b` | ~8 GB | GPU ≥ 12 GB |
-| `gemma3:27b` | ~16 GB | GPU ≥ 16 GB |
+| `qwen2.5:14b` | ~10 GB | GPU ≥ 14 GB |
 
 > **AMD RDNA4 (RX 9000 series):** usar Ollama com backend Vulkan (`OLLAMA_VULKAN=1`), pois o suporte ROCm ainda é instável nessa arquitetura. O Vulkan supera ROCm em benchmarks de inferência no RDNA4.
 
