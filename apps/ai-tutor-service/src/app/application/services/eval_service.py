@@ -132,8 +132,7 @@ class EvalService:
 
                 async with asyncio.timeout(CASE_TIMEOUT_SECONDS):
                     prediction = await self.solver.solve(question=question)
-
-                case_score = await score_case(case=case, predicted=prediction)
+                    case_score = await score_case(case=case, predicted=prediction)
 
                 case_results.append(case_score)
 

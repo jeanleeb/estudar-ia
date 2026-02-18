@@ -7,16 +7,16 @@ as additional context when available.
 
 from __future__ import annotations
 
-import json
 import logging
-from typing import Any
 
 import httpx
 from openinference.semconv.trace import SpanAttributes
 from opentelemetry import trace
+from pydantic import BaseModel, ValidationError
 
 from app.core.observability_contract import AttrKey, SpanName
 from app.core.settings import get_settings
+from app.domain.models.eval import ReferenceData
 
 logger = logging.getLogger(__name__)
 tracer = trace.get_tracer(__name__)
@@ -75,7 +75,12 @@ CRITÉRIOS ESPECÍFICOS DA QUESTÃO (use como contexto adicional na avaliação)
 """
 
 
-def _format_reference_constants(reference_data: dict[str, Any] | None) -> str:
+class JudgeResponse(BaseModel):
+    scores: list[int]
+    reason: str = ""
+
+
+def _format_reference_constants(reference_data: ReferenceData | None) -> str:
     if not reference_data:
         return ""
     constants = reference_data.get("constants", [])
@@ -91,7 +96,7 @@ def _build_user_prompt(
     unit: str,
     reasoning: str,
     rubric: list[str],
-    reference_data: dict[str, Any] | None = None,
+    reference_data: ReferenceData | None = None,
 ) -> str:
     rubric_section = ""
     if rubric:
@@ -119,7 +124,7 @@ async def judge_reasoning(
     unit: str,
     reasoning: str,
     rubric: list[str],
-    reference_data: dict[str, Any] | None = None,
+    reference_data: ReferenceData | None = None,
     model: str | None = None,
     base_url: str | None = None,
     request_timeout: float = 30.0,
@@ -164,9 +169,15 @@ async def judge_reasoning(
                 response = await client.post("/api/chat", json=payload)
                 response.raise_for_status()
 
-            content = response.json()["message"]["content"].strip()
-            parsed = json.loads(content)
-            scores: list[int] = parsed["scores"]
+            raw_content = response.json()["message"]["content"].strip()
+
+            try:
+                judge_response = JudgeResponse.model_validate_json(raw_content)
+            except ValidationError as exc:
+                logger.warning("[judge] Invalid judge response format: %s", exc)
+                return None
+
+            scores = judge_response.scores
 
             if len(scores) != _n:
                 logger.warning(
@@ -176,15 +187,14 @@ async def judge_reasoning(
                 )
                 return None
 
-            if not all(1 <= score <= _MAX_SCORE for score in scores):
+            if not all(1 <= s <= _MAX_SCORE for s in scores):
                 logger.warning("[judge] Scores out of range 1-%d: %s", _MAX_SCORE, scores)
                 return None
 
             score = sum(scores) / (_n * _MAX_SCORE)
+            judge_reason = judge_response.reason
 
-            judge_reason = parsed.get("reason", "")
-
-            span.set_attribute(SpanAttributes.OUTPUT_VALUE, content)
+            span.set_attribute(SpanAttributes.OUTPUT_VALUE, raw_content)
             span.set_attribute(SpanAttributes.OUTPUT_MIME_TYPE, "application/json")
             span.set_attribute(AttrKey.JUDGE_SCORE, score)
             span.set_attribute(AttrKey.JUDGE_CRITERIA, str(scores))
@@ -200,10 +210,10 @@ async def judge_reasoning(
 
         except httpx.ConnectError:
             logger.warning("[judge] Ollama not available at %s — skipping judge", judge_base_url)
-            span.set_status(trace.StatusCode.ERROR, "Ollama unavailable")
+            span.set_status(trace.Status(trace.StatusCode.ERROR, "Ollama unavailable"))
             return None
         except Exception as e:
             logger.warning("[judge] Failed to evaluate reasoning: %s", e)
-            span.set_status(trace.StatusCode.ERROR, str(e))
+            span.set_status(trace.Status(trace.StatusCode.ERROR, str(e)))
             span.record_exception(e)
             return None

@@ -1,6 +1,17 @@
-from typing import Any, Literal
+from typing import Literal
 
 from pydantic import BaseModel, Field
+from typing_extensions import TypedDict
+
+
+class ReferenceConstant(TypedDict):
+    symbol: str
+    value: float | str
+    unit: str
+
+
+class ReferenceData(TypedDict, total=False):
+    constants: list[ReferenceConstant]
 
 
 class EvalCaseSource(BaseModel):
@@ -31,7 +42,7 @@ class EvalCase(BaseModel):
     expected: EvalExpected
     tolerance: EvalTolerance
     reasoning_rubric: list[str] = Field(min_length=1)
-    reference_data: dict[str, Any] | None = None
+    reference_data: ReferenceData | None = None
 
 
 class EvalCaseScore(BaseModel):
