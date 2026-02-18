@@ -70,6 +70,7 @@ def _summary_with_errors(error_cases: int) -> EvalRunSummary:
         case_results=case_results,
         total_cases=total_cases,
         passed_cases=passed_cases,
+        evaluated_cases=total_cases,
         pass_rate=passed_cases / total_cases,
         avg_total_score=sum(c.total_score for c in case_results) / total_cases,
         avg_reasoning_score=sum(c.reasoning_score for c in case_results) / total_cases,

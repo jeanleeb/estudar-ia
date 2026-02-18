@@ -118,6 +118,7 @@ class EvalService:
         case_results: list[EvalCaseScore] = []
 
         total_cases = len(self.cases)
+        evaluated_cases = 0
         passed_cases = 0
         reasoning_sum = 0.0
         result_sum = 0.0
@@ -136,6 +137,7 @@ class EvalService:
 
                 case_results.append(case_score)
 
+                evaluated_cases += 1
                 passed_cases = passed_cases + 1 if case_score.passed else passed_cases
                 reasoning_sum += case_score.reasoning_score
                 result_sum += case_score.result_ok
@@ -165,16 +167,14 @@ class EvalService:
                         error=str(e),
                     )
                 )
-                reasoning_sum += 0.0
-                result_sum += 0.0
-                total_sum += 0.0
 
         return EvalRunSummary(
             case_results=case_results,
             total_cases=total_cases,
+            evaluated_cases=evaluated_cases,
             passed_cases=passed_cases,
-            pass_rate=passed_cases / total_cases if total_cases > 0 else 0.0,
-            avg_reasoning_score=reasoning_sum / total_cases if total_cases > 0 else 0.0,
-            avg_value_score=result_sum / total_cases if total_cases > 0 else 0.0,
-            avg_total_score=total_sum / total_cases if total_cases > 0 else 0.0,
+            pass_rate=passed_cases / evaluated_cases if evaluated_cases > 0 else 0.0,
+            avg_reasoning_score=reasoning_sum / evaluated_cases if evaluated_cases > 0 else 0.0,
+            avg_value_score=result_sum / evaluated_cases if evaluated_cases > 0 else 0.0,
+            avg_total_score=total_sum / evaluated_cases if evaluated_cases > 0 else 0.0,
         )

@@ -48,6 +48,7 @@ class EvalCaseScore(BaseModel):
 class EvalRunSummary(BaseModel):
     case_results: list[EvalCaseScore]
     total_cases: int
+    evaluated_cases: int
     passed_cases: int
     pass_rate: float
     avg_total_score: float
