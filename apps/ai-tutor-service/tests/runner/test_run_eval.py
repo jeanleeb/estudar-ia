@@ -70,6 +70,7 @@ def _summary_with_errors(error_cases: int) -> EvalRunSummary:
         case_results=case_results,
         total_cases=total_cases,
         passed_cases=passed_cases,
+        evaluated_cases=total_cases,
         pass_rate=passed_cases / total_cases,
         avg_total_score=sum(c.total_score for c in case_results) / total_cases,
         avg_reasoning_score=sum(c.reasoning_score for c in case_results) / total_cases,
@@ -129,7 +130,7 @@ def test_run_eval_returns_ok_when_no_case_level_errors(tmp_path, monkeypatch) ->
 
         async def run(self) -> EvalRunSummary:
             return await asyncio.to_thread(_summary_with_errors, error_cases=0)
-    
+
     monkeypatch.setattr(run_eval_module, "EvalService", _FakeEvalService)
     monkeypatch.setattr(run_eval_module, "PhysicsAgent", lambda: object())
 

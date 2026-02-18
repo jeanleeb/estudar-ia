@@ -6,6 +6,7 @@ class SpanName(StrEnum):
     SERVICE_SOLVE_ONCE = "service.solve_once"
     AGENT_SOLVE = "agent.solve"
     EVAL_RUN = "runner.run_eval"
+    JUDGE_REASONING = "judge.reasoning"
 
 
 class AttrKey(StrEnum):
@@ -17,6 +18,10 @@ class AttrKey(StrEnum):
     EVAL_ERROR_CASES = "eval.error_cases"
     ERROR_TYPE = "error.type"
     ERROR_MESSAGE = "error.message"
+    JUDGE_MODEL = "judge.model"
+    JUDGE_SCORE = "judge.score"
+    JUDGE_CRITERIA = "judge.criteria"
+    JUDGE_REASON = "judge.reason"
 
 
 class SpanKind(StrEnum):

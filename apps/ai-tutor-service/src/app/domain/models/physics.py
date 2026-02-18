@@ -1,11 +1,11 @@
-from typing import Any
-
 from pydantic import BaseModel, Field
+
+from app.domain.models.eval import ReferenceData
 
 
 class PhysicsQuestion(BaseModel):
     text: str = Field(min_length=1, description="The text of the physics question")
-    reference_data: dict[str, Any] | None = Field(
+    reference_data: ReferenceData | None = Field(
         default=None, description="Reference data that can be used to solve the problem."
     )
 
